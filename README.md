@@ -1,4 +1,4 @@
-# Fundamentación
+# Fundamentación_
 ## Fundamentación Estadística
 - Probabilidad
 	- [Conceptos básicos de probabilidad]()
