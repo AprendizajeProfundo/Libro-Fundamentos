@@ -1,0 +1,12 @@
+jupyter-book
+seaborn
+matplotlib
+numpy
+pre-commit
+pandas
+openpyxl
+scipy
+plotly
+ffmpeg
+torch
+tensorflow
