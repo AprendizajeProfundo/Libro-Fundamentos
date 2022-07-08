@@ -10,22 +10,7 @@ parts:
     - file: Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias
     - file: Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta
     - file: Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas
+    - file: Fundamentacion_Estadistica/Cuadernos/Regresión-Lineal-Pyton-Copy1
 - caption: Teoría de la Información
   chapters:    
     - file: Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion
-- caption: Álgebra Lineal
-  chapters: 
-    - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I
-    - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II
-    - file: Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob
-- caption: Modelación
-  chapters:
-    - file: Fundamentacion_Matematica/Cuadernos/mod_Ejemplo_Modelamiento
-    - file: Fundamentacion_Matematica/Cuadernos/mod_Modelamiento.ipynb
-    - file: Fundamentacion_Matematica/Cuadernos/Optimization_ 1
-    - file: Fundamentacion_Matematica/Cuadernos/Optimización 2
-    - file: Fundamentacion_Matematica/Cuadernos/am-sdg.ipynb
-    - file: Fundamentacion_Matematica/Cuadernos/am_intro_regresion.ipynb
-    
-    
-  

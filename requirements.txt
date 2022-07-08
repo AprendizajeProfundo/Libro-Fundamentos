@@ -9,4 +9,7 @@ scipy
 plotly
 ffmpeg
 torch
+pyro-ppl
 tensorflow
+tensorflow-probability
+pystan
