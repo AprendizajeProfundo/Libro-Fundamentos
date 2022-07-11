@@ -84,9 +84,9 @@ sphinx = [
     "torch",
     "tensorflow",
     "jax~=0.2.11",
-    "skimage",
+    "scikit-image",
     "opencv-python-headless",
-    "sklearn",
+    "scikit-learn",
     "ipywidgets",
     "jupytext",
 ]
