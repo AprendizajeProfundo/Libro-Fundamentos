@@ -14,3 +14,18 @@ parts:
 - caption: Teoría de la Información
   chapters:    
     - file: Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion
+- caption: Álgebra Lineal
+  chapters:
+  - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I
+  - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II
+  - file: Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob
+- caption: Modelación
+  chapters:
+  - file: Fundamentacion_Matematica/Cuadernos/mod_Modelamiento
+  - file: Fundamentacion_Matematica/Cuadernos/mod_Ejemplo_Modelamiento
+  - file: Fundamentacion_Matematica/Cuadernos/cal_derivadas
+  - file: Fundamentacion_Matematica/Cuadernos/Optimization_1
+  - file: Fundamentacion_Matematica/Cuadernos/Optimization_2
+  - file: Fundamentacion_Matematica/Cuadernos/am-sdg
+  - file: Fundamentacion_Matematica/Cuadernos/Regresión-Lineal-Pyton
+  - file: Fundamentacion_Matematica/Cuadernos/Clasificacion_Lineal

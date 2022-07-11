@@ -7,7 +7,7 @@ author = 'Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes'
 bibtex_bibfiles = ['references.bib']
 bibtex_reference_style = 'author_year'
 comments_config = {'hypothesis': False, 'utterances': False}
-copyright = '2021'
+copyright = '2022'
 exclude_patterns = ['**.ipynb_checkpoints', '.DS_Store', 'Thumbs.db', '_build']
 execution_allow_errors = False
 execution_excludepatterns = []
@@ -22,8 +22,8 @@ html_js_files = ['https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/requir
 html_logo = 'logo-final-ap.png'
 html_sourcelink_suffix = ''
 html_theme = 'sphinx_book_theme'
-html_theme_options = {'search_bar_text': 'Search this book...', 'launch_buttons': {'notebook_interface': 'classic', 'binderhub_url': 'https://mybinder.org', 'jupyterhub_url': '', 'thebe': True, 'colab_url': 'https://colab.research.google.com'}, 'path_to_docs': '', 'repository_url': 'https://github.com/AprendizajeProfundo/Libro-Estadistica-Bayesiana', 'repository_branch': 'main', 'google_analytics_id': '', 'extra_navbar': 'Powered by <a href="https://jupyterbook.org">Jupyter Book</a>', 'extra_footer': '', 'home_page_in_toc': True, 'use_repository_button': True, 'use_edit_page_button': True, 'use_issues_button': True}
-html_title = 'Estadística Bayesiana'
+html_theme_options = {'search_bar_text': 'Search this book...', 'launch_buttons': {'notebook_interface': 'classic', 'binderhub_url': 'https://mybinder.org', 'jupyterhub_url': '', 'thebe': True, 'colab_url': 'https://colab.research.google.com'}, 'path_to_docs': '', 'repository_url': 'https://github.com/AprendizajeProfundo/Libro-Fundamentos', 'repository_branch': 'main', 'google_analytics_id': '', 'extra_navbar': 'Powered by <a href="https://jupyterbook.org">Jupyter Book</a>', 'extra_footer': '', 'home_page_in_toc': True, 'use_repository_button': True, 'use_edit_page_button': True, 'use_issues_button': True}
+html_title = 'Fundamentos de IA y AP'
 jupyter_cache = ''
 jupyter_execute_notebooks = 'force'
 language = None
