@@ -9,6 +9,7 @@ scipy
 plotly
 ffmpeg
 torch
+ipympl
 tensorflow
 jax[cpu]==0.2.11
 opencv-python-headless
