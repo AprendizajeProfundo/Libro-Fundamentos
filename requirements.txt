@@ -10,4 +10,7 @@ plotly
 ffmpeg
 torch
 tensorflow
-jax
+jax==0.2.11
+opencv-python-headless
+scikit-image
+scikit-learn
