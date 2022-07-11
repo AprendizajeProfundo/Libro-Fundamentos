@@ -10,7 +10,7 @@ plotly
 ffmpeg
 torch
 tensorflow
-jax==0.2.11
+jax[cpu]==0.2.11
 opencv-python-headless
 scikit-image
 scikit-learn
