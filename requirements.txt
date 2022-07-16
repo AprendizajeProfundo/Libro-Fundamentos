@@ -13,6 +13,8 @@ ipympl
 tensorflow
 jax[cpu]
 opencv-python-headless
+minisom
 scikit-image
 scikit-learn
 jaxlib
+
