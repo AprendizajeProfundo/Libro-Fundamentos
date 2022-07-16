@@ -9,12 +9,8 @@ scipy
 plotly
 ffmpeg
 torch
-ipympl
 tensorflow
 jax[cpu]
-opencv-python-headless
+pydot
 minisom
-scikit-image
-scikit-learn
-jaxlib
-
+graphviz
