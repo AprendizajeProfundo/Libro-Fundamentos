@@ -16,4 +16,3 @@ minisom
 graphviz
 scikit-learn
 scikit-image
-r-essentials
