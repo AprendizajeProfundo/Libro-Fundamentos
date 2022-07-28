@@ -18,3 +18,4 @@ opencv-python-headless
 scikit-learn
 scikit-image
 sympy
+pydot
