@@ -14,5 +14,6 @@ jax[cpu]
 pydot
 minisom
 graphviz
+opencv-python-headless
 scikit-learn
 scikit-image
