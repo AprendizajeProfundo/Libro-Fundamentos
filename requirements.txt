@@ -19,3 +19,4 @@ scikit-learn
 scikit-image
 sympy
 pydot
+ipympl
