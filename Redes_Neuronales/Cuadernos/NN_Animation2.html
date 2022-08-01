@@ -57,6 +57,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Índice" href="../../genindex.html" />
     <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Introducción a Modelos Secuenciales" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html" />
     <link rel="prev" title="Subclassing-Modelo de Regresión multi-logística" href="am-subclassing-iris.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="es">
@@ -428,6 +429,34 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="current reference internal" href="#">
    <span style="color:#F72585">
     Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
    </span>
   </a>
  </li>
@@ -899,7 +928,7 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "023da4f3e8ec4bf6ac6f9a7be0c69759"}
+{"version_major": 2, "version_minor": 0, "model_id": "608e5bb2ee6546f5a744cff6ac944b5c"}
 </script></div>
 </div>
 </section>
@@ -947,7 +976,7 @@ Forma de Test : (30,)
 </pre></div>
 </div>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "4175324a479343028e44805378495d17"}
+{"version_major": 2, "version_minor": 0, "model_id": "8147a874de684f84af829267e6eadeab"}
 </script></div>
 </div>
 </section>
@@ -1028,308 +1057,14 @@ Forma de Test : (30,)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
+3/3 [==============================] - 0s 3ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 780277.1250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 1s 281ms/step - loss: 543985.5000 - val_loss: 44449.6250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 148964.6406
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 677875.6250
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 136ms/step - loss: 185505.9375 - val_loss: 61466.4062
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 156665.1250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 126ms/step - loss: 185819.3906 - val_loss: 67444.3438
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 185313.7812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 104ms/step - loss: 184193.2031 - val_loss: 57269.0664
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 176913.2500
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 96ms/step - loss: 185225.9375 - val_loss: 53753.4023
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 186580.7969
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 113ms/step - loss: 184572.5938 - val_loss: 56114.6055
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 167377.6250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 104ms/step - loss: 183800.2031 - val_loss: 61153.6289
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 205318.0938
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 126ms/step - loss: 184617.5156 - val_loss: 55768.5273
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 5ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 186111.5625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 96ms/step - loss: 205572.6250 - val_loss: 96780.1484
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 180343.7969
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 106ms/step - loss: 193156.1875 - val_loss: 73726.5781
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 172604.1250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 185689.5156 - val_loss: 54583.1641
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169572.5312
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 184034.5781 - val_loss: 63149.1602
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 196259.1562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 79ms/step - loss: 183642.6094 - val_loss: 60344.8164
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 178843.4219
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 184612.8906 - val_loss: 56143.2812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 206354.1250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 79ms/step - loss: 188126.8281 - val_loss: 52594.8008
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 162355.1562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 196196.0312 - val_loss: 85766.1172
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 162753.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 95ms/step - loss: 187677.3906 - val_loss: 53895.2305
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 166616.7812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 185627.3594 - val_loss: 68356.6797
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 5ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 126418.0156
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 97ms/step - loss: 194239.5625 - val_loss: 84142.5234
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 185610.5000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 79ms/step - loss: 188142.0312 - val_loss: 53109.8047
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 208049.0625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 110ms/step - loss: 198015.1406 - val_loss: 48159.4414
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 205451.9219
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 95ms/step - loss: 185567.1719 - val_loss: 57916.9062
+2/2 [==============================] - 1s 261ms/step - loss: 490914.2188 - val_loss: 70316.0703
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1339,11 +1074,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 3ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 229531.4219
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 197306.2188
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 97ms/step - loss: 184099.4844 - val_loss: 58468.1875
+2/2 [==============================] - 0s 72ms/step - loss: 176508.0625 - val_loss: 95604.7422
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1353,375 +1088,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 8ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 181205.0625
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 173596.2969
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 185081.1094 - val_loss: 68072.3984
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 148605.7656
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 109ms/step - loss: 184812.2812 - val_loss: 56616.3477
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 10ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 225171.2500
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 183794.5781 - val_loss: 60616.3047
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 187133.3281
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 97ms/step - loss: 191317.2188 - val_loss: 49554.8789
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 207146.9688
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 95ms/step - loss: 184626.8281 - val_loss: 63823.6523
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 175708.4688
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 184112.0000 - val_loss: 58187.0625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 9ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 232446.3438
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 96ms/step - loss: 186582.7344 - val_loss: 56202.3945
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 192032.2812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 97ms/step - loss: 187010.0312 - val_loss: 55347.8086
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 161391.2812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 104ms/step - loss: 186212.2188 - val_loss: 71999.3750
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 211864.9688
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 98ms/step - loss: 184125.9688 - val_loss: 59724.9258
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 180747.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 144ms/step - loss: 186431.5312 - val_loss: 71747.3828
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 236783.2344
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 120ms/step - loss: 189988.9219 - val_loss: 73534.1953
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 178042.3750
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 120ms/step - loss: 184419.7500 - val_loss: 65464.5586
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 5ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 165146.2500
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 106ms/step - loss: 185385.7500 - val_loss: 56836.7070
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 171629.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 88ms/step - loss: 184418.5156 - val_loss: 58442.5430
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 227870.4062
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 113ms/step - loss: 186103.3594 - val_loss: 71077.7266
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 135313.8281
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 116ms/step - loss: 184191.1406 - val_loss: 59907.2812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 235637.0938
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 82ms/step - loss: 183636.6719 - val_loss: 63434.1797
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 162454.4062
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 105ms/step - loss: 189328.6719 - val_loss: 52436.1953
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 180821.4688
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 112ms/step - loss: 184143.1094 - val_loss: 62880.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 137390.7656
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 117ms/step - loss: 183576.7969 - val_loss: 63394.8828
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 245023.0938
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 117ms/step - loss: 188225.6406 - val_loss: 75423.3594
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 8ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 188313.0625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 116ms/step - loss: 188670.3438 - val_loss: 52460.9648
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 171923.8125
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 88ms/step - loss: 184554.2969 - val_loss: 66012.8594
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 218919.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 110ms/step - loss: 188066.6094 - val_loss: 74224.0703
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 179533.2344
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 120ms/step - loss: 184937.8125 - val_loss: 67963.0312
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 174778.0000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 169ms/step - loss: 190502.2500 - val_loss: 78145.3281
+2/2 [==============================] - 0s 104ms/step - loss: 175152.6406 - val_loss: 93105.3672
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1731,11 +1102,25 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 3ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 160573.1250
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 145735.6406
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 167ms/step - loss: 184921.5938 - val_loss: 59316.2188
+2/2 [==============================] - 0s 142ms/step - loss: 175332.3750 - val_loss: 96397.3047
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 191839.9375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 109ms/step - loss: 174792.7344 - val_loss: 90561.8672
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1745,25 +1130,67 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 4ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 196047.4062
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 158241.0938
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 115ms/step - loss: 183789.8750 - val_loss: 60076.4453
+2/2 [==============================] - 0s 111ms/step - loss: 178297.1719 - val_loss: 77695.0156
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
+3/3 [==============================] - 0s 0s/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 193873.5000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 157845.1250
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 96ms/step - loss: 183883.2500 - val_loss: 60139.9258
+2/2 [==============================] - 0s 79ms/step - loss: 184693.8438 - val_loss: 73325.4531
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 200657.4062
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 175948.9531 - val_loss: 97771.3750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 177934.2188
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 81ms/step - loss: 177465.6250 - val_loss: 108497.6719
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 157836.3594
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 89ms/step - loss: 175372.8281 - val_loss: 95793.7422
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1773,165 +1200,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 8ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 196316.2344
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 132968.6250
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 116ms/step - loss: 189846.4219 - val_loss: 80999.8359
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 190701.2812
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 112ms/step - loss: 185712.2812 - val_loss: 57695.5547
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 7ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 179291.7656
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 116ms/step - loss: 184042.4375 - val_loss: 59743.5977
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 176759.0625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 77ms/step - loss: 183970.2031 - val_loss: 66043.7891
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 188585.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 97ms/step - loss: 190614.9688 - val_loss: 53825.0312
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 202128.6562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 94ms/step - loss: 184504.0000 - val_loss: 59504.3477
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 176904.6562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 96ms/step - loss: 193544.8438 - val_loss: 50104.6484
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 181181.2031
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 123ms/step - loss: 205462.9219 - val_loss: 92606.7500
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169677.5625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 144ms/step - loss: 188633.5781 - val_loss: 68177.2969
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 214507.9531
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 128ms/step - loss: 184101.0156 - val_loss: 59446.1055
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 226147.1875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 104ms/step - loss: 189575.0156 - val_loss: 53503.7148
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169563.6250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 112ms/step - loss: 184113.1406 - val_loss: 62978.0195
+2/2 [==============================] - 0s 69ms/step - loss: 179930.7969 - val_loss: 112721.9141
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1941,11 +1214,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 0s/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 211688.1094
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 218749.0938
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 129ms/step - loss: 184571.2344 - val_loss: 67903.4531
+2/2 [==============================] - 0s 72ms/step - loss: 176026.9844 - val_loss: 100876.5391
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -1955,81 +1228,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 0s/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 204859.2188
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 216545.2500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 123ms/step - loss: 185369.0000 - val_loss: 69897.0234
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169005.6875
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 88ms/step - loss: 186403.5312 - val_loss: 72593.1484
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 166813.6562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 115ms/step - loss: 184098.3906 - val_loss: 64541.1211
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 204165.8438
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 112ms/step - loss: 187798.6406 - val_loss: 54746.2148
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 4ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 192193.5625
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 160ms/step - loss: 190553.7344 - val_loss: 80114.2266
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 202505.0156
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 110ms/step - loss: 184819.9062 - val_loss: 63034.8047
+2/2 [==============================] - 0s 59ms/step - loss: 174898.6562 - val_loss: 89797.6094
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -2039,25 +1242,221 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 8ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 139993.0938
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 229066.3438
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 87ms/step - loss: 188257.7500 - val_loss: 75585.2891
+2/2 [==============================] - 0s 110ms/step - loss: 174542.0312 - val_loss: 91902.4844
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-3/3 [==============================] - 0s 0s/step
+3/3 [==============================] - 0s 4ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 188007.4375
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 246577.2031
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 110ms/step - loss: 184430.2500 - val_loss: 60256.7461
+2/2 [==============================] - 0s 92ms/step - loss: 178330.7656 - val_loss: 84193.9219
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 161171.7500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 176698.4062 - val_loss: 86263.1484
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 142592.2188
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 71ms/step - loss: 174875.4844 - val_loss: 92236.2656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 4ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 165127.4688
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 135ms/step - loss: 175521.5312 - val_loss: 88968.3750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 5ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 118110.5312
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 121ms/step - loss: 190646.1875 - val_loss: 133661.4531
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 4ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 179975.4688
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 106ms/step - loss: 178115.3281 - val_loss: 87322.7578
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 190387.4062
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 100ms/step - loss: 176446.7344 - val_loss: 87095.4922
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 161198.7812
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 85ms/step - loss: 176629.8750 - val_loss: 86709.6328
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 136212.8750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 123ms/step - loss: 174650.6875 - val_loss: 93571.9141
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 166381.3750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 91ms/step - loss: 174199.3906 - val_loss: 98990.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 5ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 121940.0312
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 90ms/step - loss: 174457.5625 - val_loss: 102502.8047
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 194859.7812
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 81ms/step - loss: 174176.5469 - val_loss: 98605.7891
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 224687.5781
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 93ms/step - loss: 174755.4219 - val_loss: 92232.2500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 197823.0156
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 88ms/step - loss: 175088.1406 - val_loss: 91592.8984
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 131173.5156
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 84ms/step - loss: 180653.5938 - val_loss: 80782.2031
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -2067,11 +1466,25 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 8ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 168807.1250
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 136187.0781
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 95ms/step - loss: 183626.3594 - val_loss: 61663.1445
+2/2 [==============================] - 0s 71ms/step - loss: 176009.2969 - val_loss: 107003.2031
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 173614.3125
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 192856.3750 - val_loss: 74240.8359
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -2081,11 +1494,11 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 4ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 153847.8438
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 225817.5625
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 129ms/step - loss: 199888.7500 - val_loss: 91893.5078
+2/2 [==============================] - 0s 94ms/step - loss: 186208.2500 - val_loss: 80830.8594
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -2095,11 +1508,333 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 0s/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 170695.9688
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 133028.7188
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 219ms/step - loss: 194958.4688 - val_loss: 80999.6641
+2/2 [==============================] - 0s 113ms/step - loss: 175101.4844 - val_loss: 95857.9297
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169596.8438
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 175270.7812 - val_loss: 91355.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 230705.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 180823.9531 - val_loss: 84915.7734
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 164586.2031
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174954.0938 - val_loss: 96202.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 193291.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 62ms/step - loss: 174753.8281 - val_loss: 92380.6484
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 5ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 221090.8750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 76ms/step - loss: 174437.5156 - val_loss: 96639.4609
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 109645.1875
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 179526.8438 - val_loss: 122167.8203
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 189125.7812
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 175299.4844 - val_loss: 104771.9375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 6ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 153141.1562
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 62ms/step - loss: 176087.1875 - val_loss: 89786.6875
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 242872.2656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 175993.9531 - val_loss: 91588.8828
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 107240.4531
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 96ms/step - loss: 174501.4844 - val_loss: 105161.1641
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 218809.7656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174012.8906 - val_loss: 101105.3203
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 151117.2188
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 94ms/step - loss: 175302.8906 - val_loss: 109338.3984
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 234082.9531
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 110ms/step - loss: 184608.1875 - val_loss: 132608.1719
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 129940.5781
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 110ms/step - loss: 179830.0000 - val_loss: 86370.7891
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 201447.8281
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 94ms/step - loss: 176624.5781 - val_loss: 91332.7344
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 132998.8438
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 175844.7344 - val_loss: 110693.8359
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 200289.4375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174300.7969 - val_loss: 98271.1250
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 148629.4844
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174347.6875 - val_loss: 96899.2891
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 186448.9688
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 174101.6562 - val_loss: 103076.2344
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 215288.7344
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 175414.1094 - val_loss: 111590.9531
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 154103.1875
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 59ms/step - loss: 175511.0000 - val_loss: 92683.0547
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 183230.2344
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 178136.0312 - val_loss: 89595.2422
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 208573.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174332.4219 - val_loss: 99391.7656
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
@@ -2109,14 +1844,620 @@ Forma de Test : (30,)
 3/3 [==============================] - 0s 4ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 143407.2812
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 263701.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 112ms/step - loss: 184813.7812 - val_loss: 61306.1953
+2/2 [==============================] - 0s 134ms/step - loss: 180780.9844 - val_loss: 86190.9219
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 4ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 208199.3438
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 88ms/step - loss: 184446.5156 - val_loss: 81989.6953
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 210032.9375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 110ms/step - loss: 175942.3750 - val_loss: 95283.1875
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 189702.9375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 105ms/step - loss: 174561.1094 - val_loss: 96454.6250
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 176810.0469
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 174627.6719 - val_loss: 96874.6797
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 202459.7656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174007.3281 - val_loss: 100375.2969
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 186692.7500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 183588.0625 - val_loss: 84833.0234
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 187961.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 178408.6875 - val_loss: 90099.1406
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 226466.2500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174925.5625 - val_loss: 99033.6641
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 150226.8125
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 84ms/step - loss: 179012.7656 - val_loss: 87777.2969
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 197668.5625
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 174473.4844 - val_loss: 103566.6328
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 126664.1719
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 65ms/step - loss: 174908.4688 - val_loss: 108907.6250
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 186421.8125
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 74ms/step - loss: 176206.5156 - val_loss: 112926.8359
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 177761.8125
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 65ms/step - loss: 174822.6250 - val_loss: 95835.7656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 190864.0938
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 177186.2500 - val_loss: 89514.1016
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 190687.3594
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 62ms/step - loss: 174797.7812 - val_loss: 106660.5234
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 152130.7969
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 56ms/step - loss: 174109.3281 - val_loss: 99532.7422
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 224130.8594
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 176664.5469 - val_loss: 92854.7891
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 170065.4062
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174390.0469 - val_loss: 106438.7578
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 167222.5312
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 177720.7969 - val_loss: 89726.4922
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 184957.7500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 178235.6250 - val_loss: 89096.3906
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 3ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 187358.0625
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 175081.0312 - val_loss: 97860.1406
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 158586.0156
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 174028.6875 - val_loss: 101530.0547
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 93625.3672
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174942.4844 - val_loss: 110177.1250
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 220142.0625
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 177183.4688 - val_loss: 115491.7422
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 214780.7188
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 179673.2656 - val_loss: 85108.9297
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 183877.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 188332.1250 - val_loss: 82459.7578
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 254us/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169014.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 175741.9688 - val_loss: 108869.8203
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 243366.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 72ms/step - loss: 174191.7500 - val_loss: 104987.4766
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 114133.8672
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 182056.1094 - val_loss: 128385.6094
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 140395.0312
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 66ms/step - loss: 175883.8438 - val_loss: 95601.8984
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 165421.4062
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 176124.6406 - val_loss: 112594.3359
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 212718.2656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174777.7188 - val_loss: 96578.5469
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 189363.0938
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 70ms/step - loss: 174708.9531 - val_loss: 110003.6953
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 178152.9688
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 81ms/step - loss: 175000.0781 - val_loss: 109809.2734
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 4ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 141691.6875
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174453.5312 - val_loss: 98571.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 209732.0312
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174094.5469 - val_loss: 105593.4844
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 210190.7500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 177441.4844 - val_loss: 90348.0703
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 183967.5000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 78ms/step - loss: 174492.9844 - val_loss: 100683.6094
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 8ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 169602.2812
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 94ms/step - loss: 174295.3906 - val_loss: 98389.2344
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 147227.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 175452.8125 - val_loss: 92755.4844
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 221489.2656
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 79ms/step - loss: 174517.9688 - val_loss: 98760.0469
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 163929.9375
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 174080.2188 - val_loss: 101333.6484
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 2ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 178919.1562
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+2/2 [==============================] - 0s 63ms/step - loss: 173945.3281 - val_loss: 101353.5391
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/3 [=========&gt;....................] - ETA: 0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+3/3 [==============================] - 0s 0s/step
 </pre></div>
 </div>
 </div>
@@ -2171,14 +2512,14 @@ Forma de Test : (30,)
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">c:\Users\User\OneDrive\Documentos\Libro-Fundamentos-main\Redes_Neuronales\Cuadernos\NN_Animation.ipynb Celda 17</span> in <span class="ni">&lt;cell line: 29&gt;</span><span class="nt">()</span>
-     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/c%3A/Users/User/OneDrive/Documentos/Libro-Fundamentos-main/Redes_Neuronales/Cuadernos/NN_Animation.ipynb#ch0000026?line=25&#39;</span><span class="o">&gt;</span><span class="mi">26</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Modelo Resultante para Test&#39;</span><span class="p">);</span>
-     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/c%3A/Users/User/OneDrive/Documentos/Libro-Fundamentos-main/Redes_Neuronales/Cuadernos/NN_Animation.ipynb#ch0000026?line=27&#39;</span><span class="o">&gt;</span><span class="mi">28</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="c1"># Video para renderizar</span>
-<span class="o">---&gt;</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/c%3A/Users/User/OneDrive/Documentos/Libro-Fundamentos-main/Redes_Neuronales/Cuadernos/NN_Animation.ipynb#ch0000026?line=28&#39;</span><span class="o">&gt;</span><span class="mi">29</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">video</span> <span class="o">=</span> <span class="n">ani</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">()</span>
-     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/c%3A/Users/User/OneDrive/Documentos/Libro-Fundamentos-main/Redes_Neuronales/Cuadernos/NN_Animation.ipynb#ch0000026?line=29&#39;</span><span class="o">&gt;</span><span class="mi">30</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">html</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
-     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/c%3A/Users/User/OneDrive/Documentos/Libro-Fundamentos-main/Redes_Neuronales/Cuadernos/NN_Animation.ipynb#ch0000026?line=30&#39;</span><span class="o">&gt;</span><span class="mi">31</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+<span class="nn">Input In [7],</span> in <span class="ni">&lt;cell line: 29&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Modelo Resultante para Test&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># Video para renderizar</span>
+<span class="ne">---&gt; </span><span class="mi">29</span> <span class="n">video</span> <span class="o">=</span> <span class="n">ani</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="n">html</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 
-<span class="nn">File c:\Users\User\AppData\Local\Programs\Python\Python39\lib\site-packages\matplotlib\animation.py:1264,</span> in <span class="ni">Animation.to_html5_video</span><span class="nt">(self, embed_limit)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python39\lib\site-packages\matplotlib\animation.py:1264,</span> in <span class="ni">Animation.to_html5_video</span><span class="nt">(self, embed_limit)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1261</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;temp.m4v&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1262</span> <span class="c1"># We create a writer manually so that we can get the</span>
 <span class="g g-Whitespace">   </span><span class="mi">1263</span> <span class="c1"># appropriate size for the tag</span>
@@ -2188,7 +2529,7 @@ Forma de Test : (30,)
 <span class="g g-Whitespace">   </span><span class="mi">1267</span>                 <span class="n">fps</span><span class="o">=</span><span class="mf">1000.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interval</span><span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1268</span> <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
 
-<span class="nn">File c:\Users\User\AppData\Local\Programs\Python\Python39\lib\site-packages\matplotlib\animation.py:151,</span> in <span class="ni">MovieWriterRegistry.__getitem__</span><span class="nt">(self, name)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python39\lib\site-packages\matplotlib\animation.py:151,</span> in <span class="ni">MovieWriterRegistry.__getitem__</span><span class="nt">(self, name)</span>
 <span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 <span class="g g-Whitespace">    </span><span class="mi">150</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 <span class="ne">--&gt; </span><span class="mi">151</span> <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested MovieWriter (</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">) not available&quot;</span><span class="p">)</span>
@@ -2197,7 +2538,7 @@ Forma de Test : (30,)
 </pre></div>
 </div>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "f7f410cd8b1d468eaf7ef025e9b4e848", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "version_minor": 0, "model_id": "0c2e8b7a42494f329b530e0c27cb21a2"}
 </script></div>
 </div>
 </section>
@@ -20694,6 +21035,13 @@ dGEAAAABAAAAAExhdmY1OS4xNi4xMDA=
             <p class="prev-next-subtitle">anterior</p>
             <p class="prev-next-title"><span style="color:#F72585"> Subclassing-Modelo de Regresión multi-logística</span></p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Introducción a Modelos Secuenciales</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             </footer>

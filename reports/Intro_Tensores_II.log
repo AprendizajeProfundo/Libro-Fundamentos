@@ -32,16 +32,15 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-# rotación
+# Translación
 ancho = image.shape[1] #columnas
 alto = image.shape[0] # filas
-
-M = cv2.getRotationMatrix2D((ancho//2,alto//2),15,1)
+# Traslación
+M = np.float32([[1,0,100],[0,1,150]])
 imageOut = cv2.warpAffine(image,M,(ancho,alto))
 cv2.imshow('Imagen de entrada',image)
 cv2.imshow('Imagen de salida',imageOut)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
 -------------------
 
