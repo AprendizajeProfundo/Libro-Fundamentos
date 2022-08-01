@@ -4,6 +4,9 @@
 format: jb-book
 root: tutorial
 parts:
+- caption: Conociendo el libro
+  chapters:
+    - file: Inicio/Cuadernos/Consideraciones
 - caption: Fundamentos de Estadística
   chapters:
     - file: Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos
@@ -29,3 +32,50 @@ parts:
   - file: Fundamentacion_Matematica/Cuadernos/am-sdg
   - file: Fundamentacion_Matematica/Cuadernos/Regresión-Lineal-Pyton
   - file: Fundamentacion_Matematica/Cuadernos/Clasificacion_Lineal
+- caption: Aprendizaje de máquinas
+  chapters: 
+  - file: Machine_Learning/Cuadernos/am_intro_aprendizaje_maquinas
+  - file: Machine_Learning/Cuadernos/am_Regresion_logistica_JAX
+  - file: Machine_Learning/Cuadernos/am_Regresion_Logistica_Tensorflow
+  - file: Machine_Learning/Cuadernos/am_regresion_Keras
+  - file: Machine_Learning/Cuadernos/am-logistico-keras-cancer
+- caption: Aprendizaje de máquinas no supervisado
+  chapters:
+  - file: Machine_Learning/Cuadernos/BreveIntroduccion2R 
+  - file: Machine_Learning/Cuadernos/AprendizajeNoSupervisado
+  - file: Machine_Learning/Cuadernos/ACP
+  - file: Machine_Learning/Cuadernos/ACS
+  - file: Machine_Learning/Cuadernos/ACM
+  #- file: Machine_Learning/Cuadernos/Agrupamiento
+- caption: Mapas auto-organizados (SOM)
+  chapters:
+  - file: Machine_Learning/Cuadernos/som_Introduccion
+- caption: Redes Neuronales
+  chapters:
+  - file: Redes_Neuronales/Cuadernos/RedesNeuronales_intro
+  - file: Redes_Neuronales/Cuadernos/Activation_Functions
+  - file: Redes_Neuronales/Cuadernos/Hello_World_ML
+  - file: Redes_Neuronales/Cuadernos/NN_Animation
+  - file: Redes_Neuronales/Cuadernos/Intro_Keras_Sequential
+  #- file: Redes_Neuronales/Cuadernos/am_Red_De_Cero
+  - file: Redes_Neuronales/Cuadernos/Intro_Keras_Functional
+  - file: Redes_Neuronales/Cuadernos/am-softmax-keras-iris
+  - file: Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina
+  - file: Redes_Neuronales/Cuadernos/am-subclassing-iris
+  - file: Redes_Neuronales/Cuadernos/NN_Animation2
+  #- file: Redes_Neuronales/Cuadernos/am-fraudes_datos_desbalanceados
+
+- caption: Redes Recurrentes
+  chapters:
+  - file: Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro
+  - file: Redes_Recurrentes/Cuadernos/rnn_Intro_Redes_Recurrentes
+  - file: Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro
+  - file: Redes_Recurrentes/Cuadernos/rnr_GRU_Intro
+  - file: Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm
+#- caption: Autocodificadores
+  #chapters:
+  #- file: Autocodificadores/Cuadernos/ae_Example_Dense_mnist
+  #- file: Autocodificadores/Cuadernos/ae_Example_Dense_Face_Recover
+  #- file: Autocodificadores/Cuadernos/ae_Autoencoder_Colorizing
+  #- file: Autocodificadores/Cuadernos/ae_Eliminacion_ruido_MNIST
+  #- file: Autocodificadores/Cuadernos/Noise_Elimination_Conv  
