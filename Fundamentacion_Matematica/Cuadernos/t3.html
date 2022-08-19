@@ -1,0 +1,1572 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Tensores, redes neuronales e imágenes &#8212; Fundamentos de IA y AP</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Tensores y distribuciones de probabilidad" href="t4.html" />
+    <link rel="prev" title="Algebra tensorial" href="t2.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="es">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo-final-ap.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fundamentos de IA y AP</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../tutorial.html">
+                    <span style="color:#F72585">Bienvenido(a)</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Conociendo el libro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Inicio/Cuadernos/Consideraciones.html">
+   <span style="color:#F72585">
+    Conociendo el Libro
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentos de Estadística
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos.html">
+   <span style="color:#F72585">
+    Probabilidad
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias.html">
+   <span style="color:#F72585">
+    Variables Aleatorias
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta.html">
+   <span style="color:#F72585">
+    Probabilidad Conjunta y Entropía Cruzada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas.html">
+   <span style="color:#F72585">
+    Distribuciones de probabilidad continuas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Regresi%C3%B3n-Lineal-Pyton-Copy1.html">
+   <span style="color:#F72585">
+    Regresión Lineal en Python
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Teoría de la Información
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html">
+   <span style="color:#F72585">
+    Teoría de la Información
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Álgebra Lineal
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="t1.html">
+   <span style="color:#F72585">
+    <center>
+     Introducción a tensores
+    </center>
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="t2.html">
+   <span style="color:#F72585">
+    Algebra tensorial
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   <span style="color:#F72585">
+    Tensores, redes neuronales e imágenes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="t4.html">
+   <span style="color:#F72585">
+    Tensores y distribuciones de probabilidad
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Modelación
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelos
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod_Ejemplo_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelamiento
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cal_derivadas.html">
+   <span style="color:#F72585">
+    Introducción a la Derivación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Optimization_1.html">
+   <span style="color:#F72585">
+    Optimización univariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Optimization_2.html">
+   <span style="color:#F72585">
+    Optimización multivariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am-sdg.html">
+   <span style="color:#F72585">
+    Optimización
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_intro_aprendizaje_maquinas.html">
+   <span style="color:#F72585">
+    Conceptos básicos de aprendizaje de máquinas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_logistica_JAX.html">
+   <span style="color:#F72585">
+    Modelo Lineal de Clasificación  con JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_Logistica_Tensorflow.html">
+   <span style="color:#F72585">
+    Modelo Logístico de Clasificación  con Tensorflow 2.X
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_regresion_Keras.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am-logistico-keras-cancer.html">
+   <span style="color:#F72585">
+    Modelo logístico de predicción en tf.keras
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas no supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/BreveIntroduccion2R.html">
+   <span style="color:#F72585">
+    Breve introducción a R
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/AprendizajeNoSupervisado.html">
+   <span style="color:#F72585">
+    Aprendizaje no supervisado
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACP.html">
+   <span style="color:#F72585">
+    Análisis en componentes principales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACS.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias simples
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACM.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias múltiples (ACM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mapas auto-organizados (SOM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/som_Introduccion.html">
+   <span style="color:#F72585">
+    Mapas Auto-organizados (SOM)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Neuronales
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/RedesNeuronales_intro.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Activation_Functions.html">
+   <span style="color:#F72585">
+    Funciones de Activación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Hello_World_ML.html">
+   <span style="color:#F72585">
+    Introducción a Keras Sequential y API Funcional
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Sequential.html">
+   <span style="color:#F72585">
+    Introducción a la API Sequential de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Functional.html">
+   <span style="color:#F72585">
+    Introducción a la API funcional de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-softmax-keras-iris.html">
+   <span style="color:#F72585">
+    Clasificación, Softmax, Iris
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-subclassing-iris.html">
+   <span style="color:#F72585">
+    Subclassing-Modelo de Regresión multi-logística
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/NN_Animation2.html">
+   <span style="color:#F72585">
+    Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/AprendizajeProfundo/Libro-Fundamentos/main?urlpath=tree/Fundamentacion_Matematica/Cuadernos/t3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/AprendizajeProfundo/Libro-Fundamentos/blob/main/Fundamentacion_Matematica/Cuadernos/t3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/issues/new?title=Issue%20on%20page%20%2FFundamentacion_Matematica/Cuadernos/t3.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/edit/main/Fundamentacion_Matematica/Cuadernos/t3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Fundamentacion_Matematica/Cuadernos/t3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-redes-neuronales-span">
+   <span style="color:#4361EE">
+    Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-imagenes-a-color-span">
+   <span style="color:#4361EE">
+    Imágenes a color
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-construccion-aleatoria-de-una-imagen-span">
+   <span style="color:#4361EE">
+    Construcción aleatoria de una imagen
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-imagen-real-span">
+   <span style="color:#4361EE">
+    Imagen real
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-planos-de-color-span">
+   <span style="color:#4361EE">
+    Planos de color
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-manipulacion-de-imagenes-span">
+   <span style="color:#4361EE">
+    Manipulación  de imágenes
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-intercambia-dos-planos-de-color-span">
+     <span style="color:#4CC9F0">
+      Intercambia dos planos de color
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-suma-una-constante-a-la-imagen-span">
+     <span style="color:#4CC9F0">
+      Suma una constante a la imagen
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-colocar-dos-imagenes-en-un-tensor-span">
+   <span style="color:#4361EE">
+    Colocar dos imagenes en un tensor
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-ejercicios-span">
+   <span style="color:#4361EE">
+    Ejercicios
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1><span style="color:#F72585">Tensores, redes neuronales e imágenes</span></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-redes-neuronales-span">
+   <span style="color:#4361EE">
+    Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-imagenes-a-color-span">
+   <span style="color:#4361EE">
+    Imágenes a color
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-construccion-aleatoria-de-una-imagen-span">
+   <span style="color:#4361EE">
+    Construcción aleatoria de una imagen
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-imagen-real-span">
+   <span style="color:#4361EE">
+    Imagen real
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-planos-de-color-span">
+   <span style="color:#4361EE">
+    Planos de color
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-manipulacion-de-imagenes-span">
+   <span style="color:#4361EE">
+    Manipulación  de imágenes
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-intercambia-dos-planos-de-color-span">
+     <span style="color:#4CC9F0">
+      Intercambia dos planos de color
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-suma-una-constante-a-la-imagen-span">
+     <span style="color:#4CC9F0">
+      Suma una constante a la imagen
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-colocar-dos-imagenes-en-un-tensor-span">
+   <span style="color:#4361EE">
+    Colocar dos imagenes en un tensor
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-ejercicios-span">
+   <span style="color:#4361EE">
+    Ejercicios
+   </span>
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-tensores-redes-neuronales-e-imagenes-span">
+<h1><span style="color:#F72585">Tensores, redes neuronales e imágenes</span><a class="headerlink" href="#span-style-color-f72585-tensores-redes-neuronales-e-imagenes-span" title="Enlazar permanentemente con este título">#</a></h1>
+<section id="span-style-color-4361ee-introduccion-span">
+<h2><span style="color:#4361EE">Introducción</span><a class="headerlink" href="#span-style-color-4361ee-introduccion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>En esta lección nos acercamos al objeto de trabajo del aprendizaje profundo: la redes neuronales. La hacemos mostrando como usamos tensores para representar redes neuronales. Adicionalmente, veremos como usamos los tensores en la representación de imágenes, uno de los tipos de datos mas recurrente en la inteligencia artificial.</p>
+</section>
+<section id="span-style-color-4361ee-redes-neuronales-span">
+<h2><span style="color:#4361EE">Redes Neuronales</span><a class="headerlink" href="#span-style-color-4361ee-redes-neuronales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>La siguiente imagen muestra el estado en un instante de una una parte oculta de una red  neuronal profunda.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/fragmento_red.png" width="500" height="300" /> 
+</center>
+</figure>
+<p>Fuente: Alvaro Montenegro</p>
+<p>El proceso puede modelarse en forma simplificada usando matrices y vectores como se ve a continuación.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+W_{12}L_1 = L2 \to \begin{pmatrix} -1 &amp; 0.4 &amp; 1.5\\ 0.8 &amp; 0.5 &amp; 0.75 \\ 0.2 &amp; -0.3  &amp; 1\\ \end{pmatrix}\begin{pmatrix} 2.5\\ 4  \\ 1.2 \end{pmatrix} = \begin{pmatrix} 0.9\\ 4.9 \\ 0.5 \end{pmatrix}
+\end{split}\]</div>
+<p>Observe por ejemplo que:</p>
+<div class="math notranslate nohighlight">
+\[-1\times 2.5 + 0.4\times 4  + 1.5\times 1.2 = 0.9\]</div>
+<p>En la fase de entrenamiento de la red neuronal, los pesos de la matriz se van modificando hasta que se encuentra un óptimo local. Este proceso ocurre en toda la estructura de la red.</p>
+<p>Por lo que no parece extraño que las GPU y las  TPU pasen todo el tiempo haciendo operaciones de este tipo, que al final se reduce a sumas y multiplicaciones.</p>
+<p>Por otro lado, lo que ocurre es que los objetos que se procesan no necesariamente son vectores como en el ejemplo, y esto lleva a la necesidad de generalizar los conceptos.</p>
+</section>
+<section id="span-style-color-4361ee-imagenes-a-color-span">
+<h2><span style="color:#4361EE">Imágenes a color</span><a class="headerlink" href="#span-style-color-4361ee-imagenes-a-color-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>De manera clásica una imagen a color está compuesta de tres colores primarios: rojo (<em>Red</em>), verde (<em>Green</em>) y azul (<em>Blue</em>). Para generar una imagen a color un computador maneja tres planos de color, los cuales son controlados desde tensores tridimensionales. Considere el siguiente ejemplo.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/zeus_2.png" width="600" height="300" /> 
+</center>
+</figure>
+<p>Fuente: Alvaro Montenegro</p>
+<p>Cada pixel (<em>punto</em>) de la imagen es representado por una valor numérico en el rango de 0 a 255, o en rango de valores reales entre cero y 1.</p>
+</section>
+<section id="span-style-color-4361ee-construccion-aleatoria-de-una-imagen-span">
+<h2><span style="color:#4361EE">Construcción aleatoria de una imagen</span><a class="headerlink" href="#span-style-color-4361ee-construccion-aleatoria-de-una-imagen-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Considere el siguiente código Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">I</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[[ 27  41 188 219 233  71  44 246 117  40]
+  [251 213  29  98 130 123  37 194  89 196]
+  [192  75 156  79  90 205 119  24 112  89]
+  [206 205  84 235 205  96 210  36 179  70]
+  [249 115  92   0 231  50  93 193  23 233]
+  [  1  80 142  56 198 158 238 216   3 193]
+  [  8 142  31 186   5  47 214 179 107  89]
+  [ 19 171  78 136 176  27 224 224  98 181]
+  [ 85  87 203 156 140 233   5 220  54 198]
+  [ 80 168  18  83 228  40  11   6 157  15]]
+
+ [[ 22 144 252 237  16 245  71  66 239 174]
+  [148  77 252  57  44  27 223 114 165 112]
+  [174 164  23 124  42 220   0  49  97 227]
+  [151 228  99  61 190 241   9 114 215 156]
+  [185 138  40 176   5 241  22  91 160 118]
+  [208 189 106 225 105   5 218 153 235 129]
+  [ 63  87 176  10  77  68 146  13  93 132]
+  [199  63  35 213  34  85  13 218 207 193]
+  [ 57 207  44 200  90  21 142 137  33   0]
+  [243  86  74  94 199 194 206 197 159 137]]
+
+ [[146  60  93 232 130  96 137  32 164  65]
+  [115 104  39   5  30 245 162   8 118  83]
+  [241 250  63 217  43 108 139  53 246 183]
+  [136  92 207   4 138  35  88  13 226 177]
+  [ 20  95 191  59 117  55 116 171 209 226]
+  [ 63 116 130  11  21 222  31 200 122  54]
+  [ 59  19  53 151 110 153   9 179 207 121]
+  [ 18  95 137 169 250 212 108  47 238 249]
+  [188 155  73  95  88  68  86 152  85  79]
+  [ 40 115 200  12  18  26 114 240 118  74]]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Este tensor representa una imagen de tamaño <span class="math notranslate nohighlight">\(10 \times 10\)</span>. Son tres planos de color <span class="math notranslate nohighlight">\(10 \times 10\)</span>.</p>
+<p>Observe que la primera dimensión corresponde a cada plano de color y las restantes dos dimensiones a las intensidades de cada color para cada punto.</p>
+<p>Renderizar (dibujar en este caso), nos lleva a la siguiente imagen. Para esta sección require instalar matplotlib</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !conda install -c conda-forge matplotlib</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">I</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_19_0.png" src="../../_images/t3_19_0.png" />
+</div>
+</div>
+<p>Observe que</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">I</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10, 10, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Porque Python maneja las imágenes en este formato: Fila, columna y plano de color.</p>
+</section>
+<section id="span-style-color-4361ee-imagen-real-span">
+<h2><span style="color:#4361EE">Imagen real</span><a class="headerlink" href="#span-style-color-4361ee-imagen-real-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Vamos a trabajar ahora con una imagen real. Para este ejercicio requiere instalar  <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># conda install -c anaconda scikit-image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="n">grayscale</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grayscale</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Grayscale&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_26_0.png" src="../../_images/t3_26_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Idata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grayscale</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">La imagen tiene forma: &quot;</span><span class="p">,</span><span class="n">Idata</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Idata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La imagen tiene forma:  (512, 512) 
+
+[[5.83434902e-01 4.14859216e-01 2.44058431e-01 ... 4.75007843e-01
+  4.58213333e-01 4.69121961e-01]
+ [6.75588235e-01 5.56006667e-01 4.49052941e-01 ... 4.68548627e-01
+  4.56501176e-01 4.55958431e-01]
+ [7.66334902e-01 7.00524314e-01 6.49276078e-01 ... 4.76406667e-01
+  4.62104314e-01 4.53978431e-01]
+ ...
+ [6.81696471e-01 6.81979216e-01 6.71889020e-01 ... 0.00000000e+00
+  2.82745098e-04 0.00000000e+00]
+ [6.74694510e-01 6.68532941e-01 6.64030196e-01 ... 2.82745098e-04
+  3.92156863e-03 0.00000000e+00]
+ [6.70482353e-01 6.63189804e-01 6.52838824e-01 ... 0.00000000e+00
+  3.92156863e-03 0.00000000e+00]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-planos-de-color-span">
+<h2><span style="color:#4361EE">Planos de color</span><a class="headerlink" href="#span-style-color-4361ee-planos-de-color-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Idata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">La imagen tiene forma: &quot;</span><span class="p">,</span><span class="n">Idata</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Escala de Rojos:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">Idata</span><span class="p">[:</span><span class="mi">511</span><span class="p">,:</span><span class="mi">511</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Escala de Verdes:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">Idata</span><span class="p">[:</span><span class="mi">511</span><span class="p">,:</span><span class="mi">511</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Escala de Azules:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">Idata</span><span class="p">[:</span><span class="mi">511</span><span class="p">,:</span><span class="mi">511</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La imagen tiene forma:  (512, 512, 3) 
+
+
+Escala de Rojos:
+
+ [[154 109  63 ... 126 127 120]
+ [177 144 113 ... 126 127 124]
+ [201 182 168 ... 125 128 126]
+ ...
+ [186 188 184 ...   0   0   0]
+ [186 186 183 ...   2   0   0]
+ [183 182 185 ...  21   0   1]] 
+
+
+Escala de Verdes:
+
+ [[147 103  58 ... 120 120 117]
+ [171 141 114 ... 118 118 115]
+ [194 178 165 ... 119 120 116]
+ ...
+ [169 169 167 ...   0   0   0]
+ [170 170 168 ...   2   0   0]
+ [169 167 164 ...  21   0   1]] 
+
+
+Escala de Azules:
+
+ [[151 124 102 ... 114 115 106]
+ [171 143 124 ... 111 112 108]
+ [193 175 164 ... 113 117 112]
+ ...
+ [174 177 170 ...   0   0   1]
+ [176 177 170 ...   3   0   1]
+ [170 171 176 ...  16   1   1]] 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span><span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Idata</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Red&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Idata</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greens&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Green&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Idata</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">],</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_30_0.png" src="../../_images/t3_30_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-manipulacion-de-imagenes-span">
+<h2><span style="color:#4361EE">Manipulación  de imágenes</span><a class="headerlink" href="#span-style-color-4361ee-manipulacion-de-imagenes-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-intercambia-dos-planos-de-color-span">
+<h3><span style="color:#4CC9F0">Intercambia dos planos de color</span><a class="headerlink" href="#span-style-color-4cc9f0-intercambia-dos-planos-de-color-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+
+<span class="n">Idata_m</span> <span class="o">=</span> <span class="n">Idata</span>
+<span class="n">Idata_m</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Idata_m</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Idata_m</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">Idata_m</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Idata_m</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_33_0.png" src="../../_images/t3_33_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-suma-una-constante-a-la-imagen-span">
+<h3><span style="color:#4CC9F0">Suma una constante a la imagen</span><a class="headerlink" href="#span-style-color-4cc9f0-suma-una-constante-a-la-imagen-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_35_0.png" src="../../_images/t3_35_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span> <span class="o">//</span><span class="n">k</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_36_0.png" src="../../_images/t3_36_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Idata_m</span> <span class="o">=</span> <span class="n">Idata</span>
+
+<span class="n">Idata_m</span><span class="p">[:,:,</span><span class="mi">0</span> <span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Idata_m</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_37_0.png" src="../../_images/t3_37_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Idata</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[  0, 147, 151],
+        [  0, 103, 124],
+        [  0,  58, 102],
+        ...,
+        [  0, 120, 115],
+        [  0, 117, 106],
+        [  0, 119, 110]],
+
+       [[  0, 171, 171],
+        [  0, 141, 143],
+        [  0, 114, 124],
+        ...,
+        [  0, 118, 112],
+        [  0, 115, 108],
+        [  0, 116, 105]],
+
+       [[  0, 194, 193],
+        [  0, 178, 175],
+        [  0, 165, 164],
+        ...,
+        [  0, 120, 117],
+        [  0, 116, 112],
+        [  0, 114, 109]],
+
+       ...,
+
+       [[  0, 170, 176],
+        [  0, 170, 177],
+        [  0, 168, 170],
+        ...,
+        [  0,   0,   0],
+        [  0,   0,   1],
+        [  0,   0,   0]],
+
+       [[  0, 169, 170],
+        [  0, 167, 171],
+        [  0, 164, 176],
+        ...,
+        [  0,   0,   1],
+        [  0,   1,   1],
+        [  0,   0,   0]],
+
+       [[  0, 167, 172],
+        [  0, 165, 169],
+        [  0, 162, 171],
+        ...,
+        [  0,   0,   0],
+        [  0,   1,   1],
+        [  0,   0,   0]]], dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="n">Idata</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_39_0.png" src="../../_images/t3_39_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-colocar-dos-imagenes-en-un-tensor-span">
+<h2><span style="color:#4361EE">Colocar dos imagenes en un tensor</span><a class="headerlink" href="#span-style-color-4361ee-colocar-dos-imagenes-en-un-tensor-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Esta es una forma para organizar conjuntos de imágenes en un único tensor</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">original</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">original</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, 512, 512, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Idata_m</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Idata_m</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">original</span><span class="p">,</span> <span class="n">Idata_m</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">images</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 512, 512, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Modificada&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_47_0.png" src="../../_images/t3_47_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-ejercicios-span">
+<h2><span style="color:#4361EE">Ejercicios</span><a class="headerlink" href="#span-style-color-4361ee-ejercicios-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ol class="simple">
+<li><p>Baje una imagen de Internet y la almacena localmente, o léala por ejemplo del repositorio de Aprendizaje Profundo.</p></li>
+<li><p>Lea la imagen. Apóyese en el siguiente código</p></li>
+<li><p>Repita el tratamiento de la imagen como hicimos en la lección</p></li>
+</ol>
+<p>La imagen del ave fue tomada originalmente de <a class="reference external" href="https://omes-va.com/trasladar-rotar-escalar-recortar-una-imagen-opencv/">omes-va.com</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">io</span>
+
+<span class="n">file_1</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/ave.jpeg&#39;</span>
+<span class="c1"># Fuente: Esta es la imagen original tomada de [omes-va.com](https://omes-va.com/trasladar-rotar-escalar-recortar-una-imagen-opencv/). Código tomado del mismo sitio.</span>
+<span class="n">img_array</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file_1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_array</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img_array</span><span class="p">)</span>
+<span class="n">original</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t3_50_0.png" src="../../_images/t3_50_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(426, 640, 3)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "AprendizajeProfundo/Libro-Fundamentos",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Fundamentacion_Matematica\Cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="t2.html" title="anterior página">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">anterior</p>
+            <p class="prev-next-title"><span style="color:#F72585">Algebra tensorial</span></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="t4.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Tensores y distribuciones de probabilidad</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

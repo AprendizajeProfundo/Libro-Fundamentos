@@ -350,6 +350,13 @@ const thebe_selector_output = ".output, .cell_output"
    </span>
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -459,6 +466,41 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
    <span style="color:#F72585">
     Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
    </span>
   </a>
  </li>
@@ -1052,16 +1094,16 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[157.79171419 113.45331985 125.8614068   95.10964202 121.80421752
- 109.17423168 156.83207237  59.16570565 106.63796244  61.3565264
-  19.47461147  77.60759991  30.10319706  57.88535449   9.28124539
-  10.65982367 -13.60507116   5.09303808  14.4891331    4.47251211
-   1.27830538  23.89882398   5.34338256  -6.50330411  19.06377207
- -17.39008672 -26.89013388  35.07528803 -39.10450988  51.58047689
-  17.56516338  46.4886032   32.15534925  25.62417379  60.60356118
-  61.07227155  47.47541518  63.95569096  91.74810358 104.66854091
- 111.027025    99.114291   124.04393037 144.93341334 162.89107683
- 169.28675483 173.57958775 191.67416426 230.01822342 216.97173905]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[217.99355623 142.68741022 146.31621191 128.13479406 111.73941384
+  89.47685489 105.11836081  81.19732541  41.91156847  66.78121834
+  30.2499299   32.93817221  66.38013768  11.53944667  39.74005336
+  43.18997134  13.49564781  -2.55456125  12.85486119   8.49065364
+  10.54997947  -3.52320593 -23.10728138   5.28466635   5.13328338
+ -30.04973645   5.07860833  -9.28112974  30.58987377  -8.71957095
+  10.0410125   38.08053443  48.66118723  40.10339338  67.65755535
+  51.50627849  57.20230928  85.52521727  64.79352386 123.02358686
+  80.40731023 103.25935165 127.73747174  99.3556638  158.00346775
+ 159.85390715 173.74514933 175.63960935 165.48174042 199.00324966]
 </pre></div>
 </div>
 </div>
@@ -1202,104 +1244,104 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 9492.9883
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 6596.0742
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 9833.6523
+2/2 [==============================] - 1s 8ms/step - loss: 8620.6582
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 9490.2861
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 8898.5801
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 8638.6699
+2/2 [==============================] - 0s 8ms/step - loss: 8100.7305
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 8638.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 7838.4111
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 8288.2773
+2/2 [==============================] - 0s 0s/step - loss: 8003.3955
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 8104.6855
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 9316.4707
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 8465.1758
+2/2 [==============================] - 0s 0s/step - loss: 7479.1870
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 8047.0654
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 7585.7280
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 7943.0581
+2/2 [==============================] - 0s 8ms/step - loss: 7672.4448
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 7369.4819
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 5066.2114
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 13ms/step - loss: 7339.0776
+2/2 [==============================] - 0s 8ms/step - loss: 7128.1436
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 6935.1016
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 5780.6123
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 7071.6064
+2/2 [==============================] - 0s 8ms/step - loss: 7198.5161
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 5970.8623
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 5357.8721
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 16ms/step - loss: 7037.4150
+2/2 [==============================] - 0s 0s/step - loss: 6663.5493
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 6421.9551
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 7064.5449
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step - loss: 7019.0889
+2/2 [==============================] - 0s 8ms/step - loss: 6941.7188
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 10/10
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 8052.9536
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/2 [==============&gt;...............] - ETA: 0s - loss: 5028.7676
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 16ms/step - loss: 6668.4014
+2/2 [==============================] - 0s 8ms/step - loss: 6354.8145
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x16793590f10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x19f58a4fbb0&gt;
 </pre></div>
 </div>
 </div>
@@ -1321,14 +1363,14 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([[3.66369]], dtype=float32), array([23.835335], dtype=float32)]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([[-0.24988794]], dtype=float32), array([23.104277], dtype=float32)]
 
-Objeto Pesos: [array([[3.66369]], dtype=float32), array([23.835335], dtype=float32)]
+Objeto Pesos: [array([[-0.24988794]], dtype=float32), array([23.104277], dtype=float32)]
 
 Number of Weights -&gt; 2
 
-w = [3.66369](Weight)
-b = [23.835335](&quot;Weight&quot;-&gt;Bias)
+w = [-0.24988794](Weight)
+b = [23.104277](&quot;Weight&quot;-&gt;Bias)
 </pre></div>
 </div>
 </div>
@@ -1349,7 +1391,7 @@ b = [23.835335](&quot;Weight&quot;-&gt;Bias)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-2/2 [==============================] - 0s 0s/step
+2/2 [==============================] - 0s 8ms/step
 </pre></div>
 </div>
 </div>

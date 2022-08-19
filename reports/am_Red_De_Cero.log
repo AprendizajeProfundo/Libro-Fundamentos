@@ -145,7 +145,7 @@ File [1;32m~\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\c
 [0;32m    188[0m     )
 [0;32m    190[0m [38;5;28;01mreturn[39;00m conn
 
-[1;31mNewConnectionError[0m: <urllib3.connection.HTTPConnection object at 0x000001EF9B238F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+[1;31mNewConnectionError[0m: <urllib3.connection.HTTPConnection object at 0x00000144E58E8F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
 
 During handling of the above exception, another exception occurred:
 
@@ -179,7 +179,7 @@ File [1;32m~\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\u
 [1;32m--> 592[0m     [38;5;28;01mraise[39;00m MaxRetryError(_pool, url, error [38;5;129;01mor[39;00m ResponseError(cause))
 [0;32m    594[0m log[38;5;241m.[39mdebug([38;5;124m"[39m[38;5;124mIncremented Retry for (url=[39m[38;5;124m'[39m[38;5;132;01m%s[39;00m[38;5;124m'[39m[38;5;124m): [39m[38;5;132;01m%r[39;00m[38;5;124m"[39m, url, new_retry)
 
-[1;31mMaxRetryError[0m: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EF9B238F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
+[1;31mMaxRetryError[0m: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000144E58E8F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
 
 During handling of the above exception, another exception occurred:
 
@@ -232,6 +232,6 @@ File [1;32m~\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\
 [0;32m    567[0m [38;5;28;01mexcept[39;00m ClosedPoolError [38;5;28;01mas[39;00m e:
 [0;32m    568[0m     [38;5;28;01mraise[39;00m [38;5;167;01mConnectionError[39;00m(e, request[38;5;241m=[39mrequest)
 
-[1;31mConnectionError[0m: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EF9B238F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
-ConnectionError: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EF9B238F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
+[1;31mConnectionError[0m: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000144E58E8F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
+ConnectionError: HTTPConnectionPool(host='deeplearning.net', port=80): Max retries exceeded with url: /data/mnist/mnist.pkl.gz (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000144E58E8F40>: Failed to establish a new connection: [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder'))
 

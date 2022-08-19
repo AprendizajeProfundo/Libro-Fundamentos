@@ -350,6 +350,13 @@ const thebe_selector_output = ".output, .cell_output"
    </span>
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -459,6 +466,41 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="rnr_LSTM_Intro.html">
    <span style="color:#F72585">
     Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
    </span>
   </a>
  </li>
@@ -1330,7 +1372,7 @@ P (x_{t + 1} \mid x_{t-1})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_9768\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_23876\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
   display.set_matplotlib_formats(&#39;svg&#39;)
 </pre></div>
 </div>
@@ -1371,11 +1413,11 @@ P (x_{t + 1} \mid x_{t-1})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([ 0.02366786,  0.20382579, -0.25526613,  0.01630448], dtype=float32), array([0.09116715], dtype=float32))
-(array([ 0.20382579, -0.25526613,  0.01630448,  0.09116715], dtype=float32), array([0.11317892], dtype=float32))
-(array([-0.25526613,  0.01630448,  0.09116715,  0.11317892], dtype=float32), array([0.39295948], dtype=float32))
-(array([0.01630448, 0.09116715, 0.11317892, 0.39295948], dtype=float32), array([-0.30989325], dtype=float32))
-(array([ 0.09116715,  0.11317892,  0.39295948, -0.30989325], dtype=float32), array([0.09720998], dtype=float32))
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([-0.04888723,  0.17735621,  0.01595857,  0.28626338], dtype=float32), array([0.07034599], dtype=float32))
+(array([0.17735621, 0.01595857, 0.28626338, 0.07034599], dtype=float32), array([-0.08152123], dtype=float32))
+(array([ 0.01595857,  0.28626338,  0.07034599, -0.08152123], dtype=float32), array([0.26217294], dtype=float32))
+(array([ 0.28626338,  0.07034599, -0.08152123,  0.26217294], dtype=float32), array([0.12323584], dtype=float32))
+(array([ 0.07034599, -0.08152123,  0.26217294,  0.12323584], dtype=float32), array([0.2230466], dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -1443,19 +1485,19 @@ P (x_{t + 1} \mid x_{t-1})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 1, loss: 2.038731
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 1, loss: 0.926052
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 2, loss: 1.263166
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 2, loss: 0.483714
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 3, loss: 0.820809
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 3, loss: 0.245925
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 4, loss: 0.570293
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 4, loss: 0.134426
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 5, loss: 0.429207
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch 5, loss: 0.088005
 </pre></div>
 </div>
 </div>
@@ -1479,7 +1521,7 @@ a saber, la <em>predicción de un paso adelante</em>.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_9768\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_23876\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
   display.set_matplotlib_formats(&#39;svg&#39;)
 </pre></div>
 </div>
@@ -1532,7 +1574,7 @@ a saber, la <em>predicción de un paso adelante</em>.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_9768\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_23876\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
   display.set_matplotlib_formats(&#39;svg&#39;)
 </pre></div>
 </div>
@@ -1583,7 +1625,7 @@ calculando predicciones sobre la secuencia completa para <span class="math notra
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_9768\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\User\AppData\Local\Temp\ipykernel_23876\3944349111.py:8: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
   display.set_matplotlib_formats(&#39;svg&#39;)
 </pre></div>
 </div>

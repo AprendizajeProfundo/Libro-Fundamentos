@@ -350,6 +350,13 @@ const thebe_selector_output = ".output, .cell_output"
    </span>
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -459,6 +466,41 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
    <span style="color:#F72585">
     Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
    </span>
   </a>
  </li>
@@ -1701,49 +1743,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
@@ -1758,70 +1761,163 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>......
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..
 Hecho
 Resultados finales de pérdida y exactitud
 </pre></div>
@@ -1854,42 +1950,42 @@ Resultados finales de pérdida y exactitud
   <tbody>
     <tr>
       <th>195</th>
-      <td>0.286033</td>
-      <td>0.898148</td>
-      <td>0.328785</td>
+      <td>0.356077</td>
+      <td>0.851852</td>
+      <td>0.307717</td>
       <td>0.916667</td>
       <td>195</td>
     </tr>
     <tr>
       <th>196</th>
-      <td>0.262377</td>
-      <td>0.898148</td>
-      <td>0.329464</td>
+      <td>0.318904</td>
+      <td>0.879630</td>
+      <td>0.307724</td>
       <td>0.916667</td>
       <td>196</td>
     </tr>
     <tr>
       <th>197</th>
-      <td>0.216715</td>
+      <td>0.277614</td>
+      <td>0.888889</td>
+      <td>0.305931</td>
       <td>0.916667</td>
-      <td>0.337052</td>
-      <td>0.750000</td>
       <td>197</td>
     </tr>
     <tr>
       <th>198</th>
-      <td>0.240257</td>
-      <td>0.898148</td>
-      <td>0.338265</td>
-      <td>0.750000</td>
+      <td>0.261583</td>
+      <td>0.888889</td>
+      <td>0.303785</td>
+      <td>0.916667</td>
       <td>198</td>
     </tr>
     <tr>
       <th>199</th>
-      <td>0.268288</td>
+      <td>0.285054</td>
       <td>0.870370</td>
-      <td>0.336944</td>
-      <td>0.750000</td>
+      <td>0.302396</td>
+      <td>0.916667</td>
       <td>199</td>
     </tr>
   </tbody>
@@ -1952,7 +2048,7 @@ Resultados finales de pérdida y exactitud
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 133ms/step
+1/1 [==============================] - 0s 240ms/step
 </pre></div>
 </div>
 </div>
@@ -2005,16 +2101,16 @@ Resultados finales de pérdida y exactitud
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.  , 0.01, 0.99],
-       [0.47, 0.52, 0.01],
-       [0.  , 0.41, 0.58],
-       [0.76, 0.24, 0.01],
-       [1.  , 0.  , 0.  ],
-       [0.98, 0.02, 0.  ],
-       [1.  , 0.  , 0.  ],
-       [0.  , 0.01, 0.99],
-       [0.01, 0.93, 0.06],
-       [1.  , 0.  , 0.  ]], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.  , 0.  , 1.  ],
+       [0.59, 0.39, 0.02],
+       [0.  , 0.32, 0.68],
+       [0.81, 0.18, 0.01],
+       [0.91, 0.08, 0.  ],
+       [0.91, 0.08, 0.  ],
+       [0.91, 0.08, 0.  ],
+       [0.  , 0.  , 1.  ],
+       [0.  , 0.88, 0.12],
+       [0.91, 0.08, 0.  ]], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -2052,7 +2148,7 @@ Resultados finales de pérdida y exactitud
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-4/4 [==============================] - 0s 0s/step
+4/4 [==============================] - 0s 5ms/step
 </pre></div>
 </div>
 </div>
@@ -2127,102 +2223,102 @@ Resultados finales de pérdida y exactitud
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.000000</td>
-      <td>0.0</td>
-      <td>1.374788</td>
+      <td>0.595804</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>2.723455</td>
-      <td>0.0</td>
+      <td>0.339116</td>
+      <td>0.076414</td>
+      <td>5.210826</td>
+      <td>1.301694</td>
       <td>0.000000</td>
+      <td>1.812386</td>
       <td>0.000000</td>
+      <td>4.008091</td>
+      <td>0.464635</td>
+      <td>7.058684</td>
+      <td>3.973451</td>
       <td>0.000000</td>
-      <td>0.941284</td>
-      <td>4.343592</td>
-      <td>0.534523</td>
-      <td>0.944148</td>
-      <td>2.115942</td>
-      <td>0.000000</td>
+      <td>5.071805</td>
       <td>2.0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.053762</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>1.860210</td>
-      <td>0.394894</td>
-      <td>0.089317</td>
-      <td>0.0</td>
-      <td>0.517509</td>
-      <td>0.192589</td>
-      <td>0.260977</td>
-      <td>0.283684</td>
-      <td>0.192213</td>
-      <td>0.667389</td>
+      <td>0.242695</td>
+      <td>0.166379</td>
       <td>0.000000</td>
+      <td>0.667097</td>
+      <td>0.212840</td>
       <td>0.000000</td>
-      <td>0.874562</td>
+      <td>0.683829</td>
+      <td>0.000000</td>
+      <td>0.667696</td>
+      <td>0.204219</td>
+      <td>0.000000</td>
+      <td>0.390383</td>
+      <td>0.128503</td>
+      <td>0.118723</td>
+      <td>0.317416</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>2</th>
+      <td>0.173337</td>
+      <td>0.069638</td>
       <td>0.000000</td>
-      <td>0.0</td>
-      <td>0.360871</td>
-      <td>0.406167</td>
+      <td>0.001982</td>
+      <td>0.410923</td>
+      <td>2.344948</td>
+      <td>0.513256</td>
+      <td>0.067906</td>
+      <td>0.624839</td>
+      <td>0.253278</td>
+      <td>1.831339</td>
+      <td>0.198072</td>
+      <td>3.317308</td>
+      <td>1.766144</td>
       <td>0.000000</td>
-      <td>0.982881</td>
-      <td>0.0</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.547047</td>
-      <td>1.833686</td>
-      <td>0.499430</td>
-      <td>0.224389</td>
-      <td>0.760807</td>
-      <td>0.000000</td>
+      <td>2.347900</td>
       <td>2.0</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.153719</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>1.967808</td>
-      <td>0.588003</td>
-      <td>0.031781</td>
-      <td>0.0</td>
-      <td>0.743458</td>
-      <td>0.300119</td>
-      <td>0.390270</td>
-      <td>0.210266</td>
-      <td>0.062595</td>
-      <td>0.503054</td>
-      <td>0.057431</td>
+      <td>0.247351</td>
+      <td>0.255774</td>
       <td>0.000000</td>
-      <td>1.027022</td>
+      <td>0.667080</td>
+      <td>0.101341</td>
+      <td>0.000000</td>
+      <td>0.707954</td>
+      <td>0.000000</td>
+      <td>0.680460</td>
+      <td>0.105888</td>
+      <td>0.000000</td>
+      <td>0.193972</td>
+      <td>0.024393</td>
+      <td>0.166143</td>
+      <td>0.145486</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1.000940</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>5.119348</td>
-      <td>3.220527</td>
-      <td>0.179739</td>
-      <td>0.0</td>
-      <td>3.354566</td>
-      <td>1.835169</td>
-      <td>1.989172</td>
+      <td>0.245993</td>
+      <td>0.347222</td>
+      <td>0.000000</td>
+      <td>0.639631</td>
       <td>0.000000</td>
       <td>0.000000</td>
+      <td>0.730347</td>
       <td>0.000000</td>
-      <td>1.805765</td>
+      <td>0.686948</td>
       <td>0.000000</td>
-      <td>4.067520</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.179519</td>
+      <td>0.000000</td>
       <td>0.0</td>
     </tr>
     <tr>
@@ -2248,101 +2344,101 @@ Resultados finales de pérdida y exactitud
     <tr>
       <th>115</th>
       <td>0.000000</td>
-      <td>0.0</td>
-      <td>0.000000</td>
-      <td>1.240160</td>
-      <td>0.000000</td>
-      <td>0.324855</td>
-      <td>0.0</td>
+      <td>0.228051</td>
       <td>0.000000</td>
       <td>0.000000</td>
+      <td>0.712288</td>
+      <td>0.570997</td>
       <td>0.000000</td>
-      <td>0.505302</td>
-      <td>0.684322</td>
-      <td>0.850945</td>
+      <td>0.569060</td>
       <td>0.000000</td>
+      <td>0.632626</td>
+      <td>0.654038</td>
       <td>0.000000</td>
-      <td>0.326713</td>
+      <td>1.127714</td>
+      <td>0.398548</td>
+      <td>0.125362</td>
+      <td>0.783992</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>116</th>
       <td>0.000000</td>
-      <td>0.0</td>
+      <td>0.232330</td>
+      <td>0.031854</td>
       <td>0.000000</td>
-      <td>1.320520</td>
+      <td>0.698358</td>
+      <td>0.464140</td>
       <td>0.000000</td>
-      <td>0.251957</td>
-      <td>0.0</td>
+      <td>0.603313</td>
       <td>0.000000</td>
+      <td>0.643005</td>
+      <td>0.519526</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.478524</td>
-      <td>0.569010</td>
-      <td>0.864991</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.390687</td>
+      <td>0.907442</td>
+      <td>0.318200</td>
+      <td>0.122872</td>
+      <td>0.644950</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>117</th>
-      <td>0.053762</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>1.860210</td>
-      <td>0.394894</td>
-      <td>0.089317</td>
-      <td>0.0</td>
-      <td>0.517509</td>
-      <td>0.192589</td>
-      <td>0.260977</td>
-      <td>0.283684</td>
-      <td>0.192213</td>
-      <td>0.667389</td>
+      <td>0.242695</td>
+      <td>0.166379</td>
       <td>0.000000</td>
+      <td>0.667097</td>
+      <td>0.212840</td>
       <td>0.000000</td>
-      <td>0.874562</td>
+      <td>0.683829</td>
+      <td>0.000000</td>
+      <td>0.667696</td>
+      <td>0.204219</td>
+      <td>0.000000</td>
+      <td>0.390383</td>
+      <td>0.128503</td>
+      <td>0.118723</td>
+      <td>0.317416</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>118</th>
-      <td>0.053762</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>1.860210</td>
-      <td>0.394894</td>
-      <td>0.089317</td>
-      <td>0.0</td>
-      <td>0.517509</td>
-      <td>0.192589</td>
-      <td>0.260977</td>
-      <td>0.283684</td>
-      <td>0.192213</td>
-      <td>0.667389</td>
+      <td>0.242695</td>
+      <td>0.166379</td>
       <td>0.000000</td>
+      <td>0.667097</td>
+      <td>0.212840</td>
       <td>0.000000</td>
-      <td>0.874562</td>
+      <td>0.683829</td>
+      <td>0.000000</td>
+      <td>0.667696</td>
+      <td>0.204219</td>
+      <td>0.000000</td>
+      <td>0.390383</td>
+      <td>0.128503</td>
+      <td>0.118723</td>
+      <td>0.317416</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>119</th>
-      <td>0.053762</td>
-      <td>0.0</td>
       <td>0.000000</td>
-      <td>1.860210</td>
-      <td>0.394894</td>
-      <td>0.089317</td>
-      <td>0.0</td>
-      <td>0.517509</td>
-      <td>0.192589</td>
-      <td>0.260977</td>
-      <td>0.283684</td>
-      <td>0.192213</td>
-      <td>0.667389</td>
+      <td>0.242695</td>
+      <td>0.166379</td>
       <td>0.000000</td>
+      <td>0.667097</td>
+      <td>0.212840</td>
       <td>0.000000</td>
-      <td>0.874562</td>
+      <td>0.683829</td>
+      <td>0.000000</td>
+      <td>0.667696</td>
+      <td>0.204219</td>
+      <td>0.000000</td>
+      <td>0.390383</td>
+      <td>0.128503</td>
+      <td>0.118723</td>
+      <td>0.317416</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -2370,15 +2466,15 @@ Resultados finales de pérdida y exactitud
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[t-SNE] Computing 119 nearest neighbors...
 [t-SNE] Indexed 120 samples in 0.000s...
-[t-SNE] Computed neighbors for 120 samples in 0.002s...
+[t-SNE] Computed neighbors for 120 samples in 0.016s...
 [t-SNE] Computed conditional probabilities for sample 120 / 120
-[t-SNE] Mean sigma: 2.173106
+[t-SNE] Mean sigma: 1.164720
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[t-SNE] KL divergence after 250 iterations with early exaggeration: 48.574368
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[t-SNE] KL divergence after 250 iterations with early exaggeration: 48.293922
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[t-SNE] KL divergence after 1000 iterations: 0.028466
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[t-SNE] KL divergence after 1000 iterations: 0.030992
 </pre></div>
 </div>
 </div>
@@ -2401,7 +2497,7 @@ Resultados finales de pérdida y exactitud
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x211caee41c0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x168a44dce20&gt;
 </pre></div>
 </div>
 <img alt="../../_images/am-softmax-keras-iris_58_1.png" src="../../_images/am-softmax-keras-iris_58_1.png" />
