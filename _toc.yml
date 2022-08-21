@@ -19,9 +19,10 @@ parts:
     - file: Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion
 - caption: Álgebra Lineal
   chapters:
-  - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I
-  - file: Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II
-  - file: Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob
+  - file: Fundamentacion_Matematica/Cuadernos/t1
+  - file: Fundamentacion_Matematica/Cuadernos/t2
+  - file: Fundamentacion_Matematica/Cuadernos/t3
+  - file: Fundamentacion_Matematica/Cuadernos/t4
 - caption: Modelación
   chapters:
   - file: Fundamentacion_Matematica/Cuadernos/mod_Modelamiento
@@ -46,7 +47,7 @@ parts:
   - file: Machine_Learning/Cuadernos/ACP
   - file: Machine_Learning/Cuadernos/ACS
   - file: Machine_Learning/Cuadernos/ACM
-  #- file: Machine_Learning/Cuadernos/Agrupamiento
+  - file: Machine_Learning/Cuadernos/Agrupamiento
 - caption: Mapas auto-organizados (SOM)
   chapters:
   - file: Machine_Learning/Cuadernos/som_Introduccion
@@ -72,6 +73,9 @@ parts:
   - file: Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro
   - file: Redes_Recurrentes/Cuadernos/rnr_GRU_Intro
   - file: Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm
+  - file: Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout
+  - file: Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout
+  - file: Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple
 #- caption: Autocodificadores
   #chapters:
   #- file: Autocodificadores/Cuadernos/ae_Example_Dense_mnist
