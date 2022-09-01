@@ -1,0 +1,2787 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Redes LSTM (Long Short Term Memory Networks) &#8212; Fundamentos de IA y AP</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Redes GRU (Gated Recurrent Unit)" href="rnr_GRU_Intro.html" />
+    <link rel="prev" title="Introducción a Redes Neuronales Recurrentes" href="rnn_Intro_Redes_Recurrentes.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="es">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo-final-ap.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fundamentos de IA y AP</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../tutorial.html">
+                    <span style="color:#F72585">Bienvenido(a)</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Conociendo el libro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Inicio/Cuadernos/Consideraciones.html">
+   <span style="color:#F72585">
+    Conociendo el Libro
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentos de Estadística
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos.html">
+   <span style="color:#F72585">
+    Probabilidad
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias.html">
+   <span style="color:#F72585">
+    Variables Aleatorias
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta.html">
+   <span style="color:#F72585">
+    Probabilidad Conjunta y Entropía Cruzada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas.html">
+   <span style="color:#F72585">
+    Distribuciones de probabilidad continuas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Regresi%C3%B3n-Lineal-Pyton-Copy1.html">
+   <span style="color:#F72585">
+    Regresión Lineal en Python
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Teoría de la Información
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html">
+   <span style="color:#F72585">
+    Teoría de la Información
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Álgebra Lineal
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I.html">
+   <span style="color:#F72585">
+    Introducción a tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II.html">
+   <span style="color:#F72585">
+    Tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob.html">
+   <span style="color:#F72585">
+    Tensores y distribuciones de probabilidad
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Modelación
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelos
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Ejemplo_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelamiento
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/cal_derivadas.html">
+   <span style="color:#F72585">
+    Introducción a la Derivación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_1.html">
+   <span style="color:#F72585">
+    Optimización univariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_2.html">
+   <span style="color:#F72585">
+    Optimización multivariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/am-sdg.html">
+   <span style="color:#F72585">
+    Optimización
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_intro_aprendizaje_maquinas.html">
+   <span style="color:#F72585">
+    Conceptos básicos de aprendizaje de máquinas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_logistica_JAX.html">
+   <span style="color:#F72585">
+    Modelo Lineal de Clasificación  con JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_Logistica_Tensorflow.html">
+   <span style="color:#F72585">
+    Modelo Logístico de Clasificación  con Tensorflow 2.X
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_regresion_Keras.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am-logistico-keras-cancer.html">
+   <span style="color:#F72585">
+    Modelo logístico de predicción en tf.keras
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas no supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/BreveIntroduccion2R.html">
+   <span style="color:#F72585">
+    Breve introducción a R
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/AprendizajeNoSupervisado.html">
+   <span style="color:#F72585">
+    Aprendizaje no supervisado
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACP.html">
+   <span style="color:#F72585">
+    Análisis en componentes principales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACS.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias simples
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACM.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias múltiples (ACM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mapas auto-organizados (SOM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/som_Introduccion.html">
+   <span style="color:#F72585">
+    Mapas Auto-organizados (SOM)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Neuronales
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/RedesNeuronales_intro.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Activation_Functions.html">
+   <span style="color:#F72585">
+    Funciones de Activación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Hello_World_ML.html">
+   <span style="color:#F72585">
+    Introducción a Keras Sequential y API Funcional
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Sequential.html">
+   <span style="color:#F72585">
+    Introducción a la API Sequential de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Functional.html">
+   <span style="color:#F72585">
+    Introducción a la API funcional de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-softmax-keras-iris.html">
+   <span style="color:#F72585">
+    Clasificación, Softmax, Iris
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-subclassing-iris.html">
+   <span style="color:#F72585">
+    Subclassing-Modelo de Regresión multi-logística
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/NN_Animation2.html">
+   <span style="color:#F72585">
+    Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/AprendizajeProfundo/Libro-Fundamentos/main?urlpath=tree/Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/AprendizajeProfundo/Libro-Fundamentos/blob/main/Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/issues/new?title=Issue%20on%20page%20%2FRedes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/edit/main/Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-el-problema-de-las-dependencias-a-largo-plazo-span">
+   <span style="color:#4361EE">
+    El problema de las dependencias a largo plazo
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-dependencias-a-corto-plazo-span">
+     <span style="color:#4CC9F0">
+      Dependencias a corto plazo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-contexto-a-mas-largo-plazo-span">
+     <span style="color:#4CC9F0">
+      Contexto a más largo plazo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-el-problema-del-gradiente-que-se-desvanece-o-explota-span">
+     <span style="color:#4CC9F0">
+      El problema del gradiente que se desvanece o explota
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-redes-lstm-span">
+   <span style="color:#4361EE">
+    Redes LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-la-idea-central-detras-de-las-redes-lstm-span">
+   <span style="color:#4361EE">
+    La idea central detras de las redes LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-caminando-a-lo-largo-de-una-red-lstm-paso-a-paso-span">
+   <span style="color:#4361EE">
+    Caminando a lo largo de una red LSTM. Paso a paso
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-puerta-de-olvido-span">
+     <span style="color:#4CC9F0">
+      Puerta de olvido
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-puerta-de-entrada-span">
+     <span style="color:#4CC9F0">
+      Puerta de entrada
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-actualizacion-del-estado-de-la-celda-span">
+     <span style="color:#4CC9F0">
+      Actualización del estado de la celda
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-salida-span">
+     <span style="color:#4CC9F0">
+      Salida
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-estructura-matematica-de-una-red-lstm-span">
+   <span style="color:#4361EE">
+    &gt;Estructura Matemática de una red LSTM &lt;/span
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-calculo-del-numero-de-parametros-de-una-capa-lstm-span">
+   <span style="color:#4361EE">
+    Cálculo del número de parámetros de una capa LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-computacion-en-una-capa-lstm-de-keras-span">
+   <span style="color:#4361EE">
+    Computación  en una capa LSTM de Keras
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-span">
+     <span style="color:#4CC9F0">
+      Ejemplo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-recibiendo-toda-la-secuencia-del-valor-del-estado-oculto-span">
+     <span style="color:#4CC9F0">
+      Recibiendo toda la secuencia del valor del estado oculto
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-extraccion-de-los-pesos-de-la-capa-span">
+     <span style="color:#4CC9F0">
+      Extracción de los pesos de la capa
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1><span style="color:#F72585">Redes LSTM (Long Short Term Memory Networks)</span></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-el-problema-de-las-dependencias-a-largo-plazo-span">
+   <span style="color:#4361EE">
+    El problema de las dependencias a largo plazo
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-dependencias-a-corto-plazo-span">
+     <span style="color:#4CC9F0">
+      Dependencias a corto plazo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-contexto-a-mas-largo-plazo-span">
+     <span style="color:#4CC9F0">
+      Contexto a más largo plazo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-el-problema-del-gradiente-que-se-desvanece-o-explota-span">
+     <span style="color:#4CC9F0">
+      El problema del gradiente que se desvanece o explota
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-redes-lstm-span">
+   <span style="color:#4361EE">
+    Redes LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-la-idea-central-detras-de-las-redes-lstm-span">
+   <span style="color:#4361EE">
+    La idea central detras de las redes LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-caminando-a-lo-largo-de-una-red-lstm-paso-a-paso-span">
+   <span style="color:#4361EE">
+    Caminando a lo largo de una red LSTM. Paso a paso
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-puerta-de-olvido-span">
+     <span style="color:#4CC9F0">
+      Puerta de olvido
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-puerta-de-entrada-span">
+     <span style="color:#4CC9F0">
+      Puerta de entrada
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-actualizacion-del-estado-de-la-celda-span">
+     <span style="color:#4CC9F0">
+      Actualización del estado de la celda
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-salida-span">
+     <span style="color:#4CC9F0">
+      Salida
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-estructura-matematica-de-una-red-lstm-span">
+   <span style="color:#4361EE">
+    &gt;Estructura Matemática de una red LSTM &lt;/span
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-calculo-del-numero-de-parametros-de-una-capa-lstm-span">
+   <span style="color:#4361EE">
+    Cálculo del número de parámetros de una capa LSTM
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-computacion-en-una-capa-lstm-de-keras-span">
+   <span style="color:#4361EE">
+    Computación  en una capa LSTM de Keras
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-span">
+     <span style="color:#4CC9F0">
+      Ejemplo
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-recibiendo-toda-la-secuencia-del-valor-del-estado-oculto-span">
+     <span style="color:#4CC9F0">
+      Recibiendo toda la secuencia del valor del estado oculto
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-extraccion-de-los-pesos-de-la-capa-span">
+     <span style="color:#4CC9F0">
+      Extracción de los pesos de la capa
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-redes-lstm-long-short-term-memory-networks-span">
+<h1><span style="color:#F72585">Redes LSTM (Long Short Term Memory Networks)</span><a class="headerlink" href="#span-style-color-f72585-redes-lstm-long-short-term-memory-networks-span" title="Enlazar permanentemente con este título">#</a></h1>
+<section id="span-style-color-4361ee-introduccion-span">
+<h2><span style="color:#4361EE">Introducción</span><a class="headerlink" href="#span-style-color-4361ee-introduccion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Los humanos no comienzan a pensar desde cero cada segundo. A medida que usted lee este documento, comprende cada palabra en función de su comprensión de las palabras anteriores. No lee todo y empieza a pensar desde cero de nuevo. Sus pensamientos tienen persistencia.</p>
+<p>Las redes neuronales tradicionales no pueden hacer esto, lo parece una gran deficiencia. Por ejemplo, imagine que desea clasificar qué tipo de evento está ocurriendo en cada punto de una película. No está claro cómo una red neuronal tradicional podría usar su razonamiento sobre eventos anteriores en la película para informar a los posteriores.</p>
+<p>Las redes neuronales recurrentes (RNR) abordan este problema. Estas son redes con bucles que permiten que la información sea persistente.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/RNN-rolled-sm.png" width="200" height="400" align="center"/>
+</center>
+<figcaption>
+<p style="text-align:center">Diagrama enrrollado de un trozo de una red neuronal recurrente</p>
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>El diagrama anterior presenta un diagrama <em>enrrollado</em> de un trozo de una red neuronal. La neurona <span class="math notranslate nohighlight">\(A\)</span>, observa alguna entrada <span class="math notranslate nohighlight">\(x_t\)</span> y genera un valor <span class="math notranslate nohighlight">\(h_t\)</span>. Un bucle permite que la información trasite de un paso de la red al siguiente.</p>
+<p>Estos bucles hacen que las redes neuronales recurrentes parezcan misteriosas.</p>
+<p>Sin embargo, si piensa un poco más, resulta que no son tan diferentes de una red neuronal normal.</p>
+<p>Una red neuronal recurrente puede considerarse como copias múltiples de la misma red, cada una de las cuales pasa un mensaje a un sucesor. Considere lo que sucede si desenrollamos el bucle:</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/RNN-unrolled.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+<p style="text-align:center">Diagrama desenrrollado  de un trozo de una red neuronal recurrente </p>
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>Esta naturaleza en cadena revela que las redes neuronales recurrentes están íntimamente relacionadas con secuencias.</p>
+<p>Son la arquitectura natural de  red neuronal para usar con datos de naturaleza secuencial.</p>
+<p>Desde el punto de vista estadístico son procesos estocásticos. Más precisamente, cadenas de Markov (ocultas).</p>
+<p>En los últimos años, ha habido un éxito increíble aplicando RNR a una variedad de problemas:</p>
+<ol class="simple">
+<li><p>reconocimiento de voz,</p></li>
+<li><p>modelamiento de idiomas,</p></li>
+<li><p>traducción,</p></li>
+<li><p>subtitulado de imágenes</p></li>
+<li><p>… La lista continúa.</p></li>
+</ol>
+<p>Dejaré la discusión de las increíbles hazañas que uno puede lograr con los RNN en la excelente publicación de blog de Andrej Karpathy, La irrazonable efectividad de las redes neuronales recurrentes <a class="reference external" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">http://karpathy.github.io/2015/05/21/rnn-effectiveness/</a> . Pero realmente son bastante asombrosos.</p>
+<p>Esencial para estos éxitos es el uso de redes de tipo <strong>LSTM</strong>, un tipo muy especial de red neuronal recurrente que funciona, para muchas tareas, mucho mejor que la versión estándar. Casi todos los resultados emocionantes basados en redes neuronales recurrentes se logran con ellas.</p>
+</section>
+<section id="span-style-color-4361ee-el-problema-de-las-dependencias-a-largo-plazo-span">
+<h2><span style="color:#4361EE">El problema de las dependencias a largo plazo</span><a class="headerlink" href="#span-style-color-4361ee-el-problema-de-las-dependencias-a-largo-plazo-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-dependencias-a-corto-plazo-span">
+<h3><span style="color:#4CC9F0">Dependencias a corto plazo</span><a class="headerlink" href="#span-style-color-4cc9f0-dependencias-a-corto-plazo-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Uno de los atractivos de las RNR es la idea de que podrían ser capaces de conectar información previa a la tarea actual, como el uso de fotogramas de video anteriores que podrían informar la comprensión del presente cuadro.</p>
+<p>Si las RNR pudieran hacer esto, serían extremadamente útiles. ¿Pero pueden hacerlo?</p>
+<p>Depende.</p>
+<p>A veces, solo necesitamos mirar información reciente para realizar la tarea actual. Por ejemplo, considere un modelo de lenguaje que intenta predecir la siguiente palabra en función de las anteriores.</p>
+<p>Si estamos tratando de predecir la última palabra en</p>
+<p><strong>las nubes están en el…</strong>,</p>
+<p>no necesitamos más contexto; es bastante obvio que la siguiente palabra será</p>
+<p><strong>cielo</strong>.</p>
+<p>En tales casos, en donde la brecha entre la información relevante y el lugar que se necesita es pequeña, las RNR pueden aprender a usar la información pasada.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/RNN-shorttermdepdencies.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+<p>RNR: dependencias de corto plazo. <span class="math notranslate nohighlight">\(h_3\)</span> depende de <span class="math notranslate nohighlight">\(x_0, x_1,x_3,x_4\)</span></p>
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>Pero también hay casos en los que necesitamos más contexto.</p>
+</section>
+<section id="span-style-color-4cc9f0-contexto-a-mas-largo-plazo-span">
+<h3><span style="color:#4CC9F0">Contexto a más largo plazo</span><a class="headerlink" href="#span-style-color-4cc9f0-contexto-a-mas-largo-plazo-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Consideremos el problema de  tratar de predecir la última palabra en el texto</p>
+<p><strong>«Crecí en Francia … hablo francés con fluidez»</strong>.</p>
+<p>La información reciente sugiere que la siguiente palabra es probablemente el nombre de un idioma, pero si queremos limitar qué idioma, necesitamos el contexto de Francia, desde más atrás.</p>
+<p>Es completamente posible que la brecha entre la información relevante y el punto donde se necesita sea muy grande.</p>
+<p>Desafortunadamente, a medida que crece esa brecha, los RNN no pueden aprender a conectar la información.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/RNN-longtermdependencies.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+<p style="text-align:center">
+<p>RNR: dependencias de largo plazo. <span class="math notranslate nohighlight">\(h_{t+1}\)</span> depende de <span class="math notranslate nohighlight">\(x_0, x_1\)</span></p>
+</p>
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>Las redes neuronales luchan con dependencias a largo plazo. En teoría, los RNR son absolutamente capaces de manejar tales «dependencias a largo plazo».</p>
+<p>Un humano podría elegir cuidadosamente los parámetros para resolver problemas de juguetes de esta forma.</p>
+<p>Lamentablemente, en la práctica, los RNR no parecen poder aprenderlos.</p>
+</section>
+<section id="span-style-color-4cc9f0-el-problema-del-gradiente-que-se-desvanece-o-explota-span">
+<h3><span style="color:#4CC9F0">El problema del gradiente que se desvanece o explota</span><a class="headerlink" href="#span-style-color-4cc9f0-el-problema-del-gradiente-que-se-desvanece-o-explota-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>El problema fue explorado en profundidad por Hochreiter (1991) y Bengio, et al. (1994), quienes encontraron algunas razones fundamentales por las cuales podría ser difícil.</p>
+<p>El problema fundamental mostrado por Hochreiter es que el <strong>gradiente tiende a desaparecer o explotar</strong> cuando en la RNR se calcula las transformaciones afines y se aplica la función de activación (el sigmoide) sobre las mismas matrices y vectores. Ver referencia 2 para más detalles.</p>
+<p>¡Afortunadamente, los LSTM no tienen este problema!</p>
+</section>
+</section>
+<section id="span-style-color-4361ee-redes-lstm-span">
+<h2><span style="color:#4361EE">Redes LSTM </span><a class="headerlink" href="#span-style-color-4361ee-redes-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Las redes de memoria a corto y largo plazo, generalmente llamadas «LSTM», son un tipo especial de RNR, capaces de aprender
+dependencias a largo plazo.</p>
+<p>Fueron introducidos por <a class="reference external" href="https://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter y Schmidhuber (1997)</a>, y fueron refinadas y popularizadas por muchas personas en trabajos posteriores.</p>
+<p>Funcionan tremendamente bien en una gran variedad de problemas, y ahora son ampliamente utilizadas.</p>
+<p>Las redes LSTM están diseñadas explícitamente para resolver el problema de dependencia a largo plazo.</p>
+<ul class="simple">
+<li><p><strong>Recordar información durante largos períodos de tiempo es prácticamente su comportamiento predeterminado, ¡no es algo que les cuesta aprender!</strong></p></li>
+</ul>
+<p>Todas las redes neuronales recurrentes tienen la forma de una cadena de módulos repetitivos de red neuronal.</p>
+<p>En los RNR estándar, este módulo repetitivo tendrá una estructura muy simple, como una sola capa de <span class="math notranslate nohighlight">\(\tanh\)</span>.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-SimpleRNN.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+El módulo de repetición en una RNR estándar con una sola capa.
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>Las redes LSTM también tienen esta estructura tipo cadena, pero el módulo de repetición tiene una estructura diferente. En lugar de tener una sola capa de red neuronal, hay cuatro que interactúan de una manera muy especial.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-chain.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+El módulo de repetición en una red LSTM  con cuatro capas interactuando.
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>No se preocupe por los detalles de lo que está sucediendo. Recorreremos el diagrama LSTM paso a paso más adelante. Por ahora, intentemos sentirnos cómodos con la notación que usaremos.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM2-notation_1.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+Nomenclatura de los objetos en las redes LSTM 
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>En el diagrama anterior, cada línea transporta un vector completo, desde la salida de un nodo hasta las entradas de otros. Los círculos de color rosa representan operaciones puntuales, como la suma de vectores, mientras que los cuadros amarillos son capas de redes neuronales aprendidas. La fusión de líneas denota concatenación, mientras que una bifurcación de línea denota que su contenido se copia y las copias van a diferentes ubicaciones.</p>
+</section>
+<section id="span-style-color-4361ee-la-idea-central-detras-de-las-redes-lstm-span">
+<h2><span style="color:#4361EE">La idea central detras de las redes LSTM</span><a class="headerlink" href="#span-style-color-4361ee-la-idea-central-detras-de-las-redes-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>La clave para las redes LSTM es el estado de la celda, la línea horizontal que pasa por la parte superior del diagrama.</p>
+<p>El estado de la celda es como una cinta transportadora. Corre directamente por toda la cadena, con solo algunas interacciones lineales menores. Es muy fácil que la información fluya sin cambios.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-C-line.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+Banda transportadora  en las redes LSTM 
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>Una red LSTM tiene la capacidad de eliminar o agregar información al estado de la célula, cuidadosamente regulada por estructuras llamadas puertas.</p>
+<p>Las puertas son una forma opcional de dejar pasar la información. Se componen de una capa de red neuronal con activación  sigmoide y una operación de multiplicación puntual.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-gate.png" width="200" height="200" align="center"/>
+</center>
+<figcaption>
+Puerta  en una red LSTM 
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+<p>La capa sigmoide genera números entre cero y uno, que describe la cantidad de cada componente que debe dejarse pasar.</p>
+<ul class="simple">
+<li><p>Un valor de cero significa <strong>no dejar pasar nada</strong>,</p></li>
+<li><p>mientras que un valor de uno significa <strong>dejar pasar todo</strong>.</p></li>
+</ul>
+<p>Un red LSTM tiene tres de estas puertas, para proteger y controlar el estado de la neurona.</p>
+</section>
+<section id="span-style-color-4361ee-caminando-a-lo-largo-de-una-red-lstm-paso-a-paso-span">
+<h2><span style="color:#4361EE"> Caminando a lo largo de una red LSTM. Paso a paso</span><a class="headerlink" href="#span-style-color-4361ee-caminando-a-lo-largo-de-una-red-lstm-paso-a-paso-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-puerta-de-olvido-span">
+<h3><span style="color:#4CC9F0">Puerta de olvido</span><a class="headerlink" href="#span-style-color-4cc9f0-puerta-de-olvido-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>El primer paso en nuestra red LSTM es decidir qué información vamos a tirar del estado de la celda. Esta decisión la toma una capa sigmoidea llamada <strong>capa de puerta de olvido</strong>. Se recibe <span class="math notranslate nohighlight">\( h_{t − 1} \)</span> y <span class="math notranslate nohighlight">\( x_t \)</span>, y se genera un número entre 0 y 1 para cada número en el estado de celda <span class="math notranslate nohighlight">\( C_{t − 1} \)</span>. Un 1 representa <strong>mantener completamente esto</strong> mientras que un 0 representa <strong>deshacerse completamente de esto</strong>.</p>
+<p>Volvamos a nuestro ejemplo de un modelo de lenguaje que intenta predecir la siguiente palabra en función de todas las anteriores.</p>
+<p>En tal problema, el estado de la celda puede incluir el género del sujeto presente, de modo que se puedan usar los pronombres correctos. Cuando vemos un tema nuevo, queremos olvidar el género del tema anterior.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-focus-f.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+Puerta  de olvido 
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+</section>
+<section id="span-style-color-4cc9f0-puerta-de-entrada-span">
+<h3><span style="color:#4CC9F0">Puerta de entrada</span><a class="headerlink" href="#span-style-color-4cc9f0-puerta-de-entrada-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>El siguiente paso es decidir qué nueva información vamos a almacenar en el estado de la celda. Esto tiene dos partes.</p>
+<ul class="simple">
+<li><p>Primero, una capa sigmoidea llamada <strong>puerta de entrada</strong> decide qué valores actualizaremos.</p></li>
+<li><p>Luego, una capa de <span class="math notranslate nohighlight">\(\tanh\)</span> crea un vector de nuevos valores candidatos, <span class="math notranslate nohighlight">\(\tilde{C}_t\)</span>, que podrían agregarse al estado. En el siguiente paso, combinaremos estos dos para crear una actualización del estado.</p></li>
+</ul>
+<p>En el ejemplo de nuestro modelo de lenguaje, queremos agregar el género del nuevo sujeto al estado de la celda, para reemplazar el antiguo que estamos olvidando.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-focus-i.png" width="800" height="600" align="center"/>
+</center>
+<figcaption>
+Puerta  de entrada
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+</section>
+<section id="span-style-color-4cc9f0-actualizacion-del-estado-de-la-celda-span">
+<h3><span style="color:#4CC9F0">Actualización del estado de la celda</span><a class="headerlink" href="#span-style-color-4cc9f0-actualizacion-del-estado-de-la-celda-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Ahora es el momento de actualizar el estado de la celda anterior, <span class="math notranslate nohighlight">\( C_{t − 1} \)</span>, en el nuevo estado de la celda <span class="math notranslate nohighlight">\( C_t \)</span>. Los pasos anteriores ya decidieron qué hacer, solo tenemos que hacerlo.</p>
+<p>Multiplicamos el estado anterior por <span class="math notranslate nohighlight">\( f_t \)</span>, olvidando las cosas que decidimos olvidar antes. Luego agregamos <span class="math notranslate nohighlight">\( i_t \times \tilde{C}_t \)</span>. Estos son los nuevos valores candidatos, escalados según cuánto decidimos actualizar cada valor de estado.</p>
+<p>En el caso del modelo de lenguaje, aquí es donde realmente soltaríamos la información sobre el género del sujeto anterior y agreguemos la nueva información, como decidimos en los pasos anteriores.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-focus-C.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+Actualización del estado de la celda
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+</section>
+<section id="span-style-color-4cc9f0-salida-span">
+<h3><span style="color:#4CC9F0">Salida</span><a class="headerlink" href="#span-style-color-4cc9f0-salida-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Finalmente, tenemos que decidir qué vamos a generar. Esta salida se basará en nuestro estado de celda, pero será una versión filtrada. Primero, ejecutamos una capa sigmoidea que decide qué partes del estado de la celda vamos a generar. Luego, ponemos el estado de la celda a través de tanh (para empujar los valores a estar entre -1 y 1) y lo multiplicamos por la salida de la puerta sigmoidea, de modo que solo produzcamos las partes que decidimos.</p>
+<p>Para el ejemplo del modelo de lenguaje, dado que acaba de ver un tema, es posible que desee generar información relevante para un verbo, en caso de que eso sea lo que viene a continuación. Por ejemplo, podría generar si el sujeto es singular o plural, de modo que sepamos en qué forma se debe conjugar un verbo si eso es lo que sigue a continuación.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/LSTM3-focus-o.png" width="800" height="300" align="center"/>
+</center>
+<figcaption>
+Salida
+</figcaption>
+</figure>
+<p>Imagen tomada de <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
+</section>
+</section>
+<section id="span-style-color-4361ee-estructura-matematica-de-una-red-lstm-span">
+<h2><span style="color:#4361EE">&gt;Estructura Matemática de una red LSTM &lt;/span<a class="headerlink" href="#span-style-color-4361ee-estructura-matematica-de-una-red-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>En una red neuronal LSTM, cada puerta es una RNA. Una capa LSTM tiene varios bloques y cada bloque tiene dos salidas: <span class="math notranslate nohighlight">\( C_t \)</span>, el estado actualizado de la celda y <span class="math notranslate nohighlight">\( h_t \)</span>, el estado oculto actualizado.</p>
+<p><span class="math notranslate nohighlight">\( C_t \)</span> se actualiza de la siguiente manera</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f_t &amp;= \sigma(W_f\cdot [h_{t-1}, x_t] + b_f)\\
+i_t &amp;= \sigma(W_i\cdot [h_{t-1}, x_t] + b_i)\\
+\tilde{C}_t &amp;= \tanh(W_c\cdot [h_{t-1}, x_t] + b_c)\\
+C_t &amp;= f_t \odot C_{t-1} + i_t\odot  \tilde{C}_t,\\
+\end{align*}
+\end{split}\]</div>
+<p>donde <span class="math notranslate nohighlight">\( \odot \)</span> es el producto de Hadamard o producto puntual de vectores.</p>
+<p>Por otro lado, <span class="math notranslate nohighlight">\( h_t \)</span> se actualiza después de que <span class="math notranslate nohighlight">\( C_t \)</span> se haya actualizado de la siguiente manera</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+o_t &amp;= \sigma(W_o\cdot [h_{t-1}, x_t] + b_o)\\
+h_t &amp;=  o_t \odot \tanh(C_t).\\
+\end{align*}
+\end{split}\]</div>
+<p>Estas son las ecuaciones requeridas para calcular el gradiente de los parámetros de una capa LSTM.</p>
+</section>
+<section id="span-style-color-4361ee-calculo-del-numero-de-parametros-de-una-capa-lstm-span">
+<h2><span style="color:#4361EE">Cálculo del número de parámetros de una capa LSTM</span><a class="headerlink" href="#span-style-color-4361ee-calculo-del-numero-de-parametros-de-una-capa-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Supongamos que el tamaño de entrada es <span class="math notranslate nohighlight">\(n\)</span> y que el tamaño de salida de la capa LSTM es <em>p</em>.</p>
+<p>Entonces <span class="math notranslate nohighlight">\(h\)</span> que es la salida tiene tamaño <em>p</em> y <span class="math notranslate nohighlight">\(x\)</span> tiene tamaño <em>n</em>. Por lo tanto para que los operaciones indicadas puedan hacerse se requiere que</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_f\)</span>, <span class="math notranslate nohighlight">\(W_c\)</span>, <span class="math notranslate nohighlight">\(W_i\)</span> y <span class="math notranslate nohighlight">\(W_o\)</span> tienen tamaño <span class="math notranslate nohighlight">\(p\times (p+n)\)</span>. Osea en total <span class="math notranslate nohighlight">\(4(p*p  + p*n)\)</span>.</p></li>
+<li><p>Si se incluyen bias (que es lo común), son <span class="math notranslate nohighlight">\(4p\)</span> parámetros adicionales, y en total se tiene que</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\text{Número de parámetros capa LSTM } = 4(p^2+ pn +p)
+\]</div>
+<p>La siguiente imagen muestra la estructura típica de una compuerta en el modelo LSTM. Se ilustra la activación <em>sigmoide</em> y <em>tanh</em>, porque téngase en cuenta que en la compuerta de actualización la activación es <em>tanh</em>.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/compuerta_LSTM.jpg" width="800" height="600" align="center"/>
+</center>
+</figure>
+<p>Imagen: Alvaro Montenegro</p>
+<p>Finalmente, la siguiente imagen revela el plano de una capa neuronal de tipo LSTM</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Imagenes/plano_lstm.jpg" width="800" height="600" align="center"/>
+</center>
+</figure>
+<p>Imagen: Alvaro Montenegro</p>
+</section>
+<section id="span-style-color-4361ee-computacion-en-una-capa-lstm-de-keras-span">
+<h2><span style="color:#4361EE">Computación  en una capa LSTM de Keras</span><a class="headerlink" href="#span-style-color-4361ee-computacion-en-una-capa-lstm-de-keras-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Cualquier capa de Keras siempre espera un batch de datos. En el caso de una capa LSTM Keras espera tensores 3D de la siguiente forma</p>
+<ul class="simple">
+<li><p>[batch_size, time_step, feature]</p></li>
+</ul>
+<p>Por ejemplo un tensor de entrada de tamaño [32, 10, 8], la capa Keras lo interpreta como</p>
+<ul class="simple">
+<li><p>batch_size = 32, es decir 32 ejemplos.</p></li>
+<li><p>time_step = 10, es decir secuencias de entrada de tamaño 10. Por ejemplo en una serie de tiempo este es el tamaño de la ventana de entrada.</p></li>
+<li><p>feature = 8, es decir la variable de entrada es de tamaño 8. Por ejemplo, en series de timepo univariadas, feature = 1. En una serie multivariada con 8 variables, features = 8. En modelos de lenguaje natural feature = tamaño de representación de acada token. Usualmente correspondería al tamaño del embedding.</p></li>
+</ul>
+<p>La salida de la capa corresponde al tamaño del estado oculto. Por ejemplo, si el estado oculto tiene tamaño, la salida de la capa es de tamaño [batch_size, 4].</p>
+<section id="span-style-color-4cc9f0-ejemplo-span">
+<h3><span style="color:#4CC9F0">Ejemplo</span><a class="headerlink" href="#span-style-color-4cc9f0-ejemplo-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">32</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># lstm es una capa de tamaño de salidad 4.</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(32, 4)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-recibiendo-toda-la-secuencia-del-valor-del-estado-oculto-span">
+<h3><span style="color:#4CC9F0">Recibiendo toda la secuencia del valor del estado oculto</span><a class="headerlink" href="#span-style-color-4cc9f0-recibiendo-toda-la-secuencia-del-valor-del-estado-oculto-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>En algunos casos es necesario disponer del valor del estado oculto para cada valor en la secuenci de entrada. Esta secuencia tiene tamaño [batch_size, time_step, output_size]
+En el sugiente ejemplo se tiene que</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">return_sequences</span></code> son todos lo estados del estado oculto</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">return_state</span></code> es el último valor del estado oculto</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">final_carry_state</span></code> es el último valor de la banda transportadora</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">return_sequences</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">whole_seq_output</span><span class="p">,</span> <span class="n">final_memory_state</span><span class="p">,</span> <span class="n">final_carry_state</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">whole_seq_output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_memory_state</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_carry_state</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(32, 10, 4)
+(32, 4)
+(32, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">whole_seq_output</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">==</span> <span class="n">final_memory_state</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;tf.Tensor: shape=(32, 4), dtype=bool, numpy=
+array([[ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True],
+       [ True,  True,  True,  True]])&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-extraccion-de-los-pesos-de-la-capa-span">
+<h3><span style="color:#4CC9F0">Extracción de los pesos de la capa</span><a class="headerlink" href="#span-style-color-4cc9f0-extraccion-de-los-pesos-de-la-capa-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">lstm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on LSTM in module keras.layers.rnn.lstm object:
+
+class LSTM(keras.layers.rnn.dropout_rnn_cell_mixin.DropoutRNNCellMixin, keras.layers.rnn.base_rnn.RNN, keras.engine.base_layer.BaseRandomLayer)
+ |  LSTM(units, activation=&#39;tanh&#39;, recurrent_activation=&#39;sigmoid&#39;, use_bias=True, kernel_initializer=&#39;glorot_uniform&#39;, recurrent_initializer=&#39;orthogonal&#39;, bias_initializer=&#39;zeros&#39;, unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, return_sequences=False, return_state=False, go_backwards=False, stateful=False, time_major=False, unroll=False, **kwargs)
+ |  
+ |  Long Short-Term Memory layer - Hochreiter 1997.
+ |  
+ |  See [the Keras RNN API guide](https://www.tensorflow.org/guide/keras/rnn)
+ |  for details about the usage of RNN API.
+ |  
+ |  Based on available runtime hardware and constraints, this layer
+ |  will choose different implementations (cuDNN-based or pure-TensorFlow)
+ |  to maximize the performance. If a GPU is available and all
+ |  the arguments to the layer meet the requirement of the cuDNN kernel
+ |  (see below for details), the layer will use a fast cuDNN implementation.
+ |  
+ |  The requirements to use the cuDNN implementation are:
+ |  
+ |  1. `activation` == `tanh`
+ |  2. `recurrent_activation` == `sigmoid`
+ |  3. `recurrent_dropout` == 0
+ |  4. `unroll` is `False`
+ |  5. `use_bias` is `True`
+ |  6. Inputs, if use masking, are strictly right-padded.
+ |  7. Eager execution is enabled in the outermost context.
+ |  
+ |  For example:
+ |  
+ |  &gt;&gt;&gt; inputs = tf.random.normal([32, 10, 8])
+ |  &gt;&gt;&gt; lstm = tf.keras.layers.LSTM(4)
+ |  &gt;&gt;&gt; output = lstm(inputs)
+ |  &gt;&gt;&gt; print(output.shape)
+ |  (32, 4)
+ |  &gt;&gt;&gt; lstm = tf.keras.layers.LSTM(4, return_sequences=True, return_state=True)
+ |  &gt;&gt;&gt; whole_seq_output, final_memory_state, final_carry_state = lstm(inputs)
+ |  &gt;&gt;&gt; print(whole_seq_output.shape)
+ |  (32, 10, 4)
+ |  &gt;&gt;&gt; print(final_memory_state.shape)
+ |  (32, 4)
+ |  &gt;&gt;&gt; print(final_carry_state.shape)
+ |  (32, 4)
+ |  
+ |  Args:
+ |    units: Positive integer, dimensionality of the output space.
+ |    activation: Activation function to use.
+ |      Default: hyperbolic tangent (`tanh`). If you pass `None`, no activation
+ |      is applied (ie. &quot;linear&quot; activation: `a(x) = x`).
+ |    recurrent_activation: Activation function to use for the recurrent step.
+ |      Default: sigmoid (`sigmoid`). If you pass `None`, no activation is
+ |      applied (ie. &quot;linear&quot; activation: `a(x) = x`).
+ |    use_bias: Boolean (default `True`), whether the layer uses a bias vector.
+ |    kernel_initializer: Initializer for the `kernel` weights matrix, used for
+ |      the linear transformation of the inputs. Default: `glorot_uniform`.
+ |    recurrent_initializer: Initializer for the `recurrent_kernel` weights
+ |      matrix, used for the linear transformation of the recurrent state.
+ |      Default: `orthogonal`.
+ |    bias_initializer: Initializer for the bias vector. Default: `zeros`.
+ |    unit_forget_bias: Boolean (default `True`). If True, add 1 to the bias of
+ |      the forget gate at initialization. Setting it to true will also force
+ |      `bias_initializer=&quot;zeros&quot;`. This is recommended in [Jozefowicz et
+ |          al.](http://www.jmlr.org/proceedings/papers/v37/jozefowicz15.pdf).
+ |    kernel_regularizer: Regularizer function applied to the `kernel` weights
+ |      matrix. Default: `None`.
+ |    recurrent_regularizer: Regularizer function applied to the
+ |      `recurrent_kernel` weights matrix. Default: `None`.
+ |    bias_regularizer: Regularizer function applied to the bias vector. Default:
+ |      `None`.
+ |    activity_regularizer: Regularizer function applied to the output of the
+ |      layer (its &quot;activation&quot;). Default: `None`.
+ |    kernel_constraint: Constraint function applied to the `kernel` weights
+ |      matrix. Default: `None`.
+ |    recurrent_constraint: Constraint function applied to the `recurrent_kernel`
+ |      weights matrix. Default: `None`.
+ |    bias_constraint: Constraint function applied to the bias vector. Default:
+ |      `None`.
+ |    dropout: Float between 0 and 1. Fraction of the units to drop for the linear
+ |      transformation of the inputs. Default: 0.
+ |    recurrent_dropout: Float between 0 and 1. Fraction of the units to drop for
+ |      the linear transformation of the recurrent state. Default: 0.
+ |    return_sequences: Boolean. Whether to return the last output. in the output
+ |      sequence, or the full sequence. Default: `False`.
+ |    return_state: Boolean. Whether to return the last state in addition to the
+ |      output. Default: `False`.
+ |    go_backwards: Boolean (default `False`). If True, process the input sequence
+ |      backwards and return the reversed sequence.
+ |    stateful: Boolean (default `False`). If True, the last state for each sample
+ |      at index i in a batch will be used as initial state for the sample of
+ |      index i in the following batch.
+ |    time_major: The shape format of the `inputs` and `outputs` tensors.
+ |      If True, the inputs and outputs will be in shape
+ |      `[timesteps, batch, feature]`, whereas in the False case, it will be
+ |      `[batch, timesteps, feature]`. Using `time_major = True` is a bit more
+ |      efficient because it avoids transposes at the beginning and end of the
+ |      RNN calculation. However, most TensorFlow data is batch-major, so by
+ |      default this function accepts input and emits output in batch-major
+ |      form.
+ |    unroll: Boolean (default `False`). If True, the network will be unrolled,
+ |      else a symbolic loop will be used. Unrolling can speed-up a RNN, although
+ |      it tends to be more memory-intensive. Unrolling is only suitable for short
+ |      sequences.
+ |  
+ |  Call arguments:
+ |    inputs: A 3D tensor with shape `[batch, timesteps, feature]`.
+ |    mask: Binary tensor of shape `[batch, timesteps]` indicating whether
+ |      a given timestep should be masked (optional, defaults to `None`).
+ |      An individual `True` entry indicates that the corresponding timestep
+ |      should be utilized, while a `False` entry indicates that the corresponding
+ |      timestep should be ignored.
+ |    training: Python boolean indicating whether the layer should behave in
+ |      training mode or in inference mode. This argument is passed to the cell
+ |      when calling it. This is only relevant if `dropout` or
+ |      `recurrent_dropout` is used (optional, defaults to `None`).
+ |    initial_state: List of initial state tensors to be passed to the first
+ |      call of the cell (optional, defaults to `None` which causes creation
+ |      of zero-filled initial state tensors).
+ |  
+ |  Method resolution order:
+ |      LSTM
+ |      keras.layers.rnn.dropout_rnn_cell_mixin.DropoutRNNCellMixin
+ |      keras.layers.rnn.base_rnn.RNN
+ |      keras.engine.base_layer.BaseRandomLayer
+ |      keras.engine.base_layer.Layer
+ |      tensorflow.python.module.module.Module
+ |      tensorflow.python.training.tracking.autotrackable.AutoTrackable
+ |      tensorflow.python.training.tracking.base.Trackable
+ |      keras.utils.version_utils.LayerVersionSelector
+ |      builtins.object
+ |  
+ |  Methods defined here:
+ |  
+ |  __init__(self, units, activation=&#39;tanh&#39;, recurrent_activation=&#39;sigmoid&#39;, use_bias=True, kernel_initializer=&#39;glorot_uniform&#39;, recurrent_initializer=&#39;orthogonal&#39;, bias_initializer=&#39;zeros&#39;, unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, return_sequences=False, return_state=False, go_backwards=False, stateful=False, time_major=False, unroll=False, **kwargs)
+ |      Initialize the BaseRandomLayer.
+ |      
+ |      Note that the constructor is annotated with
+ |      @no_automatic_dependency_tracking. This is to skip the auto
+ |      tracking of self._random_generator instance, which is an AutoTrackable.
+ |      The backend.RandomGenerator could contain a tf.random.Generator instance
+ |      which will have tf.Variable as the internal state. We want to avoid saving
+ |      that state into model.weights and checkpoints for backward compatibility
+ |      reason. In the meantime, we still need to make them visible to SavedModel
+ |      when it is tracing the tf.function for the `call()`.
+ |      See _list_extra_dependencies_for_serialization below for more details.
+ |      
+ |      Args:
+ |        seed: optional integer, used to create RandomGenerator.
+ |        force_generator: boolean, default to False, whether to force the
+ |          RandomGenerator to use the code branch of tf.random.Generator.
+ |        **kwargs: other keyword arguments that will be passed to the parent class
+ |  
+ |  call(self, inputs, mask=None, training=None, initial_state=None)
+ |      This is where the layer&#39;s logic lives.
+ |      
+ |      The `call()` method may not create state (except in its first invocation,
+ |      wrapping the creation of variables or other resources in `tf.init_scope()`).
+ |      It is recommended to create state in `__init__()`, or the `build()` method
+ |      that is called automatically before `call()` executes the first time.
+ |      
+ |      Args:
+ |        inputs: Input tensor, or dict/list/tuple of input tensors.
+ |          The first positional `inputs` argument is subject to special rules:
+ |          - `inputs` must be explicitly passed. A layer cannot have zero
+ |            arguments, and `inputs` cannot be provided via the default value
+ |            of a keyword argument.
+ |          - NumPy array or Python scalar values in `inputs` get cast as tensors.
+ |          - Keras mask metadata is only collected from `inputs`.
+ |          - Layers are built (`build(input_shape)` method)
+ |            using shape info from `inputs` only.
+ |          - `input_spec` compatibility is only checked against `inputs`.
+ |          - Mixed precision input casting is only applied to `inputs`.
+ |            If a layer has tensor arguments in `*args` or `**kwargs`, their
+ |            casting behavior in mixed precision should be handled manually.
+ |          - The SavedModel input specification is generated using `inputs` only.
+ |          - Integration with various ecosystem packages like TFMOT, TFLite,
+ |            TF.js, etc is only supported for `inputs` and not for tensors in
+ |            positional and keyword arguments.
+ |        *args: Additional positional arguments. May contain tensors, although
+ |          this is not recommended, for the reasons above.
+ |        **kwargs: Additional keyword arguments. May contain tensors, although
+ |          this is not recommended, for the reasons above.
+ |          The following optional keyword arguments are reserved:
+ |          - `training`: Boolean scalar tensor of Python boolean indicating
+ |            whether the `call` is meant for training or inference.
+ |          - `mask`: Boolean input mask. If the layer&#39;s `call()` method takes a
+ |            `mask` argument, its default value will be set to the mask generated
+ |            for `inputs` by the previous layer (if `input` did come from a layer
+ |            that generated a corresponding mask, i.e. if it came from a Keras
+ |            layer with masking support).
+ |      
+ |      Returns:
+ |        A tensor or list/tuple of tensors.
+ |  
+ |  get_config(self)
+ |      Returns the config of the layer.
+ |      
+ |      A layer config is a Python dictionary (serializable)
+ |      containing the configuration of a layer.
+ |      The same layer can be reinstantiated later
+ |      (without its trained weights) from this configuration.
+ |      
+ |      The config of a layer does not include connectivity
+ |      information, nor the layer class name. These are handled
+ |      by `Network` (one layer of abstraction above).
+ |      
+ |      Note that `get_config()` does not guarantee to return a fresh copy of dict
+ |      every time it is called. The callers should make a copy of the returned dict
+ |      if they want to modify it.
+ |      
+ |      Returns:
+ |          Python dictionary.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods defined here:
+ |  
+ |  from_config(config) from builtins.type
+ |      Creates a layer from its config.
+ |      
+ |      This method is the reverse of `get_config`,
+ |      capable of instantiating the same layer from the config
+ |      dictionary. It does not handle layer connectivity
+ |      (handled by Network), nor weights (handled by `set_weights`).
+ |      
+ |      Args:
+ |          config: A Python dictionary, typically the
+ |              output of get_config.
+ |      
+ |      Returns:
+ |          A layer instance.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Readonly properties defined here:
+ |  
+ |  activation
+ |  
+ |  bias_constraint
+ |  
+ |  bias_initializer
+ |  
+ |  bias_regularizer
+ |  
+ |  dropout
+ |  
+ |  implementation
+ |  
+ |  kernel_constraint
+ |  
+ |  kernel_initializer
+ |  
+ |  kernel_regularizer
+ |  
+ |  recurrent_activation
+ |  
+ |  recurrent_constraint
+ |  
+ |  recurrent_dropout
+ |  
+ |  recurrent_initializer
+ |  
+ |  recurrent_regularizer
+ |  
+ |  unit_forget_bias
+ |  
+ |  units
+ |  
+ |  use_bias
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from keras.layers.rnn.dropout_rnn_cell_mixin.DropoutRNNCellMixin:
+ |  
+ |  __getstate__(self)
+ |  
+ |  __setstate__(self, state)
+ |  
+ |  get_dropout_mask_for_cell(self, inputs, training, count=1)
+ |      Get the dropout mask for RNN cell&#39;s input.
+ |      
+ |      It will create mask based on context if there isn&#39;t any existing cached
+ |      mask. If a new mask is generated, it will update the cache in the cell.
+ |      
+ |      Args:
+ |        inputs: The input tensor whose shape will be used to generate dropout
+ |          mask.
+ |        training: Boolean tensor, whether its in training mode, dropout will be
+ |          ignored in non-training mode.
+ |        count: Int, how many dropout mask will be generated. It is useful for cell
+ |          that has internal weights fused together.
+ |      Returns:
+ |        List of mask tensor, generated or cached mask based on context.
+ |  
+ |  get_recurrent_dropout_mask_for_cell(self, inputs, training, count=1)
+ |      Get the recurrent dropout mask for RNN cell.
+ |      
+ |      It will create mask based on context if there isn&#39;t any existing cached
+ |      mask. If a new mask is generated, it will update the cache in the cell.
+ |      
+ |      Args:
+ |        inputs: The input tensor whose shape will be used to generate dropout
+ |          mask.
+ |        training: Boolean tensor, whether its in training mode, dropout will be
+ |          ignored in non-training mode.
+ |        count: Int, how many dropout mask will be generated. It is useful for cell
+ |          that has internal weights fused together.
+ |      Returns:
+ |        List of mask tensor, generated or cached mask based on context.
+ |  
+ |  reset_dropout_mask(self)
+ |      Reset the cached dropout masks if any.
+ |      
+ |      This is important for the RNN layer to invoke this in it `call()` method so
+ |      that the cached mask is cleared before calling the `cell.call()`. The mask
+ |      should be cached across the timestep within the same batch, but shouldn&#39;t
+ |      be cached between batches. Otherwise it will introduce unreasonable bias
+ |      against certain index of data within the batch.
+ |  
+ |  reset_recurrent_dropout_mask(self)
+ |      Reset the cached recurrent dropout masks if any.
+ |      
+ |      This is important for the RNN layer to invoke this in it call() method so
+ |      that the cached mask is cleared before calling the cell.call(). The mask
+ |      should be cached across the timestep within the same batch, but shouldn&#39;t
+ |      be cached between batches. Otherwise it will introduce unreasonable bias
+ |      against certain index of data within the batch.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from keras.layers.rnn.dropout_rnn_cell_mixin.DropoutRNNCellMixin:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from keras.layers.rnn.base_rnn.RNN:
+ |  
+ |  __call__(self, inputs, initial_state=None, constants=None, **kwargs)
+ |      Wraps `call`, applying pre- and post-processing steps.
+ |      
+ |      Args:
+ |        *args: Positional arguments to be passed to `self.call`.
+ |        **kwargs: Keyword arguments to be passed to `self.call`.
+ |      
+ |      Returns:
+ |        Output tensor(s).
+ |      
+ |      Note:
+ |        - The following optional keyword arguments are reserved for specific uses:
+ |          * `training`: Boolean scalar tensor of Python boolean indicating
+ |            whether the `call` is meant for training or inference.
+ |          * `mask`: Boolean input mask.
+ |        - If the layer&#39;s `call` method takes a `mask` argument (as some Keras
+ |          layers do), its default value will be set to the mask generated
+ |          for `inputs` by the previous layer (if `input` did come from
+ |          a layer that generated a corresponding mask, i.e. if it came from
+ |          a Keras layer with masking support.
+ |        - If the layer is not built, the method will call `build`.
+ |      
+ |      Raises:
+ |        ValueError: if the layer&#39;s `call` method returns None (an invalid value).
+ |        RuntimeError: if `super().__init__()` was not called in the constructor.
+ |  
+ |  build(self, input_shape)
+ |      Creates the variables of the layer (optional, for subclass implementers).
+ |      
+ |      This is a method that implementers of subclasses of `Layer` or `Model`
+ |      can override if they need a state-creation step in-between
+ |      layer instantiation and layer call. It is invoked automatically before
+ |      the first execution of `call()`.
+ |      
+ |      This is typically used to create the weights of `Layer` subclasses
+ |      (at the discretion of the subclass implementer).
+ |      
+ |      Args:
+ |        input_shape: Instance of `TensorShape`, or list of instances of
+ |          `TensorShape` if the layer expects a list of inputs
+ |          (one instance per input).
+ |  
+ |  compute_mask(self, inputs, mask)
+ |      Computes an output mask tensor.
+ |      
+ |      Args:
+ |          inputs: Tensor or list of tensors.
+ |          mask: Tensor or list of tensors.
+ |      
+ |      Returns:
+ |          None or a tensor (or list of tensors,
+ |              one per output tensor of the layer).
+ |  
+ |  compute_output_shape(self, input_shape)
+ |      Computes the output shape of the layer.
+ |      
+ |      This method will cause the layer&#39;s state to be built, if that has not
+ |      happened before. This requires that the layer will later be used with
+ |      inputs that match the input shape provided here.
+ |      
+ |      Args:
+ |          input_shape: Shape tuple (tuple of integers)
+ |              or list of shape tuples (one per output tensor of the layer).
+ |              Shape tuples can include None for free dimensions,
+ |              instead of an integer.
+ |      
+ |      Returns:
+ |          An input shape tuple.
+ |  
+ |  get_initial_state(self, inputs)
+ |  
+ |  reset_states(self, states=None)
+ |      Reset the recorded states for the stateful RNN layer.
+ |      
+ |      Can only be used when RNN layer is constructed with `stateful` = `True`.
+ |      Args:
+ |        states: Numpy arrays that contains the value for the initial state, which
+ |          will be feed to cell at the first time step. When the value is None,
+ |          zero filled numpy array will be created based on the cell state size.
+ |      
+ |      Raises:
+ |        AttributeError: When the RNN layer is not stateful.
+ |        ValueError: When the batch size of the RNN layer is unknown.
+ |        ValueError: When the input numpy array is not compatible with the RNN
+ |          layer state, either size wise or dtype wise.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from keras.layers.rnn.base_rnn.RNN:
+ |  
+ |  states
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from keras.engine.base_layer.Layer:
+ |  
+ |  __delattr__(self, name)
+ |      Implement delattr(self, name).
+ |  
+ |  __setattr__(self, name, value)
+ |      Support self.foo = trackable syntax.
+ |  
+ |  add_loss(self, losses, **kwargs)
+ |      Add loss tensor(s), potentially dependent on layer inputs.
+ |      
+ |      Some losses (for instance, activity regularization losses) may be dependent
+ |      on the inputs passed when calling a layer. Hence, when reusing the same
+ |      layer on different inputs `a` and `b`, some entries in `layer.losses` may
+ |      be dependent on `a` and some on `b`. This method automatically keeps track
+ |      of dependencies.
+ |      
+ |      This method can be used inside a subclassed layer or model&#39;s `call`
+ |      function, in which case `losses` should be a Tensor or list of Tensors.
+ |      
+ |      Example:
+ |      
+ |      ```python
+ |      class MyLayer(tf.keras.layers.Layer):
+ |        def call(self, inputs):
+ |          self.add_loss(tf.abs(tf.reduce_mean(inputs)))
+ |          return inputs
+ |      ```
+ |      
+ |      This method can also be called directly on a Functional Model during
+ |      construction. In this case, any loss Tensors passed to this Model must
+ |      be symbolic and be able to be traced back to the model&#39;s `Input`s. These
+ |      losses become part of the model&#39;s topology and are tracked in `get_config`.
+ |      
+ |      Example:
+ |      
+ |      ```python
+ |      inputs = tf.keras.Input(shape=(10,))
+ |      x = tf.keras.layers.Dense(10)(inputs)
+ |      outputs = tf.keras.layers.Dense(1)(x)
+ |      model = tf.keras.Model(inputs, outputs)
+ |      # Activity regularization.
+ |      model.add_loss(tf.abs(tf.reduce_mean(x)))
+ |      ```
+ |      
+ |      If this is not the case for your loss (if, for example, your loss references
+ |      a `Variable` of one of the model&#39;s layers), you can wrap your loss in a
+ |      zero-argument lambda. These losses are not tracked as part of the model&#39;s
+ |      topology since they can&#39;t be serialized.
+ |      
+ |      Example:
+ |      
+ |      ```python
+ |      inputs = tf.keras.Input(shape=(10,))
+ |      d = tf.keras.layers.Dense(10)
+ |      x = d(inputs)
+ |      outputs = tf.keras.layers.Dense(1)(x)
+ |      model = tf.keras.Model(inputs, outputs)
+ |      # Weight regularization.
+ |      model.add_loss(lambda: tf.reduce_mean(d.kernel))
+ |      ```
+ |      
+ |      Args:
+ |        losses: Loss tensor, or list/tuple of tensors. Rather than tensors, losses
+ |          may also be zero-argument callables which create a loss tensor.
+ |        **kwargs: Used for backwards compatibility only.
+ |  
+ |  add_metric(self, value, name=None, **kwargs)
+ |      Adds metric tensor to the layer.
+ |      
+ |      This method can be used inside the `call()` method of a subclassed layer
+ |      or model.
+ |      
+ |      ```python
+ |      class MyMetricLayer(tf.keras.layers.Layer):
+ |        def __init__(self):
+ |          super(MyMetricLayer, self).__init__(name=&#39;my_metric_layer&#39;)
+ |          self.mean = tf.keras.metrics.Mean(name=&#39;metric_1&#39;)
+ |      
+ |        def call(self, inputs):
+ |          self.add_metric(self.mean(inputs))
+ |          self.add_metric(tf.reduce_sum(inputs), name=&#39;metric_2&#39;)
+ |          return inputs
+ |      ```
+ |      
+ |      This method can also be called directly on a Functional Model during
+ |      construction. In this case, any tensor passed to this Model must
+ |      be symbolic and be able to be traced back to the model&#39;s `Input`s. These
+ |      metrics become part of the model&#39;s topology and are tracked when you
+ |      save the model via `save()`.
+ |      
+ |      ```python
+ |      inputs = tf.keras.Input(shape=(10,))
+ |      x = tf.keras.layers.Dense(10)(inputs)
+ |      outputs = tf.keras.layers.Dense(1)(x)
+ |      model = tf.keras.Model(inputs, outputs)
+ |      model.add_metric(math_ops.reduce_sum(x), name=&#39;metric_1&#39;)
+ |      ```
+ |      
+ |      Note: Calling `add_metric()` with the result of a metric object on a
+ |      Functional Model, as shown in the example below, is not supported. This is
+ |      because we cannot trace the metric result tensor back to the model&#39;s inputs.
+ |      
+ |      ```python
+ |      inputs = tf.keras.Input(shape=(10,))
+ |      x = tf.keras.layers.Dense(10)(inputs)
+ |      outputs = tf.keras.layers.Dense(1)(x)
+ |      model = tf.keras.Model(inputs, outputs)
+ |      model.add_metric(tf.keras.metrics.Mean()(x), name=&#39;metric_1&#39;)
+ |      ```
+ |      
+ |      Args:
+ |        value: Metric tensor.
+ |        name: String metric name.
+ |        **kwargs: Additional keyword arguments for backward compatibility.
+ |          Accepted values:
+ |          `aggregation` - When the `value` tensor provided is not the result of
+ |          calling a `keras.Metric` instance, it will be aggregated by default
+ |          using a `keras.Metric.Mean`.
+ |  
+ |  add_update(self, updates)
+ |      Add update op(s), potentially dependent on layer inputs.
+ |      
+ |      Weight updates (for instance, the updates of the moving mean and variance
+ |      in a BatchNormalization layer) may be dependent on the inputs passed
+ |      when calling a layer. Hence, when reusing the same layer on
+ |      different inputs `a` and `b`, some entries in `layer.updates` may be
+ |      dependent on `a` and some on `b`. This method automatically keeps track
+ |      of dependencies.
+ |      
+ |      This call is ignored when eager execution is enabled (in that case, variable
+ |      updates are run on the fly and thus do not need to be tracked for later
+ |      execution).
+ |      
+ |      Args:
+ |        updates: Update op, or list/tuple of update ops, or zero-arg callable
+ |          that returns an update op. A zero-arg callable should be passed in
+ |          order to disable running the updates by setting `trainable=False`
+ |          on this Layer, when executing in Eager mode.
+ |  
+ |  add_variable(self, *args, **kwargs)
+ |      Deprecated, do NOT use! Alias for `add_weight`.
+ |  
+ |  add_weight(self, name=None, shape=None, dtype=None, initializer=None, regularizer=None, trainable=None, constraint=None, use_resource=None, synchronization=&lt;VariableSynchronization.AUTO: 0&gt;, aggregation=&lt;VariableAggregationV2.NONE: 0&gt;, **kwargs)
+ |      Adds a new variable to the layer.
+ |      
+ |      Args:
+ |        name: Variable name.
+ |        shape: Variable shape. Defaults to scalar if unspecified.
+ |        dtype: The type of the variable. Defaults to `self.dtype`.
+ |        initializer: Initializer instance (callable).
+ |        regularizer: Regularizer instance (callable).
+ |        trainable: Boolean, whether the variable should be part of the layer&#39;s
+ |          &quot;trainable_variables&quot; (e.g. variables, biases)
+ |          or &quot;non_trainable_variables&quot; (e.g. BatchNorm mean and variance).
+ |          Note that `trainable` cannot be `True` if `synchronization`
+ |          is set to `ON_READ`.
+ |        constraint: Constraint instance (callable).
+ |        use_resource: Whether to use `ResourceVariable`.
+ |        synchronization: Indicates when a distributed a variable will be
+ |          aggregated. Accepted values are constants defined in the class
+ |          `tf.VariableSynchronization`. By default the synchronization is set to
+ |          `AUTO` and the current `DistributionStrategy` chooses
+ |          when to synchronize. If `synchronization` is set to `ON_READ`,
+ |          `trainable` must not be set to `True`.
+ |        aggregation: Indicates how a distributed variable will be aggregated.
+ |          Accepted values are constants defined in the class
+ |          `tf.VariableAggregation`.
+ |        **kwargs: Additional keyword arguments. Accepted values are `getter`,
+ |          `collections`, `experimental_autocast` and `caching_device`.
+ |      
+ |      Returns:
+ |        The variable created.
+ |      
+ |      Raises:
+ |        ValueError: When giving unsupported dtype and no initializer or when
+ |          trainable has been set to True with synchronization set as `ON_READ`.
+ |  
+ |  compute_output_signature(self, input_signature)
+ |      Compute the output tensor signature of the layer based on the inputs.
+ |      
+ |      Unlike a TensorShape object, a TensorSpec object contains both shape
+ |      and dtype information for a tensor. This method allows layers to provide
+ |      output dtype information if it is different from the input dtype.
+ |      For any layer that doesn&#39;t implement this function,
+ |      the framework will fall back to use `compute_output_shape`, and will
+ |      assume that the output dtype matches the input dtype.
+ |      
+ |      Args:
+ |        input_signature: Single TensorSpec or nested structure of TensorSpec
+ |          objects, describing a candidate input for the layer.
+ |      
+ |      Returns:
+ |        Single TensorSpec or nested structure of TensorSpec objects, describing
+ |          how the layer would transform the provided input.
+ |      
+ |      Raises:
+ |        TypeError: If input_signature contains a non-TensorSpec object.
+ |  
+ |  count_params(self)
+ |      Count the total number of scalars composing the weights.
+ |      
+ |      Returns:
+ |          An integer count.
+ |      
+ |      Raises:
+ |          ValueError: if the layer isn&#39;t yet built
+ |            (in which case its weights aren&#39;t yet defined).
+ |  
+ |  finalize_state(self)
+ |      Finalizes the layers state after updating layer weights.
+ |      
+ |      This function can be subclassed in a layer and will be called after updating
+ |      a layer weights. It can be overridden to finalize any additional layer state
+ |      after a weight update.
+ |      
+ |      This function will be called after weights of a layer have been restored
+ |      from a loaded model.
+ |  
+ |  get_input_at(self, node_index)
+ |      Retrieves the input tensor(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first input node of the layer.
+ |      
+ |      Returns:
+ |          A tensor (or list of tensors if the layer has multiple inputs).
+ |      
+ |      Raises:
+ |        RuntimeError: If called in Eager mode.
+ |  
+ |  get_input_mask_at(self, node_index)
+ |      Retrieves the input mask tensor(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first time the layer was called.
+ |      
+ |      Returns:
+ |          A mask tensor
+ |          (or list of tensors if the layer has multiple inputs).
+ |  
+ |  get_input_shape_at(self, node_index)
+ |      Retrieves the input shape(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first time the layer was called.
+ |      
+ |      Returns:
+ |          A shape tuple
+ |          (or list of shape tuples if the layer has multiple inputs).
+ |      
+ |      Raises:
+ |        RuntimeError: If called in Eager mode.
+ |  
+ |  get_output_at(self, node_index)
+ |      Retrieves the output tensor(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first output node of the layer.
+ |      
+ |      Returns:
+ |          A tensor (or list of tensors if the layer has multiple outputs).
+ |      
+ |      Raises:
+ |        RuntimeError: If called in Eager mode.
+ |  
+ |  get_output_mask_at(self, node_index)
+ |      Retrieves the output mask tensor(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first time the layer was called.
+ |      
+ |      Returns:
+ |          A mask tensor
+ |          (or list of tensors if the layer has multiple outputs).
+ |  
+ |  get_output_shape_at(self, node_index)
+ |      Retrieves the output shape(s) of a layer at a given node.
+ |      
+ |      Args:
+ |          node_index: Integer, index of the node
+ |              from which to retrieve the attribute.
+ |              E.g. `node_index=0` will correspond to the
+ |              first time the layer was called.
+ |      
+ |      Returns:
+ |          A shape tuple
+ |          (or list of shape tuples if the layer has multiple outputs).
+ |      
+ |      Raises:
+ |        RuntimeError: If called in Eager mode.
+ |  
+ |  get_weights(self)
+ |      Returns the current weights of the layer, as NumPy arrays.
+ |      
+ |      The weights of a layer represent the state of the layer. This function
+ |      returns both trainable and non-trainable weight values associated with this
+ |      layer as a list of NumPy arrays, which can in turn be used to load state
+ |      into similarly parameterized layers.
+ |      
+ |      For example, a `Dense` layer returns a list of two values: the kernel matrix
+ |      and the bias vector. These can be used to set the weights of another
+ |      `Dense` layer:
+ |      
+ |      &gt;&gt;&gt; layer_a = tf.keras.layers.Dense(1,
+ |      ...   kernel_initializer=tf.constant_initializer(1.))
+ |      &gt;&gt;&gt; a_out = layer_a(tf.convert_to_tensor([[1., 2., 3.]]))
+ |      &gt;&gt;&gt; layer_a.get_weights()
+ |      [array([[1.],
+ |             [1.],
+ |             [1.]], dtype=float32), array([0.], dtype=float32)]
+ |      &gt;&gt;&gt; layer_b = tf.keras.layers.Dense(1,
+ |      ...   kernel_initializer=tf.constant_initializer(2.))
+ |      &gt;&gt;&gt; b_out = layer_b(tf.convert_to_tensor([[10., 20., 30.]]))
+ |      &gt;&gt;&gt; layer_b.get_weights()
+ |      [array([[2.],
+ |             [2.],
+ |             [2.]], dtype=float32), array([0.], dtype=float32)]
+ |      &gt;&gt;&gt; layer_b.set_weights(layer_a.get_weights())
+ |      &gt;&gt;&gt; layer_b.get_weights()
+ |      [array([[1.],
+ |             [1.],
+ |             [1.]], dtype=float32), array([0.], dtype=float32)]
+ |      
+ |      Returns:
+ |          Weights values as a list of NumPy arrays.
+ |  
+ |  set_weights(self, weights)
+ |      Sets the weights of the layer, from NumPy arrays.
+ |      
+ |      The weights of a layer represent the state of the layer. This function
+ |      sets the weight values from numpy arrays. The weight values should be
+ |      passed in the order they are created by the layer. Note that the layer&#39;s
+ |      weights must be instantiated before calling this function, by calling
+ |      the layer.
+ |      
+ |      For example, a `Dense` layer returns a list of two values: the kernel matrix
+ |      and the bias vector. These can be used to set the weights of another
+ |      `Dense` layer:
+ |      
+ |      &gt;&gt;&gt; layer_a = tf.keras.layers.Dense(1,
+ |      ...   kernel_initializer=tf.constant_initializer(1.))
+ |      &gt;&gt;&gt; a_out = layer_a(tf.convert_to_tensor([[1., 2., 3.]]))
+ |      &gt;&gt;&gt; layer_a.get_weights()
+ |      [array([[1.],
+ |             [1.],
+ |             [1.]], dtype=float32), array([0.], dtype=float32)]
+ |      &gt;&gt;&gt; layer_b = tf.keras.layers.Dense(1,
+ |      ...   kernel_initializer=tf.constant_initializer(2.))
+ |      &gt;&gt;&gt; b_out = layer_b(tf.convert_to_tensor([[10., 20., 30.]]))
+ |      &gt;&gt;&gt; layer_b.get_weights()
+ |      [array([[2.],
+ |             [2.],
+ |             [2.]], dtype=float32), array([0.], dtype=float32)]
+ |      &gt;&gt;&gt; layer_b.set_weights(layer_a.get_weights())
+ |      &gt;&gt;&gt; layer_b.get_weights()
+ |      [array([[1.],
+ |             [1.],
+ |             [1.]], dtype=float32), array([0.], dtype=float32)]
+ |      
+ |      Args:
+ |        weights: a list of NumPy arrays. The number
+ |          of arrays and their shape must match
+ |          number of the dimensions of the weights
+ |          of the layer (i.e. it should match the
+ |          output of `get_weights`).
+ |      
+ |      Raises:
+ |        ValueError: If the provided weights list does not match the
+ |          layer&#39;s specifications.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Readonly properties inherited from keras.engine.base_layer.Layer:
+ |  
+ |  compute_dtype
+ |      The dtype of the layer&#39;s computations.
+ |      
+ |      This is equivalent to `Layer.dtype_policy.compute_dtype`. Unless
+ |      mixed precision is used, this is the same as `Layer.dtype`, the dtype of
+ |      the weights.
+ |      
+ |      Layers automatically cast their inputs to the compute dtype, which causes
+ |      computations and the output to be in the compute dtype as well. This is done
+ |      by the base Layer class in `Layer.__call__`, so you do not have to insert
+ |      these casts if implementing your own layer.
+ |      
+ |      Layers often perform certain internal computations in higher precision when
+ |      `compute_dtype` is float16 or bfloat16 for numeric stability. The output
+ |      will still typically be float16 or bfloat16 in such cases.
+ |      
+ |      Returns:
+ |        The layer&#39;s compute dtype.
+ |  
+ |  dtype
+ |      The dtype of the layer weights.
+ |      
+ |      This is equivalent to `Layer.dtype_policy.variable_dtype`. Unless
+ |      mixed precision is used, this is the same as `Layer.compute_dtype`, the
+ |      dtype of the layer&#39;s computations.
+ |  
+ |  dtype_policy
+ |      The dtype policy associated with this layer.
+ |      
+ |      This is an instance of a `tf.keras.mixed_precision.Policy`.
+ |  
+ |  dynamic
+ |      Whether the layer is dynamic (eager-only); set in the constructor.
+ |  
+ |  inbound_nodes
+ |      Return Functional API nodes upstream of this layer.
+ |  
+ |  input
+ |      Retrieves the input tensor(s) of a layer.
+ |      
+ |      Only applicable if the layer has exactly one input,
+ |      i.e. if it is connected to one incoming layer.
+ |      
+ |      Returns:
+ |          Input tensor or list of input tensors.
+ |      
+ |      Raises:
+ |        RuntimeError: If called in Eager mode.
+ |        AttributeError: If no inbound nodes are found.
+ |  
+ |  input_mask
+ |      Retrieves the input mask tensor(s) of a layer.
+ |      
+ |      Only applicable if the layer has exactly one inbound node,
+ |      i.e. if it is connected to one incoming layer.
+ |      
+ |      Returns:
+ |          Input mask tensor (potentially None) or list of input
+ |          mask tensors.
+ |      
+ |      Raises:
+ |          AttributeError: if the layer is connected to
+ |          more than one incoming layers.
+ |  
+ |  input_shape
+ |      Retrieves the input shape(s) of a layer.
+ |      
+ |      Only applicable if the layer has exactly one input,
+ |      i.e. if it is connected to one incoming layer, or if all inputs
+ |      have the same shape.
+ |      
+ |      Returns:
+ |          Input shape, as an integer shape tuple
+ |          (or list of shape tuples, one tuple per input tensor).
+ |      
+ |      Raises:
+ |          AttributeError: if the layer has no defined input_shape.
+ |          RuntimeError: if called in Eager mode.
+ |  
+ |  losses
+ |      List of losses added using the `add_loss()` API.
+ |      
+ |      Variable regularization tensors are created when this property is accessed,
+ |      so it is eager safe: accessing `losses` under a `tf.GradientTape` will
+ |      propagate gradients back to the corresponding variables.
+ |      
+ |      Examples:
+ |      
+ |      &gt;&gt;&gt; class MyLayer(tf.keras.layers.Layer):
+ |      ...   def call(self, inputs):
+ |      ...     self.add_loss(tf.abs(tf.reduce_mean(inputs)))
+ |      ...     return inputs
+ |      &gt;&gt;&gt; l = MyLayer()
+ |      &gt;&gt;&gt; l(np.ones((10, 1)))
+ |      &gt;&gt;&gt; l.losses
+ |      [1.0]
+ |      
+ |      &gt;&gt;&gt; inputs = tf.keras.Input(shape=(10,))
+ |      &gt;&gt;&gt; x = tf.keras.layers.Dense(10)(inputs)
+ |      &gt;&gt;&gt; outputs = tf.keras.layers.Dense(1)(x)
+ |      &gt;&gt;&gt; model = tf.keras.Model(inputs, outputs)
+ |      &gt;&gt;&gt; # Activity regularization.
+ |      &gt;&gt;&gt; len(model.losses)
+ |      0
+ |      &gt;&gt;&gt; model.add_loss(tf.abs(tf.reduce_mean(x)))
+ |      &gt;&gt;&gt; len(model.losses)
+ |      1
+ |      
+ |      &gt;&gt;&gt; inputs = tf.keras.Input(shape=(10,))
+ |      &gt;&gt;&gt; d = tf.keras.layers.Dense(10, kernel_initializer=&#39;ones&#39;)
+ |      &gt;&gt;&gt; x = d(inputs)
+ |      &gt;&gt;&gt; outputs = tf.keras.layers.Dense(1)(x)
+ |      &gt;&gt;&gt; model = tf.keras.Model(inputs, outputs)
+ |      &gt;&gt;&gt; # Weight regularization.
+ |      &gt;&gt;&gt; model.add_loss(lambda: tf.reduce_mean(d.kernel))
+ |      &gt;&gt;&gt; model.losses
+ |      [&lt;tf.Tensor: shape=(), dtype=float32, numpy=1.0&gt;]
+ |      
+ |      Returns:
+ |        A list of tensors.
+ |  
+ |  metrics
+ |      List of metrics added using the `add_metric()` API.
+ |      
+ |      Example:
+ |      
+ |      &gt;&gt;&gt; input = tf.keras.layers.Input(shape=(3,))
+ |      &gt;&gt;&gt; d = tf.keras.layers.Dense(2)
+ |      &gt;&gt;&gt; output = d(input)
+ |      &gt;&gt;&gt; d.add_metric(tf.reduce_max(output), name=&#39;max&#39;)
+ |      &gt;&gt;&gt; d.add_metric(tf.reduce_min(output), name=&#39;min&#39;)
+ |      &gt;&gt;&gt; [m.name for m in d.metrics]
+ |      [&#39;max&#39;, &#39;min&#39;]
+ |      
+ |      Returns:
+ |        A list of `Metric` objects.
+ |  
+ |  name
+ |      Name of the layer (string), set in the constructor.
+ |  
+ |  non_trainable_variables
+ |      Sequence of non-trainable variables owned by this module and its submodules.
+ |      
+ |      Note: this method uses reflection to find variables on the current instance
+ |      and submodules. For performance reasons you may wish to cache the result
+ |      of calling this method if you don&#39;t expect the return value to change.
+ |      
+ |      Returns:
+ |        A sequence of variables for the current module (sorted by attribute
+ |        name) followed by variables from all submodules recursively (breadth
+ |        first).
+ |  
+ |  non_trainable_weights
+ |      List of all non-trainable weights tracked by this layer.
+ |      
+ |      Non-trainable weights are *not* updated during training. They are expected
+ |      to be updated manually in `call()`.
+ |      
+ |      Returns:
+ |        A list of non-trainable variables.
+ |  
+ |  outbound_nodes
+ |      Return Functional API nodes downstream of this layer.
+ |  
+ |  output
+ |      Retrieves the output tensor(s) of a layer.
+ |      
+ |      Only applicable if the layer has exactly one output,
+ |      i.e. if it is connected to one incoming layer.
+ |      
+ |      Returns:
+ |        Output tensor or list of output tensors.
+ |      
+ |      Raises:
+ |        AttributeError: if the layer is connected to more than one incoming
+ |          layers.
+ |        RuntimeError: if called in Eager mode.
+ |  
+ |  output_mask
+ |      Retrieves the output mask tensor(s) of a layer.
+ |      
+ |      Only applicable if the layer has exactly one inbound node,
+ |      i.e. if it is connected to one incoming layer.
+ |      
+ |      Returns:
+ |          Output mask tensor (potentially None) or list of output
+ |          mask tensors.
+ |      
+ |      Raises:
+ |          AttributeError: if the layer is connected to
+ |          more than one incoming layers.
+ |  
+ |  output_shape
+ |      Retrieves the output shape(s) of a layer.
+ |      
+ |      Only applicable if the layer has one output,
+ |      or if all outputs have the same shape.
+ |      
+ |      Returns:
+ |          Output shape, as an integer shape tuple
+ |          (or list of shape tuples, one tuple per output tensor).
+ |      
+ |      Raises:
+ |          AttributeError: if the layer has no defined output shape.
+ |          RuntimeError: if called in Eager mode.
+ |  
+ |  trainable_variables
+ |      Sequence of trainable variables owned by this module and its submodules.
+ |      
+ |      Note: this method uses reflection to find variables on the current instance
+ |      and submodules. For performance reasons you may wish to cache the result
+ |      of calling this method if you don&#39;t expect the return value to change.
+ |      
+ |      Returns:
+ |        A sequence of variables for the current module (sorted by attribute
+ |        name) followed by variables from all submodules recursively (breadth
+ |        first).
+ |  
+ |  trainable_weights
+ |      List of all trainable weights tracked by this layer.
+ |      
+ |      Trainable weights are updated via gradient descent during training.
+ |      
+ |      Returns:
+ |        A list of trainable variables.
+ |  
+ |  updates
+ |  
+ |  variable_dtype
+ |      Alias of `Layer.dtype`, the dtype of the weights.
+ |  
+ |  variables
+ |      Returns the list of all layer variables/weights.
+ |      
+ |      Alias of `self.weights`.
+ |      
+ |      Note: This will not track the weights of nested `tf.Modules` that are not
+ |      themselves Keras layers.
+ |      
+ |      Returns:
+ |        A list of variables.
+ |  
+ |  weights
+ |      Returns the list of all layer variables/weights.
+ |      
+ |      Returns:
+ |        A list of variables.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from keras.engine.base_layer.Layer:
+ |  
+ |  activity_regularizer
+ |      Optional regularizer function for the output of this layer.
+ |  
+ |  input_spec
+ |      `InputSpec` instance(s) describing the input format for this layer.
+ |      
+ |      When you create a layer subclass, you can set `self.input_spec` to enable
+ |      the layer to run input compatibility checks when it is called.
+ |      Consider a `Conv2D` layer: it can only be called on a single input tensor
+ |      of rank 4. As such, you can set, in `__init__()`:
+ |      
+ |      ```python
+ |      self.input_spec = tf.keras.layers.InputSpec(ndim=4)
+ |      ```
+ |      
+ |      Now, if you try to call the layer on an input that isn&#39;t rank 4
+ |      (for instance, an input of shape `(2,)`, it will raise a nicely-formatted
+ |      error:
+ |      
+ |      ```
+ |      ValueError: Input 0 of layer conv2d is incompatible with the layer:
+ |      expected ndim=4, found ndim=1. Full shape received: [2]
+ |      ```
+ |      
+ |      Input checks that can be specified via `input_spec` include:
+ |      - Structure (e.g. a single input, a list of 2 inputs, etc)
+ |      - Shape
+ |      - Rank (ndim)
+ |      - Dtype
+ |      
+ |      For more information, see `tf.keras.layers.InputSpec`.
+ |      
+ |      Returns:
+ |        A `tf.keras.layers.InputSpec` instance, or nested structure thereof.
+ |  
+ |  stateful
+ |  
+ |  supports_masking
+ |      Whether this layer supports computing a mask using `compute_mask`.
+ |  
+ |  trainable
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods inherited from tensorflow.python.module.module.Module:
+ |  
+ |  with_name_scope(method) from builtins.type
+ |      Decorator to automatically enter the module name scope.
+ |      
+ |      &gt;&gt;&gt; class MyModule(tf.Module):
+ |      ...   @tf.Module.with_name_scope
+ |      ...   def __call__(self, x):
+ |      ...     if not hasattr(self, &#39;w&#39;):
+ |      ...       self.w = tf.Variable(tf.random.normal([x.shape[1], 3]))
+ |      ...     return tf.matmul(x, self.w)
+ |      
+ |      Using the above module would produce `tf.Variable`s and `tf.Tensor`s whose
+ |      names included the module name:
+ |      
+ |      &gt;&gt;&gt; mod = MyModule()
+ |      &gt;&gt;&gt; mod(tf.ones([1, 2]))
+ |      &lt;tf.Tensor: shape=(1, 3), dtype=float32, numpy=..., dtype=float32)&gt;
+ |      &gt;&gt;&gt; mod.w
+ |      &lt;tf.Variable &#39;my_module/Variable:0&#39; shape=(2, 3) dtype=float32,
+ |      numpy=..., dtype=float32)&gt;
+ |      
+ |      Args:
+ |        method: The method to wrap.
+ |      
+ |      Returns:
+ |        The original method wrapped such that it enters the module&#39;s name scope.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Readonly properties inherited from tensorflow.python.module.module.Module:
+ |  
+ |  name_scope
+ |      Returns a `tf.name_scope` instance for this class.
+ |  
+ |  submodules
+ |      Sequence of all sub-modules.
+ |      
+ |      Submodules are modules which are properties of this module, or found as
+ |      properties of modules which are properties of this module (and so on).
+ |      
+ |      &gt;&gt;&gt; a = tf.Module()
+ |      &gt;&gt;&gt; b = tf.Module()
+ |      &gt;&gt;&gt; c = tf.Module()
+ |      &gt;&gt;&gt; a.b = b
+ |      &gt;&gt;&gt; b.c = c
+ |      &gt;&gt;&gt; list(a.submodules) == [b, c]
+ |      True
+ |      &gt;&gt;&gt; list(b.submodules) == [c]
+ |      True
+ |      &gt;&gt;&gt; list(c.submodules) == []
+ |      True
+ |      
+ |      Returns:
+ |        A sequence of all submodules.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods inherited from keras.utils.version_utils.LayerVersionSelector:
+ |  
+ |  __new__(cls, *args, **kwargs)
+ |      Create and return a new object.  See help(type) for accurate signature.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8, 16)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4, 16)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(16,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note que los pesos de la capa LSTM Están organizados de la siguiente forma</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">units</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># tamaño del estado oculto</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">W_x_f</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,:</span><span class="n">units</span><span class="p">]</span>
+<span class="n">W_x_i</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="n">units</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">W_x_c</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">W_x_o</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">:]</span>
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">U_x_f</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,:</span><span class="n">units</span><span class="p">]</span>
+<span class="n">U_x_i</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="n">units</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">U_x_c</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">U_x_o</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">:]</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> 
+<span class="n">b_x_f</span> <span class="o">=</span> <span class="n">b</span><span class="p">[:</span><span class="n">units</span><span class="p">]</span>
+<span class="n">b_x_i</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span> <span class="n">units</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">b_x_c</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">b_x_o</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">units</span><span class="o">*</span><span class="mi">3</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "AprendizajeProfundo/Libro-Fundamentos",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Redes_Recurrentes\Cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="rnn_Intro_Redes_Recurrentes.html" title="anterior página">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">anterior</p>
+            <p class="prev-next-title"><span style="color:#F72585">Introducción a Redes Neuronales Recurrentes</span></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="rnr_GRU_Intro.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Redes GRU (Gated Recurrent Unit)</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

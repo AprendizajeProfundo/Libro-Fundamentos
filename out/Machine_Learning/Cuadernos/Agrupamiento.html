@@ -1,0 +1,3138 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Algunos métodos de clasificación no supervisada (agrupamiento) &#8212; Fundamentos de IA y AP</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Mapas Auto-organizados (SOM)" href="som_Introduccion.html" />
+    <link rel="prev" title="Análisis de correspondencias múltiples (ACM)" href="ACM.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="es">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo-final-ap.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fundamentos de IA y AP</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../tutorial.html">
+                    <span style="color:#F72585">Bienvenido(a)</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Conociendo el libro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Inicio/Cuadernos/Consideraciones.html">
+   <span style="color:#F72585">
+    Conociendo el Libro
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentos de Estadística
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos.html">
+   <span style="color:#F72585">
+    Probabilidad
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias.html">
+   <span style="color:#F72585">
+    Variables Aleatorias
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta.html">
+   <span style="color:#F72585">
+    Probabilidad Conjunta y Entropía Cruzada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas.html">
+   <span style="color:#F72585">
+    Distribuciones de probabilidad continuas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Regresi%C3%B3n-Lineal-Pyton-Copy1.html">
+   <span style="color:#F72585">
+    Regresión Lineal en Python
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Teoría de la Información
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html">
+   <span style="color:#F72585">
+    Teoría de la Información
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Álgebra Lineal
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I.html">
+   <span style="color:#F72585">
+    Introducción a tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II.html">
+   <span style="color:#F72585">
+    Tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob.html">
+   <span style="color:#F72585">
+    Tensores y distribuciones de probabilidad
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Modelación
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelos
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Ejemplo_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelamiento
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/cal_derivadas.html">
+   <span style="color:#F72585">
+    Introducción a la Derivación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_1.html">
+   <span style="color:#F72585">
+    Optimización univariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_2.html">
+   <span style="color:#F72585">
+    Optimización multivariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/am-sdg.html">
+   <span style="color:#F72585">
+    Optimización
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="am_intro_aprendizaje_maquinas.html">
+   <span style="color:#F72585">
+    Conceptos básicos de aprendizaje de máquinas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am_Regresion_logistica_JAX.html">
+   <span style="color:#F72585">
+    Modelo Lineal de Clasificación  con JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am_Regresion_Logistica_Tensorflow.html">
+   <span style="color:#F72585">
+    Modelo Logístico de Clasificación  con Tensorflow 2.X
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am_regresion_Keras.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am-logistico-keras-cancer.html">
+   <span style="color:#F72585">
+    Modelo logístico de predicción en tf.keras
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas no supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="BreveIntroduccion2R.html">
+   <span style="color:#F72585">
+    Breve introducción a R
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="AprendizajeNoSupervisado.html">
+   <span style="color:#F72585">
+    Aprendizaje no supervisado
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ACP.html">
+   <span style="color:#F72585">
+    Análisis en componentes principales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ACS.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias simples
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ACM.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias múltiples (ACM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mapas auto-organizados (SOM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="som_Introduccion.html">
+   <span style="color:#F72585">
+    Mapas Auto-organizados (SOM)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Neuronales
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/RedesNeuronales_intro.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Activation_Functions.html">
+   <span style="color:#F72585">
+    Funciones de Activación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Hello_World_ML.html">
+   <span style="color:#F72585">
+    Introducción a Keras Sequential y API Funcional
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Sequential.html">
+   <span style="color:#F72585">
+    Introducción a la API Sequential de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Functional.html">
+   <span style="color:#F72585">
+    Introducción a la API funcional de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-softmax-keras-iris.html">
+   <span style="color:#F72585">
+    Clasificación, Softmax, Iris
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-subclassing-iris.html">
+   <span style="color:#F72585">
+    Subclassing-Modelo de Regresión multi-logística
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/NN_Animation2.html">
+   <span style="color:#F72585">
+    Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/AprendizajeProfundo/Libro-Fundamentos/main?urlpath=tree/Machine_Learning/Cuadernos/Agrupamiento.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/AprendizajeProfundo/Libro-Fundamentos/blob/main/Machine_Learning/Cuadernos/Agrupamiento.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/issues/new?title=Issue%20on%20page%20%2FMachine_Learning/Cuadernos/Agrupamiento.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/edit/main/Machine_Learning/Cuadernos/Agrupamiento.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Machine_Learning/Cuadernos/Agrupamiento.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-objetivos-de-los-metodos-de-agrupamiento-span">
+   <span style="color:#F72585">
+    Objetivos de los métodos de agrupamiento
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-tipos-de-metodos-span">
+     <span style="color:#4361EE">
+      Tipos de métodos
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-metodos-para-obtener-una-particion-directa-span">
+   <span style="color:#F72585">
+    Métodos para obtener una partición directa
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-k-means-span">
+     <span style="color:#4361EE">
+      K-means
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descomposicion-de-la-inercia-asociada-a-una-particion-span">
+     <span style="color:#4361EE">
+      Descomposición de la inercia asociada a una partición
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-el-algoritmo-k-means-span">
+     <span style="color:#4361EE">
+      El algoritmo
+      <span class="math notranslate nohighlight">
+       \(K-means\)
+      </span>
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-el-algoritmo-k-means-disminuye-la-inercia-intra-clases-span">
+       <span style="color:#4CC9F0">
+        El algoritmo
+        <em>
+         K-means
+        </em>
+        disminuye la inercia intra-clases
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-de-juguete-k-means-ejemplo-cafe-span">
+       <span style="color:#4CC9F0">
+        <strong>
+         Ejemplo
+        </strong>
+        de «juguete»:
+        <span class="math notranslate nohighlight">
+         \(K{-}means\)
+        </span>
+        ejemplo Café
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-primer-plano-factorial-y-coordenadas-span">
+       <span style="color:#4CC9F0">
+        Primer plano factorial y coordenadas
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-paso-0-span">
+         <span style="color:#4CC9F0">
+          Paso 0
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-pasos-1-a-3-span">
+         <span style="color:#4CC9F0">
+          Pasos 1 a 3
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-resumen-span">
+       <span style="color:#4CC9F0">
+        Resumen
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-proceso-grafico-span">
+         <span style="color:#4CC9F0">
+          Proceso gráfico
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ventajas-del-k-means-span">
+       <span style="color:#4CC9F0">
+        Ventajas del K-means
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-desventajas-del-k-means-span">
+       <span style="color:#4CC9F0">
+        Desventajas del K-means
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-metodos-de-clasificacion-jerarquica-span">
+   <span style="color:#F72585">
+    Métodos de clasificación jerárquica
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-clasificacion-jerarquica-aglomerativa-span">
+     <span style="color:#4361EE">
+      Clasificación jerárquica aglomerativa
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-algoritmo-span">
+       <span style="color:#4CC9F0">
+        Algoritmo
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancia-entre-individuos-span">
+     <span style="color:#4361EE">
+      Distancia entre individuos
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-para-variables-continuas-span">
+       <span style="color:#4CC9F0">
+        Distancias para variables continuas
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-dos-distancias-para-variables-continuas-span">
+         <span style="color:#4CC9F0">
+          Dos distancias para variables continuas
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-euclidiana-span">
+         <span style="color:#4CC9F0">
+          Euclidiana
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-manhattan-o-cityblock-span">
+         <span style="color:#4CC9F0">
+          Manhattan o Cityblock
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-disponibles-en-la-funcion-dist-stats-span">
+       <span style="color:#4CC9F0">
+        Distancias disponibles en la función
+        <em>
+         dist{stats}
+        </em>
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancias-entre-variables-binarias-disponibles-en-dist-binary-ade4-span">
+     <span style="color:#4361EE">
+      Distancias entre variables binarias disponibles en
+      <em>
+       dist.binary{ade4}
+      </em>
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancias-entre-grupos-metodos-de-agregacion-span">
+     <span style="color:#4361EE">
+      Distancias entre grupos = métodos de agregación
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-simple-span">
+       <span style="color:#4CC9F0">
+        Enlace simple
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-completo-span">
+       <span style="color:#4CC9F0">
+        Enlace completo
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-de-juguete-utilizando-la-distancia-de-manhatan-entre-individuos-y-el-enlace-completo-como-distancia-entre-grupos-span">
+       <span style="color:#4CC9F0">
+        <strong>
+         Ejemplo
+        </strong>
+        de «juguete» utilizando la distancia de Manhatan entre individuos y el enlace completo como distancia entre grupos.
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-pasos-span">
+         <span style="color:#4CC9F0">
+          Pasos
+         </span>
+        </a>
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h5 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#arbol-o-dendrograma">
+           Árbol o dendrograma
+          </a>
+         </li>
+         <li class="toc-h5 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#ultrametrica-asociada-al-arbol">
+           Ultramétrica asociada al árbol
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-promedio-span">
+       <span style="color:#4CC9F0">
+        Enlace promedio
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-metodo-ward-span">
+     <span style="color:#4361EE">
+      Método Ward
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-procedimiento-para-construir-el-arbol-con-el-metodo-de-ward-span">
+       <span style="color:#4CC9F0">
+        Procedimiento para construir el árbol con el método de Ward
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-de-inercia-entre-clases-a-inercia-intra-clases-y-viceversa-span">
+       <span style="color:#4CC9F0">
+        De inercia entre clases a inercia intra-clases y viceversa
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-al-formar-el-arbol-span">
+         <span style="color:#4CC9F0">
+          Al formar el árbol
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-al-cortar-el-arbol-sucesivamente-span">
+         <span style="color:#4CC9F0">
+          Al cortar el árbol sucesivamente
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-cafe-span">
+       <span style="color:#4CC9F0">
+        Ejemplo café
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-de-ward-entre-cafes-span">
+       <span style="color:#4CC9F0">
+        Distancias de Ward entre cafés
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-construccion-del-arbol-span">
+       <span style="color:#4CC9F0">
+        Construcción del árbol
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-combinacion-de-metodos-span">
+   <span style="color:#F72585">
+    Combinación de métodos
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-clasificacion-a-partir-de-coordenadas-span">
+   <span style="color:#F72585">
+    Clasificación a partir de coordenadas
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-funcion-de-transformacion-o-cuantificacion-span">
+     <span style="color:#4361EE">
+      Función de transformación o cuantificación
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-funcion-de-filtro-span">
+     <span style="color:#4361EE">
+      Función de filtro
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-caracterizacion-automatica-de-las-clases-span">
+   <span style="color:#F72585">
+    Caracterización automática de las clases
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descripcion-con-variables-continuas-span">
+     <span style="color:#4361EE">
+      Descripción con variables continuas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descripcion-con-variables-cualitativas-span">
+     <span style="color:#4361EE">
+      Descripción con variables cualitativas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-una-estrategia-de-clasificacion-span">
+     <span style="color:#4361EE">
+      Una estrategia de clasificación
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-ejemplo-de-aplicacion-clasificacion-de-los-ninos-segun-el-consumo-cultural-span">
+   <span style="color:#F72585">
+    Ejemplo de aplicación: Clasificación de los niños según el consumo cultural
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-variables-activas-span">
+     <span style="color:#4361EE">
+      Variables activas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-variables-ilustrativas-span">
+     <span style="color:#4361EE">
+      Variables ilustrativas
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-caracterizacion-de-las-clases-con-variables-ilustrativas-span">
+       <span style="color:#4CC9F0">
+        Caracterización de las clases con variables ilustrativas
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1><span style="color:#F72585">Algunos métodos de clasificación no supervisada (agrupamiento)</span></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-objetivos-de-los-metodos-de-agrupamiento-span">
+   <span style="color:#F72585">
+    Objetivos de los métodos de agrupamiento
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-tipos-de-metodos-span">
+     <span style="color:#4361EE">
+      Tipos de métodos
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-metodos-para-obtener-una-particion-directa-span">
+   <span style="color:#F72585">
+    Métodos para obtener una partición directa
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-k-means-span">
+     <span style="color:#4361EE">
+      K-means
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descomposicion-de-la-inercia-asociada-a-una-particion-span">
+     <span style="color:#4361EE">
+      Descomposición de la inercia asociada a una partición
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-el-algoritmo-k-means-span">
+     <span style="color:#4361EE">
+      El algoritmo
+      <span class="math notranslate nohighlight">
+       \(K-means\)
+      </span>
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-el-algoritmo-k-means-disminuye-la-inercia-intra-clases-span">
+       <span style="color:#4CC9F0">
+        El algoritmo
+        <em>
+         K-means
+        </em>
+        disminuye la inercia intra-clases
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-de-juguete-k-means-ejemplo-cafe-span">
+       <span style="color:#4CC9F0">
+        <strong>
+         Ejemplo
+        </strong>
+        de «juguete»:
+        <span class="math notranslate nohighlight">
+         \(K{-}means\)
+        </span>
+        ejemplo Café
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-primer-plano-factorial-y-coordenadas-span">
+       <span style="color:#4CC9F0">
+        Primer plano factorial y coordenadas
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-paso-0-span">
+         <span style="color:#4CC9F0">
+          Paso 0
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-pasos-1-a-3-span">
+         <span style="color:#4CC9F0">
+          Pasos 1 a 3
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-resumen-span">
+       <span style="color:#4CC9F0">
+        Resumen
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-proceso-grafico-span">
+         <span style="color:#4CC9F0">
+          Proceso gráfico
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ventajas-del-k-means-span">
+       <span style="color:#4CC9F0">
+        Ventajas del K-means
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-desventajas-del-k-means-span">
+       <span style="color:#4CC9F0">
+        Desventajas del K-means
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-metodos-de-clasificacion-jerarquica-span">
+   <span style="color:#F72585">
+    Métodos de clasificación jerárquica
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-clasificacion-jerarquica-aglomerativa-span">
+     <span style="color:#4361EE">
+      Clasificación jerárquica aglomerativa
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-algoritmo-span">
+       <span style="color:#4CC9F0">
+        Algoritmo
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancia-entre-individuos-span">
+     <span style="color:#4361EE">
+      Distancia entre individuos
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-para-variables-continuas-span">
+       <span style="color:#4CC9F0">
+        Distancias para variables continuas
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-dos-distancias-para-variables-continuas-span">
+         <span style="color:#4CC9F0">
+          Dos distancias para variables continuas
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-euclidiana-span">
+         <span style="color:#4CC9F0">
+          Euclidiana
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-manhattan-o-cityblock-span">
+         <span style="color:#4CC9F0">
+          Manhattan o Cityblock
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-disponibles-en-la-funcion-dist-stats-span">
+       <span style="color:#4CC9F0">
+        Distancias disponibles en la función
+        <em>
+         dist{stats}
+        </em>
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancias-entre-variables-binarias-disponibles-en-dist-binary-ade4-span">
+     <span style="color:#4361EE">
+      Distancias entre variables binarias disponibles en
+      <em>
+       dist.binary{ade4}
+      </em>
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-distancias-entre-grupos-metodos-de-agregacion-span">
+     <span style="color:#4361EE">
+      Distancias entre grupos = métodos de agregación
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-simple-span">
+       <span style="color:#4CC9F0">
+        Enlace simple
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-completo-span">
+       <span style="color:#4CC9F0">
+        Enlace completo
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-de-juguete-utilizando-la-distancia-de-manhatan-entre-individuos-y-el-enlace-completo-como-distancia-entre-grupos-span">
+       <span style="color:#4CC9F0">
+        <strong>
+         Ejemplo
+        </strong>
+        de «juguete» utilizando la distancia de Manhatan entre individuos y el enlace completo como distancia entre grupos.
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-pasos-span">
+         <span style="color:#4CC9F0">
+          Pasos
+         </span>
+        </a>
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h5 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#arbol-o-dendrograma">
+           Árbol o dendrograma
+          </a>
+         </li>
+         <li class="toc-h5 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#ultrametrica-asociada-al-arbol">
+           Ultramétrica asociada al árbol
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-enlace-promedio-span">
+       <span style="color:#4CC9F0">
+        Enlace promedio
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-metodo-ward-span">
+     <span style="color:#4361EE">
+      Método Ward
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-procedimiento-para-construir-el-arbol-con-el-metodo-de-ward-span">
+       <span style="color:#4CC9F0">
+        Procedimiento para construir el árbol con el método de Ward
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-de-inercia-entre-clases-a-inercia-intra-clases-y-viceversa-span">
+       <span style="color:#4CC9F0">
+        De inercia entre clases a inercia intra-clases y viceversa
+       </span>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-al-formar-el-arbol-span">
+         <span style="color:#4CC9F0">
+          Al formar el árbol
+         </span>
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#span-style-color-4cc9f0-al-cortar-el-arbol-sucesivamente-span">
+         <span style="color:#4CC9F0">
+          Al cortar el árbol sucesivamente
+         </span>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-cafe-span">
+       <span style="color:#4CC9F0">
+        Ejemplo café
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-distancias-de-ward-entre-cafes-span">
+       <span style="color:#4CC9F0">
+        Distancias de Ward entre cafés
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-construccion-del-arbol-span">
+       <span style="color:#4CC9F0">
+        Construcción del árbol
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-combinacion-de-metodos-span">
+   <span style="color:#F72585">
+    Combinación de métodos
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-clasificacion-a-partir-de-coordenadas-span">
+   <span style="color:#F72585">
+    Clasificación a partir de coordenadas
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-funcion-de-transformacion-o-cuantificacion-span">
+     <span style="color:#4361EE">
+      Función de transformación o cuantificación
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-funcion-de-filtro-span">
+     <span style="color:#4361EE">
+      Función de filtro
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-caracterizacion-automatica-de-las-clases-span">
+   <span style="color:#F72585">
+    Caracterización automática de las clases
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descripcion-con-variables-continuas-span">
+     <span style="color:#4361EE">
+      Descripción con variables continuas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-descripcion-con-variables-cualitativas-span">
+     <span style="color:#4361EE">
+      Descripción con variables cualitativas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-una-estrategia-de-clasificacion-span">
+     <span style="color:#4361EE">
+      Una estrategia de clasificación
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-f72585-ejemplo-de-aplicacion-clasificacion-de-los-ninos-segun-el-consumo-cultural-span">
+   <span style="color:#F72585">
+    Ejemplo de aplicación: Clasificación de los niños según el consumo cultural
+   </span>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-variables-activas-span">
+     <span style="color:#4361EE">
+      Variables activas
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4361ee-variables-ilustrativas-span">
+     <span style="color:#4361EE">
+      Variables ilustrativas
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-4cc9f0-caracterizacion-de-las-clases-con-variables-ilustrativas-span">
+       <span style="color:#4CC9F0">
+        Caracterización de las clases con variables ilustrativas
+       </span>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-algunos-metodos-de-clasificacion-no-supervisada-agrupamiento-span">
+<h1><span style="color:#F72585">Algunos métodos de clasificación no supervisada (agrupamiento)</span><a class="headerlink" href="#span-style-color-f72585-algunos-metodos-de-clasificacion-no-supervisada-agrupamiento-span" title="Enlazar permanentemente con este título">#</a></h1>
+<div class="admonition">
+<p class="admonition-title">Cuidado</p>
+<p>Los trozos de código de esta página son de R. Por favor, ejecútelos en Colab</p>
+</div>
+<p><strong>Fuente:</strong> Pardo CE (2020)  <a class="reference external" href="http://ciencias.bogota.unal.edu.co/fileadmin/Facultad_de_Ciencias/Publicaciones/Imagenes/Portadas_Libros/Estadistica/Estadistica_descriptiva_multivariada/libroEstadisiticaDescriptivaMultivariadaDigital.pdf">Estadística descriptiva multivariada</a></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-objetivos-de-los-metodos-de-agrupamiento-span">
+<h1><span style="color:#F72585">Objetivos de los métodos de agrupamiento</span><a class="headerlink" href="#span-style-color-f72585-objetivos-de-los-metodos-de-agrupamiento-span" title="Enlazar permanentemente con este título">#</a></h1>
+<p>Objetivo: Descubrir patrones en los datos en forma de grupos  bien diferenciados, que tengan individuos homogéneos en su interior.</p>
+<ul class="simple">
+<li><p>En inglés: <em>Cluster Analysis</em> (análisis de conglomerados)</p></li>
+<li><p><em>Métodos de clasificación no supervisada</em>: en las áreas de minería de datos, aprendizaje automático y reconocimiento de patrones.</p></li>
+<li><p>En el sentido matemático un algoritmo de agrupamiento busca una partición de un conjunto de <span class="math notranslate nohighlight">\(n\)</span> elementos en <span class="math notranslate nohighlight">\(K\)</span> subconjuntos,</p></li>
+<li><p>Equivale a definir una variable cualitativa que emerge de los datos.</p></li>
+</ul>
+<section id="span-style-color-4361ee-tipos-de-metodos-span">
+<h2><span style="color:#4361EE">Tipos de métodos</span><a class="headerlink" href="#span-style-color-4361ee-tipos-de-metodos-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ol class="simple">
+<li><p>Los que permiten obtener una partición directa mediante un algoritmo, el más conocido y utilizado es el <em>K-means</em>.</p></li>
+<li><p>Los que construyen una sucesión de particiones anidadas, que se representan mediante un árbol o dendrograma, se conocen como métodos de clasificación jerárquica.</p>
+<ul class="simple">
+<li><p>Clasificación jerárquica aglomerativa: parten de todos los individuos, como n clases de un elemento  y los van uniendo en pasos sucesivos hasta llegar a un solo grupo o clase de n individuos.</p></li>
+<li><p>Clasificación jerárquica divisiva.</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>Los algoritmos de clasificación requieren de medidas de similitud, disimilitud o distancia entre individuos y  entre grupos.</p></li>
+<li><p>Las similitudes, disimilitudes o distancias entre grupos constituyen los criterios de agregación de los métodos de clasificación  jerárquica aglomerativa.</p></li>
+<li><p>Combinar los dos tipos de métodos de clasificación.</p></li>
+</ul>
+<center>
+<img src="https://quantdare.com/wp-content/uploads/2016/06/AggloDivHierarClustering-800x389.png" alt="agrupations" width="700">
+<center>
+<p>Fuente: <a class="reference external" href="https://quantdare.com/hierarchical-clustering">quatdare</a></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-metodos-para-obtener-una-particion-directa-span">
+<h1><span style="color:#F72585">Métodos para obtener una partición directa</span><a class="headerlink" href="#span-style-color-f72585-metodos-para-obtener-una-particion-directa-span" title="Enlazar permanentemente con este título">#</a></h1>
+<section id="span-style-color-4361ee-k-means-span">
+<h2><span style="color:#4361EE">K-means</span><a class="headerlink" href="#span-style-color-4361ee-k-means-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ul class="simple">
+<li><p>Se da el número de clases, los puntos iniciales requeridos para empezar el algoritmo y un criterio de parada.</p></li>
+<li><p>Está relacionado con la geometría utilizada en los métodos en ejes principales porque recurre a la distancia Euclidiana entre individuos.</p></li>
+<li><p>La distancia entre grupos se calcula como la distancia Euclidiana entre sus  centros de gravedad.</p></li>
+<li><p>Homogeneidad intra grupos: inercia intra.</p></li>
+<li><p>Heterogeneidad entre grupos: inercia entre.</p></li>
+<li><p>Inercia = inercia intra + inercia entre.</p></li>
+</ul>
+<center>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/K-means_convergence.gif/617px-K-means_convergence.gif" alt="Clustering1" width="400" height="300">
+<center>
+<p>Fuente: <a class="reference external" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/K-means_convergence.gif/617px-K-means_convergence.gif">Wikipedia</a></p>
+</section>
+<section id="span-style-color-4361ee-descomposicion-de-la-inercia-asociada-a-una-particion-span">
+<h2><span style="color:#4361EE">Descomposición de la inercia asociada a una partición</span><a class="headerlink" href="#span-style-color-4361ee-descomposicion-de-la-inercia-asociada-a-una-particion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Sea una nube de <span class="math notranslate nohighlight">\(n\)</span> puntos <span class="math notranslate nohighlight">\(N_n\)</span> en <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> con una partición en <span class="math notranslate nohighlight">\(K\)</span> clases.
+$<span class="math notranslate nohighlight">\(
+Inercia(N_n)=\sum_{i=1}^n p_i d^2(i,\mathbf{g}) =
+ \sum_{k=1}^K p_k d^2(\mathbf{g}_k,\mathbf{g}) + \sum_{k=1}^K \sum_{i \in I_k } p_id^2(i,\mathbf{g}_k)
+\)</span>$</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_i\)</span>: peso del individuo <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\sum\limits_{i=1}^n p_i = 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{g}\)</span>: centro de gravedad de la nube de puntos, <span class="math notranslate nohighlight">\(\mathbf{g}=\sum\limits_{i=1}^n p_i \mathbf{x}_i\)</span>,  <span class="math notranslate nohighlight">\(\mathbf{x'}_i\)</span>, es la fila <span class="math notranslate nohighlight">\(i\)</span> de la matriz de coordenadas de los puntos <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> con <span class="math notranslate nohighlight">\(n\)</span> filas y <span class="math notranslate nohighlight">\(p\)</span> columnas.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_k\)</span> peso de la clase <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(p_k = \sum\limits_{i \in I_k } p_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{g}_k\)</span>: centro de gravedad de la clase <span class="math notranslate nohighlight">\(k\)</span>,  <span class="math notranslate nohighlight">\(\mathbf{g}_k = \dfrac{1}{p_k}\sum\limits_{i \in I_k } p_i \mathbf{x}_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(d^2(.,.)\)</span>] es la distancia Euclidiana canónica.</p></li>
+<li><p>En el cálculo de la inercia ha intervenido la distancia Euclidiana canónica, entonces la medida de disimilitud entre individuos ya está seleccionada.</p></li>
+<li><p>El método <em>K-means</em> busca una partición en <span class="math notranslate nohighlight">\(K\)</span> clases que tenga inercia intra-clases mínima.</p></li>
+</ul>
+</section>
+<section id="span-style-color-4361ee-el-algoritmo-k-means-span">
+<h2><span style="color:#4361EE">El algoritmo <span class="math notranslate nohighlight">\(K-means\)</span></span><a class="headerlink" href="#span-style-color-4361ee-el-algoritmo-k-means-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ol class="simple">
+<li><p>Paso 0</p></li>
+</ol>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(K\)</span> centros iniciales de las clases:  <span class="math notranslate nohighlight">\(\{C^{0}_{1},
+C^{0}_{2},\ldots,C^{0}_{k},\ldots,C^{0}_{K}\}\)</span></p></li>
+<li><p>Partición 0 <span class="math notranslate nohighlight">\(P^0=\{ I^{0}_{1}, I^{0}_{2},\ldots,
+I^{0}_{k},\ldots,I^{0}_{K}\}\)</span>.</p></li>
+<li><p>El individuo <span class="math notranslate nohighlight">\(i\)</span> pertenece
+a la clase <span class="math notranslate nohighlight">\(I^0_k\)</span> si el punto <span class="math notranslate nohighlight">\(i\)</span> está más próximo de <span class="math notranslate nohighlight">\(C^0_k\)</span>   que de
+todos los demás centros.</p></li>
+</ul>
+<ol class="simple">
+<li><p>Paso 1</p></li>
+</ol>
+<ul class="simple">
+<li><p>De las clases  <span class="math notranslate nohighlight">\(\{ I^{0}_{1}, I^{0}_{2},\ldots, I^{0}_{k},\ldots,I^{0}_{K}\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span> centros de gravedad   <span class="math notranslate nohighlight">\(\{C^{1}_{1},C^{1}_{2},\ldots,C^{1}_{k},\ldots,C^{1}_{K}\}\)</span></p></li>
+<li><p>Partición 1: <span class="math notranslate nohighlight">\(P^1=\{ I^{1}_{1}, I^{1}_{2},\ldots,
+I^{1}_{k},\ldots,I^{1}_{K}\}\)</span></p></li>
+<li><p>Paso <span class="math notranslate nohighlight">\(m\)</span></p></li>
+<li><p>De las clases <span class="math notranslate nohighlight">\(\{ I^{m-1}_{1}, I^{m-1}_{2},\ldots,I^{m-1}_{k},\ldots,I^{m-1}_{K}\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span> nuevos centros  <span class="math notranslate nohighlight">\(\{C^{m}_{1}, C^{m}_{2},\ldots,C^{m}_{k},\ldots,C^{m}_{K}\}\)</span></p></li>
+<li><p>Partición <span class="math notranslate nohighlight">\(m\)</span>: <span class="math notranslate nohighlight">\(P^m=\{ I^{m}_{1},
+I^{m}_{2},\ldots,I^{m}_{k},\ldots,I^{m}_{K}\}\)</span>
+. El algoritmo se detiene si la nueva partición no es mejor que la
+anterior (la varianza intra-clases deja de disminuir)</p></li>
+<li><p>Generalmente la partición
+obtenida depende de la selección inicial de los centros.</p></li>
+</ul>
+<center>
+<img src="https://dashee87.github.io/images/kmeans.gif" alt="Clustering2" width="800" height="500">
+<center>
+<p>Fuente: <a class="reference external" href="https://dashee87.github.io/images/kmeans.gif">David Sheehan</a></p>
+<section id="span-style-color-4cc9f0-el-algoritmo-k-means-disminuye-la-inercia-intra-clases-span">
+<h3><span style="color:#4CC9F0">El algoritmo <em>K-means</em>  disminuye la inercia intra-clases</span><a class="headerlink" href="#span-style-color-4cc9f0-el-algoritmo-k-means-disminuye-la-inercia-intra-clases-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ul class="simple">
+<li><p>Hay que demostrar que la inercia intra-clases de la partición <span class="math notranslate nohighlight">\(P^{m}=\{ I^{m}_{1}, I^{m}_{2},\ldots,I^{m}_{k},\ldots,I^{m}_{K}\}\)</span> es menor o igual a la inercia intra-clases de la partición <span class="math notranslate nohighlight">\(P^{m-1}\)</span></p>
+<ul>
+<li><p>A cada individuo del conjunto a clasificar, se le asocia un peso
+<span class="math notranslate nohighlight">\(p_i&gt;0\)</span> tal que <span class="math notranslate nohighlight">\(\sum\limits_{i=1}^np_i=1\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(d^2(i,C^m_k)\)</span> es el cuadrado
+de la distancia entre el individuo <span class="math notranslate nohighlight">\(i\)</span> y el centro móvil de la clase <span class="math notranslate nohighlight">\(k\)</span>
+en la etapa <span class="math notranslate nohighlight">\(m\)</span> , que es el centro de gravedad de la clase <span class="math notranslate nohighlight">\(k\)</span> en el paso <span class="math notranslate nohighlight">\(m{-}1\)</span>.</p></li>
+<li><p>Entonces, la suma de las inercias de las clases  de la partición <span class="math notranslate nohighlight">\(P^m\)</span> con respecto a los puntos que permitieron construirla  es<br />
+$<span class="math notranslate nohighlight">\(
+v(m)=\sum\limits_{k=1}^K
+\sum_{i \in  I_k^m } p_i d^2(i,C_k^m)
+\)</span>$</p></li>
+</ul>
+</li>
+<li><p>En la etapa <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(I_k^m\)</span> es el conjunto de los  individuos que están más próximos a <span class="math notranslate nohighlight">\(C_k^m\)</span>
+que de todos los otros centros</p></li>
+<li><p>El centro de gravedad de esta clase se calcula en la etapa <span class="math notranslate nohighlight">\(m+1\)</span>: <span class="math notranslate nohighlight">\(C_k^{m+1}=\mathbf{g}_k^m\)</span>.</p></li>
+<li><p>La inercia intra-clases en la etapa <span class="math notranslate nohighlight">\(m\)</span> es la cantidad
+$<span class="math notranslate nohighlight">\(
+V(m)= \sum_{k=1}^K \sum_{i \in I_k^m } p_id^2(i,\mathbf{g}_k^{m})
+=\sum_{k=1}^K \sum_{i \in I_k^m } p_id^2(i,C_k^{m+1})
+\)</span>$</p></li>
+<li><p><span class="math notranslate nohighlight">\(C_k^{m+1}\)</span> es el centro de gravedad de la clase <span class="math notranslate nohighlight">\(I_k^m\)</span>, que es el nuevo centro móvil en la etapa <span class="math notranslate nohighlight">\(m+1\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(V(m)\)</span> es menor o igual que <span class="math notranslate nohighlight">\(v(m)\)</span>  porque la inercia con respecto al centro de gravedad es siempre menor o igual a la inercia con respecto a cualquier otro punto.</p></li>
+<li><p>La suma de las inercias con respecto a los puntos que originaron la partición <span class="math notranslate nohighlight">\(P^{m+1}\)</span> es<br />
+$<span class="math notranslate nohighlight">\(
+\textbf{v}(m+1)=\sum_{k=1}^K \sum_{i \in I_k^{m+1} }
+p_id^2(i,C_k^{m+1})
+\)</span>$</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(v(m+1)\)</span>  es menor o igual a <span class="math notranslate nohighlight">\(V(m)\)</span>  porque si al menos un individuo cambia de clase  en la nueva partición es porque queda más cerca de otro nuevo centro.</p></li>
+<li><p>Entonces
+<span class="math notranslate nohighlight">\(v(m+1)\leq V(m) \leq v(m) \leq V(m-1)\)</span>, es decir que la inercia intra-clases disminuye con cada paso del algoritmo.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="span-style-color-4cc9f0-ejemplo-de-juguete-k-means-ejemplo-cafe-span">
+<h3><span style="color:#4CC9F0"><strong>Ejemplo</strong> de «juguete»: <span class="math notranslate nohighlight">\(K{-}means\)</span> ejemplo Café</span><a class="headerlink" href="#span-style-color-4cc9f0-ejemplo-de-juguete-k-means-ejemplo-cafe-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Tomando el ejemplo de Café, partiendo de las coordenadas sobre el primer plano factorial del ACP normado de las tres variables físicas, y tomando como centros iniciales los cafés ExCl y O40C.</p>
+</section>
+<section id="span-style-color-4cc9f0-primer-plano-factorial-y-coordenadas-span">
+<h3><span style="color:#4CC9F0">Primer plano factorial y coordenadas</span><a class="headerlink" href="#span-style-color-4cc9f0-primer-plano-factorial-y-coordenadas-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instalación de FactoClass:</span>
+<span class="c1">#install.packages(&quot;FactoClass&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">FactoClass</span><span class="p">)</span>
+<span class="nf">data</span><span class="p">(</span><span class="n">cafe</span><span class="p">)</span>
+<span class="n">acp</span><span class="o">&lt;-</span><span class="nf">dudi.pca</span><span class="p">(</span><span class="n">cafe</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">],</span><span class="n">scannf</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">acp</span><span class="p">,</span><span class="n">Tcol</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="n">gg</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;ACP Factores 1-2&quot;</span><span class="p">)</span>
+<span class="bp">F</span><span class="o">&lt;-</span><span class="nf">as.matrix</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">acp</span><span class="o">$</span><span class="n">li</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+<span class="nf">t</span><span class="p">(</span><span class="bp">F</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: ade4
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: ggplot2
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: ggrepel
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: xtable
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: scatterplot3d
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 10 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>ExCl</th><th scope=col>C40M</th><th scope=col>C40C</th><th scope=col>C20M</th><th scope=col>C20C</th><th scope=col>ExOs</th><th scope=col>O40M</th><th scope=col>O40C</th><th scope=col>O20M</th><th scope=col>O20C</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>Axis1</th><td>-0.89</td><td> 2.68</td><td>1.18</td><td> 1.14</td><td>-0.44</td><td>-2.47</td><td>0.98</td><td>0.15</td><td>-1.04</td><td>-1.29</td></tr>
+	<tr><th scope=row>Axis2</th><td>-1.68</td><td>-0.22</td><td>0.15</td><td>-1.02</td><td>-0.82</td><td>-0.04</td><td>1.01</td><td>1.31</td><td> 0.65</td><td> 0.67</td></tr>
+</tbody>
+</table>
+</div><img alt="../../_images/Agrupamiento_23_6.png" src="../../_images/Agrupamiento_23_6.png" />
+</div>
+</div>
+<section id="span-style-color-4cc9f0-paso-0-span">
+<h4><span style="color:#4CC9F0">Paso 0</span><a class="headerlink" href="#span-style-color-4cc9f0-paso-0-span" title="Enlazar permanentemente con este título">#</a></h4>
+<p>Puntos iniciales: ExCl y O40C</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">tab</span><span class="o">&lt;-</span><span class="kc">NULL</span><span class="c1"># para para registrar los pasos 3 filas DC1, DC2, Partición</span>
+<span class="n">cen</span> <span class="o">&lt;-</span> <span class="kc">NULL</span><span class="c1"># matriz para recoger los centros de cada paso, por columnas</span>
+<span class="s">&quot;Centros iniciales&quot;</span>
+<span class="n">C</span><span class="o">&lt;-</span><span class="bp">F</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">8</span><span class="p">),];</span><span class="nf">rownames</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;C1&quot;</span><span class="p">,</span><span class="s">&quot;C2&quot;</span><span class="p">);</span><span class="n">C</span>
+<span class="s">&quot;Distancias a los centros iniciales&quot;</span>
+<span class="nf">as.matrix</span><span class="p">(</span><span class="nf">dist</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">C</span><span class="p">)))[</span><span class="m">11</span><span class="o">:</span><span class="m">12</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">D</span><span class="p">;</span><span class="nf">round</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="s">&quot;Partición&quot;</span>
+<span class="nf">factor</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="m">1</span><span class="p">,]</span><span class="o">&gt;</span><span class="n">D</span><span class="p">[</span><span class="m">2</span><span class="p">,],</span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;I1&quot;</span><span class="p">,</span><span class="s">&quot;I2&quot;</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">P</span><span class="p">;</span> <span class="nf">t</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">P</span><span class="p">))</span>
+<span class="n">cen</span><span class="o">&lt;-</span><span class="n">C</span>
+<span class="n">tab</span><span class="o">&lt;-</span><span class="nf">rbind</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">P</span><span class="p">);</span><span class="nf">round</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'Centros iniciales'</div><div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 2 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>Axis1</th><th scope=col>Axis2</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>C1</th><td>-0.89</td><td>-1.68</td></tr>
+	<tr><th scope=row>C2</th><td> 0.15</td><td> 1.31</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html">'Distancias a los centros iniciales'</div><div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 10 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>ExCl</th><th scope=col>C40M</th><th scope=col>C40C</th><th scope=col>C20M</th><th scope=col>C20C</th><th scope=col>ExOs</th><th scope=col>O40M</th><th scope=col>O40C</th><th scope=col>O20M</th><th scope=col>O20C</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>C1</th><td>0.00</td><td>3.86</td><td>2.76</td><td>2.13</td><td>0.97</td><td>2.28</td><td>3.28</td><td>3.17</td><td>2.33</td><td>2.38</td></tr>
+	<tr><th scope=row>C2</th><td>3.17</td><td>2.96</td><td>1.55</td><td>2.53</td><td>2.21</td><td>2.95</td><td>0.88</td><td>0.00</td><td>1.36</td><td>1.58</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html">'Partición'</div><div class="output text_html"><table class="dataframe">
+<caption>A matrix: 1 × 10 of type chr</caption>
+<thead>
+	<tr><th></th><th scope=col>ExCl</th><th scope=col>C40M</th><th scope=col>C40C</th><th scope=col>C20M</th><th scope=col>C20C</th><th scope=col>ExOs</th><th scope=col>O40M</th><th scope=col>O40C</th><th scope=col>O20M</th><th scope=col>O20C</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>P</th><td>I1</td><td>I2</td><td>I2</td><td>I1</td><td>I1</td><td>I1</td><td>I2</td><td>I2</td><td>I2</td><td>I2</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A matrix: 3 × 10 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>ExCl</th><th scope=col>C40M</th><th scope=col>C40C</th><th scope=col>C20M</th><th scope=col>C20C</th><th scope=col>ExOs</th><th scope=col>O40M</th><th scope=col>O40C</th><th scope=col>O20M</th><th scope=col>O20C</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>C1</th><td>0.00</td><td>3.86</td><td>2.76</td><td>2.13</td><td>0.97</td><td>2.28</td><td>3.28</td><td>3.17</td><td>2.33</td><td>2.38</td></tr>
+	<tr><th scope=row>C2</th><td>3.17</td><td>2.96</td><td>1.55</td><td>2.53</td><td>2.21</td><td>2.95</td><td>0.88</td><td>0.00</td><td>1.36</td><td>1.58</td></tr>
+	<tr><th scope=row>P</th><td>1.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>2.00</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-pasos-1-a-3-span">
+<h4><span style="color:#4CC9F0">Pasos 1 a 3</span><a class="headerlink" href="#span-style-color-4cc9f0-pasos-1-a-3-span" title="Enlazar permanentemente con este título">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">paso</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">){</span>
+    <span class="nf">print</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Cálculo de los centros del paso&quot;</span><span class="p">,</span><span class="n">paso</span><span class="p">))</span>
+    <span class="nf">centroids</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">P</span><span class="p">)</span><span class="o">$</span><span class="n">centroids</span><span class="o">-&gt;</span><span class="n">C</span> 
+    <span class="nf">print</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+    <span class="c1"># &quot;Distancias al cuadrado a los centros&quot;</span>
+    <span class="nf">as.matrix</span><span class="p">(</span><span class="nf">dist</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">C</span><span class="p">)))[</span><span class="m">11</span><span class="o">:</span><span class="m">12</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">D</span><span class="p">;</span><span class="nf">rownames</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;C1&quot;</span><span class="p">,</span><span class="s">&quot;C2&quot;</span><span class="p">)</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Distancias al cuadrado y pertición&quot;</span><span class="p">,</span><span class="n">paso</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+    <span class="s">&quot;Partición&quot;</span>
+    <span class="nf">factor</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="m">1</span><span class="p">,]</span><span class="o">&gt;</span><span class="n">D</span><span class="p">[</span><span class="m">2</span><span class="p">,],</span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;I1&quot;</span><span class="p">,</span><span class="s">&quot;I2&quot;</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">P</span> 
+    <span class="nf">print</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+    <span class="n">cen</span><span class="o">&lt;-</span><span class="nf">cbind</span><span class="p">(</span><span class="n">cen</span><span class="p">,</span><span class="n">C</span><span class="p">)</span>
+    <span class="c1">#print(round(cen,2))</span>
+    <span class="n">tab</span><span class="o">&lt;-</span><span class="nf">rbind</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span><span class="nf">rbind</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">P</span><span class="p">))</span>
+    <span class="c1">#print(round(tab,2))</span>
+<span class="c1">#    factor(D22&gt;D21)-&gt;P</span>
+<span class="c1">#    tab&lt;-rbind(tab,D21,D22,P)</span>
+<span class="c1">#    print(tab[paso+1:3,],digits=2)   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;Cálculo de los centros del paso 1&quot;
+   Axis1 Axis2
+I1 -0.67 -0.89
+I2  0.44  0.60
+
+[1] &quot;Distancias al cuadrado y pertición 1&quot;
+   ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C
+C1 0.82 3.41 2.12 1.81 0.24 2.00 2.51 2.35 1.58 1.68
+C2 2.64 2.38 0.86 1.76 1.67 2.98 0.68 0.77 1.48 1.73
+
+ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C 
+  I1   I2   I2   I2   I1   I1   I2   I2   I2   I1 
+Levels: I1 I2
+
+[1] &quot;Cálculo de los centros del paso 2&quot;
+   Axis1 Axis2
+I1 -1.27 -0.47
+I2  0.85  0.31
+
+[1] &quot;Distancias al cuadrado y pertición 2&quot;
+   ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C
+C1 1.27 3.96 2.53 2.47 0.90 1.27 2.69 2.28 1.14 1.14
+C2 2.64 1.91 0.37 1.36 1.72 3.34 0.71 1.22 1.92 2.17
+
+ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C 
+  I1   I2   I2   I2   I1   I1   I2   I2   I1   I1 
+Levels: I1 I2
+
+[1] &quot;Cálculo de los centros del paso 3&quot;
+   Axis1 Axis2
+I1 -1.23 -0.24
+I2  1.23  0.25
+
+[1] &quot;Distancias al cuadrado y pertición 3&quot;
+   ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C
+C1 1.47 3.91 2.44 2.49 0.97 1.26 2.54 2.08 0.91 0.92
+C2 2.86 1.53 0.11 1.27 1.98 3.71 0.80 1.51 2.30 2.55
+
+ExCl C40M C40C C20M C20C ExOs O40M O40C O20M O20C 
+  I1   I2   I2   I2   I1   I1   I2   I2   I1   I1 
+Levels: I1 I2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4cc9f0-resumen-span">
+<h3><span style="color:#4CC9F0">Resumen</span><a class="headerlink" href="#span-style-color-4cc9f0-resumen-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">round</span><span class="p">(</span><span class="n">cen</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="nf">round</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 8 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>Axis1</th><th scope=col>Axis2</th><th scope=col>Axis1</th><th scope=col>Axis2</th><th scope=col>Axis1</th><th scope=col>Axis2</th><th scope=col>Axis1</th><th scope=col>Axis2</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>C1</th><td>-0.89</td><td>-1.68</td><td>-0.67</td><td>-0.89</td><td>-1.27</td><td>-0.47</td><td>-1.23</td><td>-0.24</td></tr>
+	<tr><th scope=row>C2</th><td> 0.15</td><td> 1.31</td><td> 0.44</td><td> 0.60</td><td> 0.85</td><td> 0.31</td><td> 1.23</td><td> 0.25</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A matrix: 12 × 10 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>ExCl</th><th scope=col>C40M</th><th scope=col>C40C</th><th scope=col>C20M</th><th scope=col>C20C</th><th scope=col>ExOs</th><th scope=col>O40M</th><th scope=col>O40C</th><th scope=col>O20M</th><th scope=col>O20C</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>C1</th><td>0.00</td><td>3.86</td><td>2.76</td><td>2.13</td><td>0.97</td><td>2.28</td><td>3.28</td><td>3.17</td><td>2.33</td><td>2.38</td></tr>
+	<tr><th scope=row>C2</th><td>3.17</td><td>2.96</td><td>1.55</td><td>2.53</td><td>2.21</td><td>2.95</td><td>0.88</td><td>0.00</td><td>1.36</td><td>1.58</td></tr>
+	<tr><th scope=row>P</th><td>1.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>2.00</td></tr>
+	<tr><th scope=row>C1</th><td>0.82</td><td>3.41</td><td>2.12</td><td>1.81</td><td>0.24</td><td>2.00</td><td>2.51</td><td>2.35</td><td>1.58</td><td>1.68</td></tr>
+	<tr><th scope=row>C2</th><td>2.64</td><td>2.38</td><td>0.86</td><td>1.76</td><td>1.67</td><td>2.98</td><td>0.68</td><td>0.77</td><td>1.48</td><td>1.73</td></tr>
+	<tr><th scope=row>P</th><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>1.00</td></tr>
+	<tr><th scope=row>C1</th><td>1.27</td><td>3.96</td><td>2.53</td><td>2.47</td><td>0.90</td><td>1.27</td><td>2.69</td><td>2.28</td><td>1.14</td><td>1.14</td></tr>
+	<tr><th scope=row>C2</th><td>2.64</td><td>1.91</td><td>0.37</td><td>1.36</td><td>1.72</td><td>3.34</td><td>0.71</td><td>1.22</td><td>1.92</td><td>2.17</td></tr>
+	<tr><th scope=row>P</th><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td></tr>
+	<tr><th scope=row>C1</th><td>1.47</td><td>3.91</td><td>2.44</td><td>2.49</td><td>0.97</td><td>1.26</td><td>2.54</td><td>2.08</td><td>0.91</td><td>0.92</td></tr>
+	<tr><th scope=row>C2</th><td>2.86</td><td>1.53</td><td>0.11</td><td>1.27</td><td>1.98</td><td>3.71</td><td>0.80</td><td>1.51</td><td>2.30</td><td>2.55</td></tr>
+	<tr><th scope=row>P</th><td>1.00</td><td>2.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td><td>2.00</td><td>2.00</td><td>1.00</td><td>1.00</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="span-style-color-4cc9f0-proceso-grafico-span">
+<h4><span style="color:#4CC9F0">Proceso gráfico</span><a class="headerlink" href="#span-style-color-4cc9f0-proceso-grafico-span" title="Enlazar permanentemente con este título">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">))</span> <span class="c1"># 4 gráficas</span>
+<span class="nf">plotfp</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Paso 0&quot;</span><span class="p">,</span><span class="n">cex</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+<span class="nf">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">cen</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">cen</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="s">&quot;2&quot;</span><span class="p">),</span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">),</span><span class="n">pos</span><span class="o">=</span><span class="m">4</span><span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="bp">F</span><span class="p">[</span><span class="n">tab</span><span class="p">[</span><span class="m">3</span><span class="p">,]</span><span class="o">==</span><span class="m">1</span><span class="p">,],</span><span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="bp">F</span><span class="p">[</span><span class="n">tab</span><span class="p">[</span><span class="m">3</span><span class="p">,]</span><span class="o">==</span><span class="m">2</span><span class="p">,],</span><span class="n">col</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">)</span>
+<span class="nf">plotfp</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Paso 1&quot;</span><span class="p">,</span><span class="n">cex</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+<span class="nf">s.class</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="nf">factor</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="m">3</span><span class="p">,]),</span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">),</span><span class="n">add.plot</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="nf">plotfp</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Paso 2&quot;</span><span class="p">,</span><span class="n">cex</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+<span class="nf">s.class</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="nf">factor</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="m">6</span><span class="p">,]),</span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">),</span><span class="n">add.plot</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="nf">plotfp</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Paso 3&quot;</span><span class="p">,</span><span class="n">cex</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+<span class="nf">s.class</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="nf">factor</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="m">9</span><span class="p">,]),</span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">),</span><span class="n">add.plot</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_32_0.png" src="../../_images/Agrupamiento_32_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4cc9f0-ventajas-del-k-means-span">
+<h3><span style="color:#4CC9F0">Ventajas del K-means</span><a class="headerlink" href="#span-style-color-4cc9f0-ventajas-del-k-means-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ul class="simple">
+<li><p>Es muy rápido</p></li>
+<li><p>Poco exigente en recursos de cómputo</p></li>
+</ul>
+</section>
+<section id="span-style-color-4cc9f0-desventajas-del-k-means-span">
+<h3><span style="color:#4CC9F0">Desventajas del K-means</span><a class="headerlink" href="#span-style-color-4cc9f0-desventajas-del-k-means-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ul class="simple">
+<li><p>Con un método de agrupamiento se pretende descubrir una estructura de clases en los grupos y el algoritmo <span class="math notranslate nohighlight">\(K{-}means\)</span> requiere que se le suministre el número de clases y los puntos iniciales.</p></li>
+<li><p>En general, la inercia mínima que se obtiene depende de los puntos iniciales.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-metodos-de-clasificacion-jerarquica-span">
+<h1><span style="color:#F72585">Métodos de clasificación jerárquica</span><a class="headerlink" href="#span-style-color-f72585-metodos-de-clasificacion-jerarquica-span" title="Enlazar permanentemente con este título">#</a></h1>
+<ul class="simple">
+<li><p>Aglomerativos: En  Ciencias Naturales se denominan métodos de clasificación ascendente jerárquica aglomerativa</p></li>
+<li><p>Divisivos</p></li>
+</ul>
+<div class="note admonition">
+<p class="admonition-title">Nota</p>
+<p>Estos métodos construyen una serie de particiones anidadas.</p>
+</div>
+<section id="span-style-color-4361ee-clasificacion-jerarquica-aglomerativa-span">
+<h2><span style="color:#4361EE">Clasificación jerárquica aglomerativa</span><a class="headerlink" href="#span-style-color-4361ee-clasificacion-jerarquica-aglomerativa-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-algoritmo-span">
+<h3><span style="color:#4CC9F0">Algoritmo</span><a class="headerlink" href="#span-style-color-4cc9f0-algoritmo-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ol class="simple">
+<li><p>Calcular la matriz de  distancias entre  los <span class="math notranslate nohighlight">\(n\)</span> individuos,</p>
+<ul class="simple">
+<li><p>Unir los dos más cercanos para tener una partición de <span class="math notranslate nohighlight">\(n-1\)</span> clases,</p></li>
+</ul>
+</li>
+<li><p>Calcular la distancia entre el nuevo grupo y los demás individuos,</p></li>
+<li><p>Seleccionar  los dos más cercanos, para conseguir una partición en <span class="math notranslate nohighlight">\(n-2\)</span> clases y</p></li>
+<li><p>Continuar aglomerando hasta llegar a una partición de una clase con los <span class="math notranslate nohighlight">\(n\)</span> individuos.</p></li>
+</ol>
+<ul class="simple">
+<li><p>El proceso de uniones se representa en un árbol de clasificación o dendrograma. % indexado por las distancias de las uniones.</p></li>
+<li><p>Estos métodos requieren de un índice de similitud, disimilitud o distancia entre individuos.</p></li>
+<li><p>En nuestro contexto se selecciona la distancia Euclidiana canónica.</p></li>
+<li><p>Al conformar grupos se necesita definir una distancia entre ellos, que se denomina criterio de agregación y que le da nombre a un método específico. Por ejemplo:</p>
+<ul>
+<li><p><em>enlace simple</em>: distancia entre los dos individuos más cercanos cada uno de diferente grupo</p></li>
+<li><p><em>enlace completo</em>: distancia entre los dos individuos más lejanos.}</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="span-style-color-4361ee-distancia-entre-individuos-span">
+<h2><span style="color:#4361EE">Distancia entre individuos</span><a class="headerlink" href="#span-style-color-4361ee-distancia-entre-individuos-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-distancias-para-variables-continuas-span">
+<h3><span style="color:#4CC9F0">Distancias para variables continuas</span><a class="headerlink" href="#span-style-color-4cc9f0-distancias-para-variables-continuas-span" title="Enlazar permanentemente con este título">#</a></h3>
+<section id="span-style-color-4cc9f0-dos-distancias-para-variables-continuas-span">
+<h4><span style="color:#4CC9F0">Dos distancias para variables continuas</span><a class="headerlink" href="#span-style-color-4cc9f0-dos-distancias-para-variables-continuas-span" title="Enlazar permanentemente con este título">#</a></h4>
+</section>
+<section id="span-style-color-4cc9f0-euclidiana-span">
+<h4><span style="color:#4CC9F0">Euclidiana</span><a class="headerlink" href="#span-style-color-4cc9f0-euclidiana-span" title="Enlazar permanentemente con este título">#</a></h4>
+<div class="math notranslate nohighlight">
+\[    
+d(i,l) = \sqrt{\sum_{j=1}^{p} \left( x_{ij} - x_{lj} \right)^2}
+\]</div>
+</section>
+<section id="span-style-color-4cc9f0-manhattan-o-cityblock-span">
+<h4><span style="color:#4CC9F0">Manhattan o Cityblock</span><a class="headerlink" href="#span-style-color-4cc9f0-manhattan-o-cityblock-span" title="Enlazar permanentemente con este título">#</a></h4>
+<div class="math notranslate nohighlight">
+\[
+d(i,l) =\sum\limits_{j=1}^{p} \left| x_{ij} - x_{lj} \right|
+\]</div>
+</section>
+</section>
+<section id="span-style-color-4cc9f0-distancias-disponibles-en-la-funcion-dist-stats-span">
+<h3><span style="color:#4CC9F0">Distancias disponibles en la función <em>dist{stats}</em></span><a class="headerlink" href="#span-style-color-4cc9f0-distancias-disponibles-en-la-funcion-dist-stats-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Uso:</p>
+<p><code class="docutils literal notranslate"><span class="pre">dist(x,</span> <span class="pre">method</span> <span class="pre">=</span> <span class="pre">&quot;euclidean&quot;,</span> <span class="pre">diag</span> <span class="pre">=</span> <span class="pre">FALSE,</span> <span class="pre">upper</span> <span class="pre">=</span> <span class="pre">FALSE,</span> <span class="pre">p</span> <span class="pre">=</span> <span class="pre">2)</span></code></p>
+<p>Detalles:</p>
+<p>Las medidas de distancia (escritas para dos vectores x e y) son:
+‘euclidean’: Distancia usual entre dos vectores.
+$<span class="math notranslate nohighlight">\(\sqrt(\sum((x_i - y_i)^2)).\)</span>$</p>
+<p>‘maximum’: Distancia máxima entre dos componentes de x e y (norma suprema)
+‘manhattan’: Distancia absoluta entre dos vectores</p>
+<p>‘canberra’:</p>
+<div class="math notranslate nohighlight">
+\[\sum\frac{|x_i - y_i|}{(|x_i| + |y_i|)}. \]</div>
+<p>Términos con cero, numerador y denominador son omitidos de la suma y tratados como valores faltantes</p>
+</section>
+</section>
+<section id="span-style-color-4361ee-distancias-entre-variables-binarias-disponibles-en-dist-binary-ade4-span">
+<h2><span style="color:#4361EE">Distancias entre variables binarias disponibles en <em>dist.binary{ade4}</em></span><a class="headerlink" href="#span-style-color-4361ee-distancias-entre-variables-binarias-disponibles-en-dist-binary-ade4-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Tabla de contingencia <span class="math notranslate nohighlight">\(2\times2\)</span> contando coincidencias y no coincidencias de variables binarias entre dos individuos (n es el número de atributos):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>                  Individuo l  
+           
+                 |   1  |  0   | suma
+                 --------------------  
+  Individuos  1  |   a  |  b   | n_j
+
+     i        0  |   c  |  d   | c+d
+                 -------------------- 
+          suma   |  n_k | b+d  |  n
+</pre></div>
+</div>
+<p>Detalles:</p>
+<p>Todas estas distancias son del tipo <span class="math notranslate nohighlight">\(d = \sqrt{(1 - s)}\)</span> con <span class="math notranslate nohighlight">\(s\)</span> un coeficiente de similaridad:</p>
+<p>1 = Índice de Jaccard  (1901) S3 coeficiente de Gower Legendre:
+<span class="math notranslate nohighlight">\(s_1 = \dfrac{a}{a+b+c}\)</span></p>
+<p>2 = Coeficiente simple de igualdad de Sokal &amp; Michener (1958) S4
+coeficiente de Gower &amp; Legendre: <span class="math notranslate nohighlight">\(s_2 = \dfrac{a+d}{a+b+c+d}\)</span></p>
+<p>3 = Sokal &amp; Sneath(1963) S5 coeficiente de Gower &amp; Legendre:
+<span class="math notranslate nohighlight">\(s_3 = \dfrac{a}{a + 2(b + c)}\)</span></p>
+<p>4 = Rogers &amp; Tanimoto (1960) S6 coeficiente de Gower &amp; Legendre:
+<span class="math notranslate nohighlight">\(s_4 = \dfrac{a + d}{a + 2(b + c) +d)}\)</span></p>
+<p>5 = Dice (1945) or Sorensen (1948) S7 coeficiente de Gower &amp;
+Legendre: <span class="math notranslate nohighlight">\(s_5 =\dfrac{2a}{2a + b + c}\)</span></p>
+<p>6 = Hamann coeficiente S9 índice de Gower &amp; Legendre (1986):
+<span class="math notranslate nohighlight">\(s_6 = \dfrac{- (b + c) + d}{a + b + c + d}\)</span></p>
+<p>7 = Ochiai (1957) S12 coeficiente de Gower &amp; Legendre:
+<span class="math notranslate nohighlight">\(s-7 = \dfrac{a}{\sqrt{(a + b)(a + c)}}\)</span></p>
+<p>8 = Sokal &amp; Sneath (1963) S13 coeficiente de Gower &amp; Legendre:
+<span class="math notranslate nohighlight">\(s_8 =\dfrac{ad}{\sqrt{(a + b)(a + c)(d + b)(d + c)}}\)</span></p>
+<p>9 = Phi de Pearson S14 coeficiente de Gower &amp; Legendre:
+<span class="math notranslate nohighlight">\(s_9 = \dfrac{ad -bc}{\sqrt{(a + b)(a + c)(d + b)(d + c)}}\)</span></p>
+<p>10 = S2 coeficiente de Gower &amp; Legendre: <span class="math notranslate nohighlight">\(s_{10} =\dfrac{a}{a + b + c + d}\)</span></p>
+</section>
+<section id="span-style-color-4361ee-distancias-entre-grupos-metodos-de-agregacion-span">
+<h2><span style="color:#4361EE">Distancias entre grupos = métodos de agregación</span><a class="headerlink" href="#span-style-color-4361ee-distancias-entre-grupos-metodos-de-agregacion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-enlace-simple-span">
+<h3><span style="color:#4CC9F0">Enlace simple</span><a class="headerlink" href="#span-style-color-4cc9f0-enlace-simple-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La distancia entre dos grupos <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span> es igual a
+la distancia de los dos individuos de diferente grupo más cercanos:
+$<span class="math notranslate nohighlight">\( d(A,B) = \min \{ d(i,l); i \in A; l \in B  \} \)</span>$
+Este criterio tiende a producir grupos
+alargados (efecto de encadenamiento), que pueden incluir elementos
+muy distintos en los extremos.</p>
+</section>
+<section id="span-style-color-4cc9f0-enlace-completo-span">
+<h3><span style="color:#4CC9F0">Enlace completo</span><a class="headerlink" href="#span-style-color-4cc9f0-enlace-completo-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La distancia entre los dos
+grupos <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span> es igual a la  distancia entre los dos individuos de diferente grupo más alejados:
+$<span class="math notranslate nohighlight">\( d(A,B) = \max \{ d(i,l); i \in A; l \in B  \} \)</span>$</p>
+<p>El enlace completo tiende a producir grupos esféricos.</p>
+</section>
+<section id="span-style-color-4cc9f0-ejemplo-de-juguete-utilizando-la-distancia-de-manhatan-entre-individuos-y-el-enlace-completo-como-distancia-entre-grupos-span">
+<h3><span style="color:#4CC9F0"><strong>Ejemplo</strong> de «juguete» utilizando la distancia de Manhatan entre individuos y el enlace completo como distancia entre grupos.</span><a class="headerlink" href="#span-style-color-4cc9f0-ejemplo-de-juguete-utilizando-la-distancia-de-manhatan-entre-individuos-y-el-enlace-completo-como-distancia-entre-grupos-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Sean los puntos a clasificar:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">);</span><span class="n">b</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">);</span><span class="n">c</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="p">);</span><span class="n">d</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">);</span><span class="n">e</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">);</span><span class="n">f</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">4</span><span class="p">)</span>
+<span class="n">X</span><span class="o">&lt;-</span><span class="nf">rbind</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+<span class="nf">s.label</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">clabel</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_62_0.png" src="../../_images/Agrupamiento_62_0.png" />
+</div>
+</div>
+<p>Las distancias de Manhattan son:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="o">&lt;-</span><span class="nf">dist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&quot;manhattan&quot;</span><span class="p">);</span><span class="n">D</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  a b c d e
+b 2        
+c 2 2      
+d 4 2 2    
+e 5 3 3 1  
+f 7 5 5 3 2
+</pre></div>
+</div>
+</div>
+</div>
+<section id="span-style-color-4cc9f0-pasos-span">
+<h4><span style="color:#4CC9F0">Pasos</span><a class="headerlink" href="#span-style-color-4cc9f0-pasos-span" title="Enlazar permanentemente con este título">#</a></h4>
+<ol class="simple">
+<li><p>Se unen d y e a una distancia de 1</p></li>
+<li><p>Se unen a y b a una distancia de 2</p></li>
+<li><p>Se unen ab y c a una distancia de 2</p></li>
+<li><p>Se unen de y f a una distancia de 3</p></li>
+<li><p>Se unen abc y def a una distancia de 7</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">hc</span><span class="o">&lt;-</span><span class="nf">hclust</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="nf">data.frame</span><span class="p">(</span><span class="n">hc</span><span class="o">$</span><span class="n">merge</span><span class="p">,</span><span class="n">hc</span><span class="o">$</span><span class="n">height</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 3</caption>
+<thead>
+	<tr><th scope=col>X1</th><th scope=col>X2</th><th scope=col>hc.height</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>-4</td><td>-5</td><td>1</td></tr>
+	<tr><td>-1</td><td>-2</td><td>2</td></tr>
+	<tr><td>-3</td><td> 2</td><td>2</td></tr>
+	<tr><td>-6</td><td> 1</td><td>3</td></tr>
+	<tr><td> 3</td><td> 4</td><td>7</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="arbol-o-dendrograma">
+<h5>Árbol o dendrograma<a class="headerlink" href="#arbol-o-dendrograma" title="Enlazar permanentemente con este título">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot</span><span class="p">(</span><span class="n">hc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_69_0.png" src="../../_images/Agrupamiento_69_0.png" />
+</div>
+</div>
+</section>
+<section id="ultrametrica-asociada-al-arbol">
+<h5>Ultramétrica asociada al árbol<a class="headerlink" href="#ultrametrica-asociada-al-arbol" title="Enlazar permanentemente con este título">#</a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   | a | b | c | d | e
+   -------------------
+ b | 2 |       
+ c | 2 | 2      
+ d | 7 | 7 | 7    
+ e | 7 | 7 | 7 | 1  
+ f | 7 | 7 | 7 | 3 | 3
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="span-style-color-4cc9f0-enlace-promedio-span">
+<h3><span style="color:#4CC9F0">Enlace promedio</span><a class="headerlink" href="#span-style-color-4cc9f0-enlace-promedio-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La distancia entre los dos
+grupos es el promedio de  distancias entre todas las parejas de individuos  de diferente grupo:</p>
+<div class="math notranslate nohighlight">
+\[ d(A,B) =  \frac{1}{n_{_A} n_{_B}}\sum_{i \in A} \sum_{l \in B} d(i,l) 
+\]</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-metodo-ward-span">
+<h2><span style="color:#4361EE">Método Ward</span><a class="headerlink" href="#span-style-color-4361ee-metodo-ward-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ul class="simple">
+<li><p>Sean <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span>  clases
+no vacías y disyuntas y</p></li>
+<li><p>Pesos:  <span class="math notranslate nohighlight">\(p_{_A}\)</span>, <span class="math notranslate nohighlight">\(p_{_B}\)</span> y</p></li>
+<li><p>Centros de gravedad <span class="math notranslate nohighlight">\(\mathbf{g}_{_A} \)</span>, <span class="math notranslate nohighlight">\(\mathbf{g}_{_B}\)</span>,</p></li>
+<li><p>Inercias intra grupo: <span class="math notranslate nohighlight">\(I_{_A} \)</span>, <span class="math notranslate nohighlight">\(I_{_B}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(AB = A \bigcup  B\)</span>: <span class="math notranslate nohighlight">\(\mathbf{g}_{_{AB}}\)</span> , <span class="math notranslate nohighlight">\(I_{AB}\)</span></p></li>
+<li><p>Inercia entre <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span> = <span class="math notranslate nohighlight">\(W(A,B)\)</span></p></li>
+</ul>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Machine_Learning/Imagenes/WardColor.png" width="600" height="400" align="center" /> 
+</center>   
+</figure>
+<div class="math notranslate nohighlight">
+\[
+Inercia-entre(A,B) = p_{_A} d^2(\mathbf{g}_{_{A}},\mathbf{g}_{_{AB}}) + p_{_B}  d^2(\mathbf{g}_{_{B}},\mathbf{g}_{_{AB}})
+\]</div>
+<ul class="simple">
+<li><p>Distancia de Ward entre grupos
+$<span class="math notranslate nohighlight">\(
+W(A,B) = \frac{p_{_A}  p_{_B}}{p_{_A} + p_{_B}}d^{2}(\mathbf{g}_{_A} , \mathbf{g}_{_B}) 
+\)</span>$</p></li>
+<li><p>Incremento de la inercia intra-grupos al unir los
+grupos <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span> en uno solo.</p></li>
+<li><p>Distancia de Ward entre dos individuos <span class="math notranslate nohighlight">\(i\)</span>
+y <span class="math notranslate nohighlight">\(l\)</span></p></li>
+<li><p>Distancia de Ward entre individuos
+$<span class="math notranslate nohighlight">\(
+W(i,l) = \frac{p_i  p_l}{p_i + p_l}d^{2}(i,l) 
+\)</span>$</p></li>
+<li><p>pesos  iguales a <span class="math notranslate nohighlight">\(1/n\)</span> para los dos individuos
+$<span class="math notranslate nohighlight">\(
+W(i,l) = \frac{1}{2n}d^{2}(i,l) 
+\)</span>$</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> y <span class="math notranslate nohighlight">\(C\)</span> tres grupos presentes en el mismo
+paso de construcción del árbol.</p></li>
+<li><p>se unen <span class="math notranslate nohighlight">\(A\)</span> y <span class="math notranslate nohighlight">\(B\)</span> para formar el
+grupo <span class="math notranslate nohighlight">\(AB\)</span></p></li>
+<li><p>Fórmula de recurrencia</p></li>
+<li><p>Distancia de Ward
+$<span class="math notranslate nohighlight">\(
+d(AB,C) = \frac{(p_{_A} + p_{_C})W(A,C)+(p_{_B} + p_{_C})W(B,C)-p_{_C} W(A,B)}{p_{_A} + p_{_B} + p_{_C}} 
+\)</span>$</p></li>
+</ul>
+<section id="span-style-color-4cc9f0-procedimiento-para-construir-el-arbol-con-el-metodo-de-ward-span">
+<h3><span style="color:#4CC9F0">Procedimiento para construir el árbol con el método de Ward</span><a class="headerlink" href="#span-style-color-4cc9f0-procedimiento-para-construir-el-arbol-con-el-metodo-de-ward-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ul class="simple">
+<li><p>Calcular la matriz de distancias de Ward entre parejas de individuos</p></li>
+<li><p>Seleccionar la pareja de grupos (individuos en el primer paso) que presente la menor distancia de Ward para conformar el nuevo grupo.</p></li>
+<li><p>Calcular las distancias entre todos los grupos y el grupo recién conformado utilizando la fórmula de distancia de Ward o la fórmula de recurrencia.</p></li>
+<li><p>Eliminar las filas y columnas correspondientes a los individuos o grupos unidos y adicionar una fila y una columna para registrar las distancias entre el nuevo grupo y
+los demás.</p></li>
+<li><p>Repetir el proceso hasta llegar a una sola clase.</p></li>
+</ul>
+</section>
+<section id="span-style-color-4cc9f0-de-inercia-entre-clases-a-inercia-intra-clases-y-viceversa-span">
+<h3><span style="color:#4CC9F0">De inercia entre clases a inercia intra-clases y viceversa</span><a class="headerlink" href="#span-style-color-4cc9f0-de-inercia-entre-clases-a-inercia-intra-clases-y-viceversa-span" title="Enlazar permanentemente con este título">#</a></h3>
+<section id="span-style-color-4cc9f0-al-formar-el-arbol-span">
+<h4><span style="color:#4CC9F0">Al formar el árbol</span><a class="headerlink" href="#span-style-color-4cc9f0-al-formar-el-arbol-span" title="Enlazar permanentemente con este título">#</a></h4>
+<ul class="simple">
+<li><p>Antes de empezar las uniones toda la inercia corresponde a inercia
+entre-clases (cada individuo es una clase)</p></li>
+<li><p>A medida que llevan a
+cabo las uniones, la inercia entre-clases va pasando a inercia intra-clases</p></li>
+<li><p>Al terminar, toda la inercia es intra-clases (todos los elementos
+conforman una clase)</p></li>
+<li><p>La suma de los índices de nivel es igual a la inercia total</p></li>
+</ul>
+</section>
+<section id="span-style-color-4cc9f0-al-cortar-el-arbol-sucesivamente-span">
+<h4><span style="color:#4CC9F0">Al cortar el árbol sucesivamente</span><a class="headerlink" href="#span-style-color-4cc9f0-al-cortar-el-arbol-sucesivamente-span" title="Enlazar permanentemente con este título">#</a></h4>
+<ul class="simple">
+<li><p>En dos clases: el último índice de nivel es la inercia entre las dos clases.</p></li>
+<li><p>En  tres clases: la inercia entre clases es la suma de los dos últimos índices de nivel.</p></li>
+<li><p>Hasta <span class="math notranslate nohighlight">\(n\)</span> clases de un individuo: toda la inercia es entre clases.</p></li>
+</ul>
+</section>
+</section>
+<section id="span-style-color-4cc9f0-ejemplo-cafe-span">
+<h3><span style="color:#4CC9F0">Ejemplo café</span><a class="headerlink" href="#span-style-color-4cc9f0-ejemplo-cafe-span" title="Enlazar permanentemente con este título">#</a></h3>
+</section>
+<section id="span-style-color-4cc9f0-distancias-de-ward-entre-cafes-span">
+<h3><span style="color:#4CC9F0">Distancias de Ward entre cafés</span><a class="headerlink" href="#span-style-color-4cc9f0-distancias-de-ward-entre-cafes-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">data</span><span class="p">(</span><span class="n">cafe</span><span class="p">)</span>
+<span class="n">Wcafe</span><span class="o">&lt;-</span><span class="m">1</span><span class="o">/</span><span class="m">20</span><span class="o">*</span><span class="nf">dist</span><span class="p">(</span><span class="bp">F</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">;</span><span class="nf">round</span><span class="p">(</span><span class="n">Wcafe</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      ExCl  C40M  C40C  C20M  C20C  ExOs  O40M  O40C  O20M
+C40M 0.744                                                
+C40C 0.382 0.119                                          
+C20M 0.228 0.151 0.069                                    
+C20C 0.047 0.505 0.178 0.127                              
+ExOs 0.259 1.328 0.668 0.700 0.236                        
+O40M 0.537 0.220 0.039 0.207 0.268 0.650                  
+O40C 0.501 0.437 0.120 0.320 0.244 0.434 0.039            
+O20M 0.273 0.730 0.259 0.377 0.126 0.126 0.211 0.093      
+O20C 0.284 0.828 0.319 0.438 0.147 0.095 0.263 0.124 0.003
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-construccion-del-arbol-span">
+<h3><span style="color:#4CC9F0">Construcción del árbol</span><a class="headerlink" href="#span-style-color-4cc9f0-construccion-del-arbol-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">hclCafe</span><span class="o">&lt;-</span><span class="nf">ward.cluster</span><span class="p">(</span><span class="n">dista</span><span class="o">=</span><span class="nf">dist</span><span class="p">(</span><span class="bp">F</span><span class="p">),</span><span class="n">h.clust</span><span class="o">=</span><span class="m">1</span><span class="p">)</span> <span class="c1"># función de FactoClass</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">hclCafe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_88_0.png" src="../../_images/Agrupamiento_88_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span> <span class="n">W</span><span class="o">&lt;-</span><span class="m">1</span><span class="o">/</span><span class="m">20</span><span class="o">*</span><span class="nf">dist</span><span class="p">(</span><span class="bp">F</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">;</span><span class="nf">round</span><span class="p">(</span><span class="n">W</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      ExCl  C40M  C40C  C20M  C20C  ExOs  O40M  O40C  O20M
+C40M 0.744                                                
+C40C 0.382 0.119                                          
+C20M 0.228 0.151 0.069                                    
+C20C 0.047 0.505 0.178 0.127                              
+ExOs 0.259 1.328 0.668 0.700 0.236                        
+O40M 0.537 0.220 0.039 0.207 0.268 0.650                  
+O40C 0.501 0.437 0.120 0.320 0.244 0.434 0.039            
+O20M 0.273 0.730 0.259 0.377 0.126 0.126 0.211 0.093      
+O20C 0.284 0.828 0.319 0.438 0.147 0.095 0.263 0.124 0.003
+</pre></div>
+</div>
+</div>
+</div>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Machine_Learning/Imagenes/CafeToyWard.png" width="500" height="400" align="center" /> 
+</center>   
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">hclCafe</span><span class="o">&lt;-</span><span class="nf">ward.cluster</span><span class="p">(</span><span class="n">dista</span><span class="o">=</span><span class="nf">dist</span><span class="p">(</span><span class="bp">F</span><span class="p">),</span><span class="n">h.clust</span><span class="o">=</span><span class="m">2</span><span class="p">)</span> 
+<span class="n">Nodo</span><span class="o">=</span><span class="n">hclCafe</span><span class="o">$</span><span class="n">Nodo</span><span class="p">;</span><span class="n">Ward</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">hclCafe</span><span class="o">$</span><span class="n">Indice</span><span class="p">,</span><span class="m">3</span><span class="p">);</span><span class="n">SumaWard</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="nf">cumsum</span><span class="p">(</span><span class="n">hclCafe</span><span class="o">$</span><span class="n">Indice</span><span class="p">),</span><span class="m">3</span><span class="p">)</span>
+<span class="nf">t</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">Nodo</span><span class="p">,</span><span class="n">Ward</span><span class="p">,</span><span class="n">SumaWard</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 3 × 9 of type chr</caption>
+<tbody>
+	<tr><th scope=row>Nodo</th><td>11   </td><td>12   </td><td>13   </td><td>14   </td><td>15   </td><td>16   </td><td>17   </td><td>18   </td><td>19   </td></tr>
+	<tr><th scope=row>Ward</th><td>0.003</td><td>0.039</td><td>0.047</td><td>0.069</td><td>0.146</td><td>0.157</td><td>0.424</td><td>0.442</td><td>1.563</td></tr>
+	<tr><th scope=row>SumaWard</th><td>0.003</td><td>0.042</td><td>0.089</td><td>0.158</td><td>0.304</td><td>0.461</td><td>0.885</td><td>1.327</td><td>2.890</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-combinacion-de-metodos-span">
+<h1><span style="color:#F72585">Combinación de métodos</span><a class="headerlink" href="#span-style-color-f72585-combinacion-de-metodos-span" title="Enlazar permanentemente con este título">#</a></h1>
+<p>Desde el punto de vista del análisis de datos los métodos a utilizar son: el de Ward de aglomeración jerárquica y el <em>K-means</em>, porque buscan grupos que tengan inercia intragrupos lo más baja posible. Estos métodos se complementan para subsanar entre sí las desventajas y aprovechar sus ventajas.</p>
+<p>Los métodos de clasificación jerárquica tienen dos desventajas: utilizan mayor recurso de cómputo y las particiones obtenidas quedan anidadas.</p>
+<p>El <em>K-means</em> tiene también dos problemas: hay que darle el número de clases iniciales y los puntos iniciales. El número de clases es precisamente lo que se quiere descubrir en una tabla de datos y el óptimo es local, es decir, depende de los puntos iniciales.</p>
+<p>La estrategia programada en DtmVic y FactoClass, combina los dos métodos, ya que sus ventajas y desventajas son complementarias. Cuando el número de elementos a clasificar no es tan grande y  el equipo de cálculo lo permite, se realiza la clasificación jerárquica aglomerativa con el método de Ward. El «histograma de índices de nivel» permite visualizar las mejores alturas de corte del árbol, y por ende, el número de clases. Luego, se disminuye la inercia intraclases de la partición obtenida utilizando  <em>K-means</em>, con los centros de gravedad de la partición derivada de cortar el árbol como puntos iniciales.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-clasificacion-a-partir-de-coordenadas-span">
+<h1><span style="color:#F72585">Clasificación a partir de coordenadas</span><a class="headerlink" href="#span-style-color-f72585-clasificacion-a-partir-de-coordenadas-span" title="Enlazar permanentemente con este título">#</a></h1>
+<p>Los métodos factoriales se pueden utilizar para transformar los datos antes de realizar procedimientos de clasificación automática. Una de las salidas de un  análisis factorial es una tabla de individuos por coordenadas factoriales.</p>
+<p>Entonces, las columnas de las tablas de entrada de los métodos de clasificación son de la misma naturaleza: coordenadas factoriales, que son de variables continuas.</p>
+<p>En ese sentido, los métodos factoriales pueden cumplir  con dos funciones: la primera, en el caso de análisis de correspondencias, es la transformación de unas variables cualitativas en otras continuas; la segunda es una función de filtro, al considerar que los <span class="math notranslate nohighlight">\(S\)</span> primeros ejes factoriales contienen la información y los otros son ruido.</p>
+<p>En otras palabras, <em>ACP</em> y los <em>AC</em>, son métodos de pretratamiento de datos para la clasificación que pueden cumplir con dos funciones: cuantificar las variables cualitativas y reducir la dimensionalidad de los datos.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Machine_Learning/Imagenes/clasVarNom.png" width="600" height="300" align="center" /> 
+</center>   
+</figure><section id="span-style-color-4361ee-funcion-de-transformacion-o-cuantificacion-span">
+<h2><span style="color:#4361EE">Función de transformación o cuantificación</span><a class="headerlink" href="#span-style-color-4361ee-funcion-de-transformacion-o-cuantificacion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Un programa de <em>ACP</em> normado recibe los datos originales y los estandariza antes de obtener valores y vectores propios, y coordenadas factoriales de individuos y variables.</p>
+<p>En un análisis de correspondencias las coordenadas factoriales se constituyen en nuevas variables  continuas, con las que se puede utilizar la  combinación de métodos de clasificación para variables continuas.</p>
+</section>
+<section id="span-style-color-4361ee-funcion-de-filtro-span">
+<h2><span style="color:#4361EE">Función de filtro</span><a class="headerlink" href="#span-style-color-4361ee-funcion-de-filtro-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Conectar un método factorial con la clasificación da la posibilidad de seleccionar el número de ejes a utilizar en esta clasificación.
+Se utiliza el histograma de valores propios y otros criterios para la selección del número de ejes,  pero haciendo énfasis en el sentido de filtro: aquí seleccionar más ejes puede significar mayor recurso de cómputo, pero no más trabajo para el analista.</p>
+<p>En problemas pequeños y medianos el recurso de cómputo no tiene importancia. En general, el número de ejes para la clasificación es mayor que el número de ejes seleccionados para analizar en un método factorial.</p>
+<p>Muchas veces se utilizan todos los ejes para la clasificación, lo que es equivalente  a realizar el análisis con las variables originales.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-caracterizacion-automatica-de-las-clases-span">
+<h1><span style="color:#F72585">Caracterización automática de las clases</span><a class="headerlink" href="#span-style-color-f72585-caracterizacion-automatica-de-las-clases-span" title="Enlazar permanentemente con este título">#</a></h1>
+<p>En términos generales, en un procedimiento de clasificación se obtiene una variable cualitativa indicadora de la clase o grupo al que pertenece cada elemento clasificado. Esta variable se puede cruzar con cualquiera de las variables presentes en la tabla de datos correspondiente.</p>
+<p>Los procedimientos para describir dos variables se pueden utilizar para ese propósito, en particular los ordenamientos por valores test.</p>
+<p>Las variables continuas o las categorías de las variables cualitativas con diferencias que generan un valor test superior a un umbral, generalmente 2, se dice que caracterizan a la clase.</p>
+<p>Las que generan valores test inferiores al umbral son de signo negativo (-2, por ejemplo) y se dice que caracterizan negativamente a la clase respectiva.</p>
+<section id="span-style-color-4361ee-descripcion-con-variables-continuas-span">
+<h2><span style="color:#4361EE">Descripción con variables continuas</span><a class="headerlink" href="#span-style-color-4361ee-descripcion-con-variables-continuas-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>La clase es la variable cualitativa que se desea describir con las variables continuas.</p>
+<p>Las variables continuas que caracterizan a una clase son aquellas que tienen la media de la clase suficientemente diferente de la media global.</p>
+<p>Para encontrarlas y ordenarlas se
+hace la comparación de la media dentro de la clase con la media global, siguiendo el procedimiento de ordenamiento mediante valores test.</p>
+<div class="math notranslate nohighlight">
+\[t_k = \frac{\bar{x}_k  - \mu}{\sigma_k} =   \sqrt{\frac{(n-1) n_k}{n-n_k}} \  \ \frac{\bar{x}_k  - \mu}{\sigma}
+%t_k = \frac{(\bar{X}_k  - \bar{X})}{s_k(X)} \ \ \ con \ \ \  s_k^2(X) = \frac{n-n_k}{n-1} \frac{s^2(X)}{n_k}
+\]</div>
+<p>Donde  <span class="math notranslate nohighlight">\(\mu\)</span>  y <span class="math notranslate nohighlight">\(\sigma^2\)</span> son la media y varianza globlales (de todos los datos); <span class="math notranslate nohighlight">\(n_k\)</span> y  <span class="math notranslate nohighlight">\(\bar{x} _k\)</span> el número y la media del grupo de individuos que asumen la categoría <span class="math notranslate nohighlight">\(k\)</span> .</p>
+<p>En la presentación de los resultados se pueden incluir los <em>boxplots</em> de las variables que caracterizan a una o más clases.</p>
+</section>
+<section id="span-style-color-4361ee-descripcion-con-variables-cualitativas-span">
+<h2><span style="color:#4361EE">Descripción con variables cualitativas</span><a class="headerlink" href="#span-style-color-4361ee-descripcion-con-variables-cualitativas-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Una categoría es característica de una clase si su frecuencia dentro de la clase es suficientemente diferente de su frecuencia global.</p>
+<p>Para encontrarlas y ordenarlas se utiliza el procedimiento de valores test (ver capítulo 7 del libro EDM)</p>
+<p>Para las variables que tengan categorías que caracterizan a las clases se pueden obtener las gráficas de perfiles de las clases</p>
+</section>
+<section id="span-style-color-4361ee-una-estrategia-de-clasificacion-span">
+<h2><span style="color:#4361EE">Una estrategia de clasificación</span><a class="headerlink" href="#span-style-color-4361ee-una-estrategia-de-clasificacion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>La estrategia de clasificación que se ha propuesto, se resume en los siguientes pasos:</p>
+<ol class="simple">
+<li><p>Realizar el análisis en ejes principales correspondiente.</p></li>
+<li><p>Seleccionar el número de ejes para la clasificación.</p></li>
+<li><p>Si el número de «individuos» es muy grande, realizar un <em>K-means</em> de preagrupamiento en miles de clases.</p></li>
+<li><p>Realizar la clasificación jerárquica con el método de Ward sobre los «individuos» o los grupos del paso anterior.</p></li>
+<li><p>Decidir el número de clases y cortar el árbol.</p></li>
+<li><p>Realizar <em>K-means</em> de consolidación partiendo de los centros de gravedad de la partición obtenida al cortar el árbol.</p></li>
+<li><p>Caracterizar las clases.</p></li>
+<li><p>Proyección de las clases sobre los planos factoriales.</p></li>
+</ol>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Machine_Learning/Imagenes/estrategiaFactoClass.png" width="800" height="600" align="center" /> 
+</center>   
+</figure>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-ejemplo-de-aplicacion-clasificacion-de-los-ninos-segun-el-consumo-cultural-span">
+<h1><span style="color:#F72585">Ejemplo de aplicación: Clasificación de los niños según el consumo cultural</span><a class="headerlink" href="#span-style-color-f72585-ejemplo-de-aplicacion-clasificacion-de-los-ninos-segun-el-consumo-cultural-span" title="Enlazar permanentemente con este título">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Objetivo</p>
+<p>Complementar la descripción del consumo cultural realizada con análisis de correspondencias múltiples.</p>
+<p>La función <em>FactoClass{FactoClass}</em></p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">load</span><span class="p">(</span><span class="nf">url</span><span class="p">(</span><span class="s">&quot;https://github.com/AprendizajeProfundo/Libro-Fundamentos/blob/main/Machine_Learning/Datos/ninios8a11.Rda?raw=true&quot;</span><span class="p">))</span>
+<span class="c1">#load(&quot;../Datos/ninios8a11.Rda&quot;)</span>
+<span class="n">ninios8a11</span><span class="o">$</span><span class="n">Edad</span><span class="o">&lt;-</span><span class="nf">factor</span><span class="p">(</span><span class="n">ninios8a11</span><span class="o">$</span><span class="n">Edad</span><span class="p">)</span>
+<span class="c1"># variables activas</span>
+<span class="n">Y</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">ninios8a11</span><span class="p">,</span><span class="n">select</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">Teat</span><span class="p">,</span><span class="n">Libr</span><span class="p">,</span><span class="n">Cine</span><span class="p">,</span><span class="n">Vide</span><span class="p">,</span><span class="n">Radi</span><span class="p">,</span><span class="n">Musi</span><span class="p">))</span>
+<span class="c1"># variables suplementarias</span>
+<span class="n">Ys</span><span class="o">&lt;-</span><span class="n">ninios8a11</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">29</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">32</span><span class="p">,</span><span class="m">35</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="span-style-color-4361ee-variables-activas-span">
+<h2><span style="color:#4361EE">Variables activas</span><a class="headerlink" href="#span-style-color-4361ee-variables-activas-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">par</span><span class="p">(</span><span class="n">las</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">),</span><span class="n">mai</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.55</span><span class="p">,</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.1</span><span class="p">,</span><span class="m">0.1</span><span class="p">))</span>
+<span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">){</span>
+  <span class="n">cat</span><span class="o">&lt;-</span><span class="nf">attributes</span><span class="p">(</span><span class="n">Y</span><span class="p">[,</span><span class="n">i</span><span class="p">])</span><span class="o">$</span><span class="n">levels</span><span class="p">;</span>
+  <span class="n">per</span><span class="o">&lt;-</span><span class="nf">tabulate</span><span class="p">(</span><span class="n">Y</span><span class="p">[,</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">*</span><span class="m">100</span><span class="p">;</span>
+  <span class="n">pl</span><span class="o">&lt;-</span><span class="nf">plot</span><span class="p">(</span><span class="n">Y</span><span class="p">[,</span><span class="n">i</span><span class="p">],</span><span class="n">horiz</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="nf">gray</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1.0</span><span class="p">,</span><span class="m">0.9</span><span class="p">,</span>
+           <span class="n">length</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">cat</span><span class="p">))),</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">8</span><span class="p">),</span>
+           <span class="n">xlim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1400</span><span class="p">),</span><span class="n">xlab</span><span class="o">=</span><span class="nf">colnames</span><span class="p">(</span><span class="n">Y</span><span class="p">)[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="nf">text</span><span class="p">(</span><span class="m">800</span><span class="p">,</span><span class="n">pl</span><span class="p">,</span><span class="nf">round</span><span class="p">(</span><span class="n">per</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">cex</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="n">pos</span><span class="o">=</span><span class="m">4</span><span class="p">);</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_114_0.png" src="../../_images/Agrupamiento_114_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-variables-ilustrativas-span">
+<h2><span style="color:#4361EE">Variables ilustrativas</span><a class="headerlink" href="#span-style-color-4361ee-variables-ilustrativas-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">par</span><span class="p">(</span><span class="n">las</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">),</span><span class="n">mai</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.55</span><span class="p">,</span><span class="m">0.5</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0.1</span><span class="p">))</span>
+<span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>
+  <span class="n">cat</span><span class="o">&lt;-</span><span class="nf">attributes</span><span class="p">(</span><span class="n">Y</span><span class="p">[,</span><span class="n">i</span><span class="p">])</span><span class="o">$</span><span class="n">levels</span><span class="p">;</span>
+  <span class="n">per</span><span class="o">&lt;-</span><span class="nf">tabulate</span><span class="p">(</span><span class="n">Ys</span><span class="p">[,</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">*</span><span class="m">100</span><span class="p">;</span>
+  <span class="n">pl</span><span class="o">&lt;-</span><span class="nf">plot</span><span class="p">(</span><span class="n">Ys</span><span class="p">[,</span><span class="n">i</span><span class="p">],</span><span class="n">horiz</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="nf">gray</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1.0</span><span class="p">,</span><span class="m">0.9</span><span class="p">,</span>
+           <span class="n">length</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">cat</span><span class="p">))),</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">8</span><span class="p">),</span>
+           <span class="n">xlim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1000</span><span class="p">),</span><span class="n">xlab</span><span class="o">=</span><span class="nf">colnames</span><span class="p">(</span><span class="n">Ys</span><span class="p">)[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="nf">text</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="n">pl</span><span class="p">,</span><span class="nf">round</span><span class="p">(</span><span class="n">per</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">cex</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="n">pos</span><span class="o">=</span><span class="m">4</span><span class="p">);</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_116_0.png" src="../../_images/Agrupamiento_116_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&#39;Factoclass&#39;</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">FactoClass</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing package into &#39;C:/Users/User/AppData/Local/R/win-library/4.2&#39;
+(as &#39;lib&#39; is unspecified)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+&quot;package &#39;Factoclass&#39; is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages&quot;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+&quot;Perhaps you meant &#39;FactoClass&#39; ?&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">fcConCul</span> <span class="o">&lt;-</span> <span class="nf">FactoClass</span><span class="p">(</span><span class="n">dfact</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span><span class="n">metodo</span><span class="o">=</span><span class="n">dudi.acm</span><span class="p">,</span><span class="n">dfilu</span><span class="o">=</span><span class="n">Ys</span> <span class="p">,</span> <span class="n">nf</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">nfcl</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">k.clust</span> <span class="o">=</span> <span class="m">4</span><span class="p">,</span> 
+                <span class="n">scanFC</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of retained axes for factorial analysis is  3 
+
+The number of axes for clustering is  5 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Look the histogram of 25 indexes 
+Partition in  4  clusters
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">fcConCul</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'dudi2'</li><li>'dudi'</li><li>'nfcl'</li><li>'k'</li><li>'indices'</li><li>'cluster'</li><li>'cor.clus'</li><li>'clus.summ'</li><li>'carac.cont'</li><li>'carac.cate'</li><li>'carac.frec'</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">barplot</span><span class="p">(</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">dudi</span><span class="o">$</span><span class="n">eig</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Barplot eigen-values&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_120_0.png" src="../../_images/Agrupamiento_120_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ultimosNodos</span><span class="o">&lt;-</span><span class="nf">tail</span><span class="p">(</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">indices</span><span class="p">,</span><span class="m">20</span><span class="p">)</span>
+<span class="n">ultimosNodos</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="n">ultimosNodos</span><span class="o">$</span><span class="n">Indice</span><span class="p">[</span><span class="m">20</span><span class="o">:</span><span class="m">1</span><span class="p">],</span><span class="n">horiz</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 20 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>Nodo</th><th scope=col>Prim</th><th scope=col>Benj</th><th scope=col>Indice</th></tr>
+	<tr><th></th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1951</th><td>3922</td><td>3872</td><td>3880</td><td>0.008481887</td></tr>
+	<tr><th scope=row>1952</th><td>3923</td><td>3871</td><td>3916</td><td>0.009042694</td></tr>
+	<tr><th scope=row>1953</th><td>3924</td><td>3886</td><td>3907</td><td>0.009735317</td></tr>
+	<tr><th scope=row>1954</th><td>3925</td><td>3883</td><td>3891</td><td>0.009909993</td></tr>
+	<tr><th scope=row>1955</th><td>3926</td><td>3896</td><td>3909</td><td>0.010150002</td></tr>
+	<tr><th scope=row>1956</th><td>3927</td><td>3908</td><td>3924</td><td>0.010420663</td></tr>
+	<tr><th scope=row>1957</th><td>3928</td><td>3912</td><td>3925</td><td>0.015028345</td></tr>
+	<tr><th scope=row>1958</th><td>3929</td><td>3918</td><td>3922</td><td>0.015680180</td></tr>
+	<tr><th scope=row>1959</th><td>3930</td><td>3913</td><td>3921</td><td>0.019286347</td></tr>
+	<tr><th scope=row>1960</th><td>3931</td><td>3919</td><td>3927</td><td>0.019344170</td></tr>
+	<tr><th scope=row>1961</th><td>3932</td><td>3905</td><td>3917</td><td>0.019969486</td></tr>
+	<tr><th scope=row>1962</th><td>3933</td><td>3923</td><td>3932</td><td>0.021916391</td></tr>
+	<tr><th scope=row>1963</th><td>3934</td><td>3911</td><td>3928</td><td>0.029784351</td></tr>
+	<tr><th scope=row>1964</th><td>3935</td><td>3915</td><td>3929</td><td>0.032529945</td></tr>
+	<tr><th scope=row>1965</th><td>3936</td><td>3930</td><td>3934</td><td>0.037830403</td></tr>
+	<tr><th scope=row>1966</th><td>3937</td><td>3920</td><td>3931</td><td>0.049002642</td></tr>
+	<tr><th scope=row>1967</th><td>3938</td><td>3926</td><td>3933</td><td>0.065875449</td></tr>
+	<tr><th scope=row>1968</th><td>3939</td><td>3935</td><td>3938</td><td>0.114914438</td></tr>
+	<tr><th scope=row>1969</th><td>3940</td><td>3937</td><td>3939</td><td>0.140346874</td></tr>
+	<tr><th scope=row>1970</th><td>3941</td><td>3936</td><td>3940</td><td>0.146772084</td></tr>
+</tbody>
+</table>
+</div><img alt="../../_images/Agrupamiento_121_1.png" src="../../_images/Agrupamiento_121_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">cluster</span><span class="p">)</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">cluster</span><span class="p">),</span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Objetos por grupo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style><dl class=dl-inline><dt>1</dt><dd>275</dd><dt>2</dt><dd>637</dd><dt>3</dt><dd>680</dd><dt>4</dt><dd>379</dd></dl>
+</div><img alt="../../_images/Agrupamiento_122_1.png" src="../../_images/Agrupamiento_122_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">fcConCul</span><span class="o">$</span><span class="n">clus.summ</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 8</caption>
+<thead>
+	<tr><th></th><th scope=col>Bef.Size</th><th scope=col>Aft.Size</th><th scope=col>Bef.Inertia</th><th scope=col>Aft.Inertia</th><th scope=col>Bef.Weight</th><th scope=col>Aft.Weight</th><th scope=col>Bef.Dist_2</th><th scope=col>Aft.Dist_2</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td> 310</td><td> 275</td><td>0.1812</td><td>0.1520</td><td>0.1573</td><td>0.1395</td><td>0.7341</td><td>0.8417</td></tr>
+	<tr><th scope=row>2</th><td> 592</td><td> 637</td><td>0.2117</td><td>0.2064</td><td>0.3004</td><td>0.3232</td><td>0.2625</td><td>0.2976</td></tr>
+	<tr><th scope=row>3</th><td> 530</td><td> 680</td><td>0.1105</td><td>0.1407</td><td>0.2689</td><td>0.3450</td><td>0.3780</td><td>0.3626</td></tr>
+	<tr><th scope=row>4</th><td> 539</td><td> 379</td><td>0.2196</td><td>0.1544</td><td>0.2735</td><td>0.1923</td><td>0.4090</td><td>0.7021</td></tr>
+	<tr><th scope=row>TOTAL</th><td>1971</td><td>1971</td><td>0.7230</td><td>0.6535</td><td>1.0001</td><td>1.0000</td><td>    NA</td><td>    NA</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">fcConCul</span><span class="o">$</span><span class="n">carac.cate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>class: 1
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.sema     23.962   0.000      92.9      52.7    7.9    156
+Vide.mens     15.698   0.000      81.6      29.1    5.0     98
+Radi.sema     15.600   0.000      80.8      29.1    5.0     99
+Teat.trim      4.752   0.000      29.2      13.8    6.6    130
+Vide.sema      4.503   0.000      21.0      30.9   20.5    404
+Libr.sema      4.283   0.000      22.0      24.4   15.4    304
+Teat.sema      2.858   0.004      27.6       5.8    2.9     58
+Cine.anua      2.444   0.015      20.1      12.0    8.3    164
+Regi.Cent      2.437   0.015      18.0      21.5   16.6    328
+Regi.Atla      2.330   0.020      18.3      17.8   13.6    268
+Teat.anua      2.312   0.021      19.8      11.6    8.2    162
+Cine.trim      2.264   0.024      18.8      14.2   10.5    207
+Libr.mens      2.193   0.028      20.2       9.5    6.5    129
+Libr.anua      2.112   0.035      23.6       4.7    2.8     55
+Regi.Bogo      2.097   0.036      17.4      19.6   15.7    310
+Cine.mens     -2.603   0.009       8.0       5.1    8.8    174
+Radi.vdse     -3.657   0.000       8.6      12.4   20.0    394
+Libr.no       -3.767   0.000       9.1      15.6   24.1    475
+Regi.Orie     -3.929   0.000       8.7      14.2   22.8    450
+Vide.diar     -4.199   0.000       5.7       4.7   11.5    227
+Vide.vdse     -4.338   0.000       9.7      25.1   36.3    715
+Musi.vdse     -5.105   0.000       8.8      22.5   35.7    703
+Teat.no       -5.485   0.000      11.3      58.5   72.6   1430
+Musi.diar     -5.568   0.000       5.0       5.8   16.2    319
+Radi.no       -6.560   0.000       9.4      37.1   55.3   1089
+Vide.no       -7.253   0.000       5.3      10.2   26.7    527
+Musi.no       -8.124   0.000       6.6      18.9   40.2    793
+------------------------------------------------------------ 
+class: 2
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.vdse     27.667   0.000      71.1      78.5   35.7    703
+Vide.vdse     18.830   0.000      58.7      65.9   36.3    715
+Radi.vdse     13.752   0.000      62.2      38.5   20.0    394
+Libr.vdse      9.652   0.000      47.8      45.2   30.5    602
+Libr.anua      4.034   0.000      58.2       5.0    2.8     55
+Cine.seme      3.886   0.000      46.9      10.7    7.4    145
+Teat.seme      3.296   0.001      46.7       7.8    5.4    107
+Libr.sema      2.533   0.011      38.2      18.2   15.4    304
+Estr.3oM       2.375   0.018      37.0      22.0   19.2    378
+Libr.mens      2.347   0.019      41.1       8.3    6.5    129
+Cine.mens      2.331   0.020      39.7      10.8    8.8    174
+Regi.Cent     -2.178   0.029      27.7      14.3   16.6    328
+Teat.mens     -2.382   0.017      21.4       2.8    4.3     84
+Cine.no       -2.891   0.004      30.2      60.8   65.0   1281
+Estr.0o1      -2.998   0.003      28.8      37.5   42.1    829
+Radi.no       -3.429   0.001      29.2      49.9   55.3   1089
+Radi.sema     -6.762   0.000       5.1       0.8    5.0     99
+Radi.diar     -7.179   0.000      17.7      10.8   19.7    389
+Libr.diar     -7.807   0.000      14.8       7.5   16.4    324
+Vide.diar     -7.907   0.000      11.0       3.9   11.5    227
+Vide.mens     -8.610   0.000       0.0       0.0    5.0     98
+Libr.no       -8.769   0.000      16.6      12.4   24.1    475
+Musi.diar     -9.768   0.000      10.7       5.3   16.2    319
+Musi.sema    -10.675   0.000       0.6       0.2    7.9    156
+Vide.no      -14.079   0.000       9.5       7.8   26.7    527
+Musi.no      -15.757   0.000      12.9      16.0   40.2    793
+------------------------------------------------------------ 
+class: 3
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.no       28.646   0.000      71.0      82.8   40.2    793
+Vide.no       25.055   0.000      79.1      61.3   26.7    527
+Radi.no       14.640   0.000      48.3      77.4   55.3   1089
+Libr.no       14.359   0.000      62.3      43.5   24.1    475
+Teat.no       13.949   0.000      43.1      90.7   72.6   1430
+Cine.no       12.218   0.000      43.8      82.5   65.0   1281
+Estr.0o1       8.366   0.000      45.0      54.9   42.1    829
+Regi.Orie      5.393   0.000      45.1      29.9   22.8    450
+Regi.OrAm      3.766   0.000      43.7      19.9   15.7    309
+Libr.trim      3.052   0.002      50.0       6.0    4.2     82
+Edad.a10      -2.085   0.037      31.2      23.4   25.9    510
+Teat.sema     -2.715   0.007      19.0       1.6    2.9     58
+Vide.sema     -2.934   0.003      28.7      17.1   20.5    404
+Cine.anua     -3.207   0.001      23.8       5.7    8.3    164
+Teat.mens     -3.498   0.000      17.9       2.2    4.3     84
+Estr.2        -3.611   0.000      29.8      33.5   38.8    764
+Libr.anua     -3.714   0.000      12.7       1.0    2.8     55
+Cine.seme     -4.035   0.000      20.0       4.3    7.4    145
+Regi.Atla     -4.690   0.000      22.4       8.8   13.6    268
+Libr.mens     -4.793   0.000      16.3       3.1    6.5    129
+Regi.Bogo     -5.146   0.000      22.3      10.1   15.7    310
+Libr.vdse     -5.151   0.000      26.4      23.4   30.5    602
+Vide.mens     -5.398   0.000      11.2       1.6    5.0     98
+Cine.trim     -5.952   0.000      16.9       5.1   10.5    207
+Estr.3oM      -6.429   0.000      20.9      11.6   19.2    378
+Libr.diar     -6.515   0.000      19.4       9.3   16.4    324
+Radi.sema     -6.563   0.000       7.1       1.0    5.0     99
+Teat.seme     -6.717   0.000       7.5       1.2    5.4    107
+Teat.trim     -6.884   0.000       9.2       1.8    6.6    130
+Teat.anua     -7.305   0.000      10.5       2.5    8.2    162
+Radi.diar     -7.472   0.000      19.0      10.9   19.7    389
+Radi.vdse     -7.780   0.000      18.5      10.7   20.0    394
+Cine.mens     -8.067   0.000       9.2       2.4    8.8    174
+Vide.diar     -9.123   0.000       9.7       3.2   11.5    227
+Musi.sema     -9.632   0.000       3.8       0.9    7.9    156
+Musi.diar    -11.212   0.000       9.4       4.4   16.2    319
+Vide.vdse    -13.541   0.000      15.9      16.8   36.3    715
+Musi.vdse    -16.819   0.000      11.5      11.9   35.7    703
+------------------------------------------------------------ 
+class: 4
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.diar     24.691   0.000      74.9      63.1   16.2    319
+Vide.diar     19.378   0.000      73.6      44.1   11.5    227
+Libr.diar     14.956   0.000      52.2      44.6   16.4    324
+Radi.diar     14.870   0.000      48.1      49.3   19.7    389
+Cine.mens      7.637   0.000      43.1      19.8    8.8    174
+Teat.mens      6.972   0.000      52.4      11.6    4.3     84
+Cine.trim      5.984   0.000      35.7      19.5   10.5    207
+Teat.anua      5.779   0.000      37.7      16.1    8.2    162
+Estr.3oM       4.350   0.000      27.2      27.2   19.2    378
+Regi.Atla      2.827   0.005      25.4      17.9   13.6    268
+Regi.Bogo      2.546   0.011      24.2      19.8   15.7    310
+Teat.seme      2.015   0.044      26.2       7.4    5.4    107
+Estr.2         2.015   0.044      21.2      42.7   38.8    764
+Regi.Orie     -2.473   0.013      15.6      18.5   22.8    450
+Vide.sema     -2.582   0.010      15.1      16.1   20.5    404
+Libr.anua     -2.943   0.003       5.5       0.8    2.8     55
+Vide.vdse     -3.206   0.001      15.7      29.6   36.3    715
+Vide.mens     -3.456   0.001       7.1       1.8    5.0     98
+Radi.sema     -3.497   0.000       7.1       1.8    5.0     99
+Regi.OrAm     -4.108   0.000      11.3       9.2   15.7    309
+Libr.vdse     -4.378   0.000      13.6      21.6   30.5    602
+Libr.no       -4.837   0.000      12.0      15.0   24.1    475
+Radi.vdse     -5.136   0.000      10.7      11.1   20.0    394
+Libr.sema     -5.202   0.000       9.2       7.4   15.4    304
+Estr.0o1      -5.398   0.000      13.8      30.1   42.1    829
+Musi.sema     -6.483   0.000       2.6       1.1    7.9    156
+Radi.no       -7.657   0.000      13.1      37.7   55.3   1089
+Teat.no       -8.901   0.000      14.2      53.6   72.6   1430
+Musi.no       -9.257   0.000       9.6      20.1   40.2    793
+Musi.vdse     -9.444   0.000       8.5      15.8   35.7    703
+Cine.no       -9.445   0.000      13.0      43.8   65.0   1281
+Vide.no       -9.771   0.000       6.1       8.4   26.7    527
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">cluster.carac</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">cluster</span><span class="p">,</span><span class="n">tipo.v</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">v.lim</span><span class="o">=</span> <span class="m">5</span><span class="p">,</span><span class="n">dn</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">dm</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">neg</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>class: 1
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.sema     23.962       0      92.9      52.7    7.9    156
+Vide.mens     15.698       0      81.6      29.1    5.0     98
+Radi.sema     15.600       0      80.8      29.1    5.0     99
+Musi.vdse     -5.105       0       8.8      22.5   35.7    703
+Teat.no       -5.485       0      11.3      58.5   72.6   1430
+Musi.diar     -5.568       0       5.0       5.8   16.2    319
+Radi.no       -6.560       0       9.4      37.1   55.3   1089
+Vide.no       -7.253       0       5.3      10.2   26.7    527
+Musi.no       -8.124       0       6.6      18.9   40.2    793
+------------------------------------------------------------ 
+class: 2
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.vdse     27.667       0      71.1      78.5   35.7    703
+Vide.vdse     18.830       0      58.7      65.9   36.3    715
+Radi.vdse     13.752       0      62.2      38.5   20.0    394
+Libr.vdse      9.652       0      47.8      45.2   30.5    602
+Radi.sema     -6.762       0       5.1       0.8    5.0     99
+Radi.diar     -7.179       0      17.7      10.8   19.7    389
+Libr.diar     -7.807       0      14.8       7.5   16.4    324
+Vide.diar     -7.907       0      11.0       3.9   11.5    227
+Vide.mens     -8.610       0       0.0       0.0    5.0     98
+Libr.no       -8.769       0      16.6      12.4   24.1    475
+Musi.diar     -9.768       0      10.7       5.3   16.2    319
+Musi.sema    -10.675       0       0.6       0.2    7.9    156
+Vide.no      -14.079       0       9.5       7.8   26.7    527
+Musi.no      -15.757       0      12.9      16.0   40.2    793
+------------------------------------------------------------ 
+class: 3
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.no       28.646       0      71.0      82.8   40.2    793
+Vide.no       25.055       0      79.1      61.3   26.7    527
+Radi.no       14.640       0      48.3      77.4   55.3   1089
+Libr.no       14.359       0      62.3      43.5   24.1    475
+Teat.no       13.949       0      43.1      90.7   72.6   1430
+Cine.no       12.218       0      43.8      82.5   65.0   1281
+Libr.vdse     -5.151       0      26.4      23.4   30.5    602
+Vide.mens     -5.398       0      11.2       1.6    5.0     98
+Cine.trim     -5.952       0      16.9       5.1   10.5    207
+Libr.diar     -6.515       0      19.4       9.3   16.4    324
+Radi.sema     -6.563       0       7.1       1.0    5.0     99
+Teat.seme     -6.717       0       7.5       1.2    5.4    107
+Teat.trim     -6.884       0       9.2       1.8    6.6    130
+Teat.anua     -7.305       0      10.5       2.5    8.2    162
+Radi.diar     -7.472       0      19.0      10.9   19.7    389
+Radi.vdse     -7.780       0      18.5      10.7   20.0    394
+Cine.mens     -8.067       0       9.2       2.4    8.8    174
+Vide.diar     -9.123       0       9.7       3.2   11.5    227
+Musi.sema     -9.632       0       3.8       0.9    7.9    156
+Musi.diar    -11.212       0       9.4       4.4   16.2    319
+Vide.vdse    -13.541       0      15.9      16.8   36.3    715
+Musi.vdse    -16.819       0      11.5      11.9   35.7    703
+------------------------------------------------------------ 
+class: 4
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Musi.diar     24.691       0      74.9      63.1   16.2    319
+Vide.diar     19.378       0      73.6      44.1   11.5    227
+Libr.diar     14.956       0      52.2      44.6   16.4    324
+Radi.diar     14.870       0      48.1      49.3   19.7    389
+Cine.mens      7.637       0      43.1      19.8    8.8    174
+Teat.mens      6.972       0      52.4      11.6    4.3     84
+Cine.trim      5.984       0      35.7      19.5   10.5    207
+Teat.anua      5.779       0      37.7      16.1    8.2    162
+Radi.vdse     -5.136       0      10.7      11.1   20.0    394
+Libr.sema     -5.202       0       9.2       7.4   15.4    304
+Musi.sema     -6.483       0       2.6       1.1    7.9    156
+Radi.no       -7.657       0      13.1      37.7   55.3   1089
+Teat.no       -8.901       0      14.2      53.6   72.6   1430
+Musi.no       -9.257       0       9.6      20.1   40.2    793
+Musi.vdse     -9.444       0       8.5      15.8   35.7    703
+Cine.no       -9.445       0      13.0      43.8   65.0   1281
+Vide.no       -9.771       0       6.1       8.4   26.7    527
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plotFactoClass</span><span class="p">(</span><span class="n">fcConCul</span><span class="p">,</span><span class="n">roweti</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">cstar</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_126_0.png" src="../../_images/Agrupamiento_126_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plotFactoClass</span><span class="p">(</span><span class="n">fcConCul</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">roweti</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="n">infaxes</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">cstar</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Agrupamiento_127_0.png" src="../../_images/Agrupamiento_127_0.png" />
+</div>
+</div>
+<section id="span-style-color-4cc9f0-caracterizacion-de-las-clases-con-variables-ilustrativas-span">
+<h3><span style="color:#4CC9F0">Caracterización de las clases con variables ilustrativas</span><a class="headerlink" href="#span-style-color-4cc9f0-caracterizacion-de-las-clases-con-variables-ilustrativas-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">cluster.carac</span><span class="p">(</span><span class="n">Ys</span><span class="p">,</span><span class="n">fcConCul</span><span class="o">$</span><span class="n">cluster</span><span class="p">,</span><span class="n">tipo.v</span><span class="o">=</span><span class="s">&quot;no&quot;</span><span class="p">,</span><span class="n">v.lim</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span><span class="n">dn</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">dm</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">neg</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>class: 1
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Regi.Cent      2.437   0.015      18.0      21.5   16.6    328
+Regi.Atla      2.330   0.020      18.3      17.8   13.6    268
+Regi.Bogo      2.097   0.036      17.4      19.6   15.7    310
+Regi.Orie     -3.929   0.000       8.7      14.2   22.8    450
+------------------------------------------------------------ 
+class: 2
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Estr.3oM       2.375   0.018      37.0      22.0   19.2    378
+Regi.Cent     -2.178   0.029      27.7      14.3   16.6    328
+Estr.0o1      -2.998   0.003      28.8      37.5   42.1    829
+------------------------------------------------------------ 
+class: 3
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Estr.0o1       8.366   0.000      45.0      54.9   42.1    829
+Regi.Orie      5.393   0.000      45.1      29.9   22.8    450
+Regi.OrAm      3.766   0.000      43.7      19.9   15.7    309
+Edad.a10      -2.085   0.037      31.2      23.4   25.9    510
+Estr.2        -3.611   0.000      29.8      33.5   38.8    764
+Regi.Atla     -4.690   0.000      22.4       8.8   13.6    268
+Regi.Bogo     -5.146   0.000      22.3      10.1   15.7    310
+Estr.3oM      -6.429   0.000      20.9      11.6   19.2    378
+------------------------------------------------------------ 
+class: 4
+          Test.Value p.Value Class.Cat Cat.Class Global Weight
+Estr.3oM       4.350   0.000      27.2      27.2   19.2    378
+Regi.Atla      2.827   0.005      25.4      17.9   13.6    268
+Regi.Bogo      2.546   0.011      24.2      19.8   15.7    310
+Estr.2         2.015   0.044      21.2      42.7   38.8    764
+Regi.Orie     -2.473   0.013      15.6      18.5   22.8    450
+Regi.OrAm     -4.108   0.000      11.3       9.2   15.7    309
+Estr.0o1      -5.398   0.000      13.8      30.1   42.1    829
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "AprendizajeProfundo/Libro-Fundamentos",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./Machine_Learning\Cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="ACM.html" title="anterior página">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">anterior</p>
+            <p class="prev-next-title"><span style="color:#F72585">Análisis de correspondencias múltiples (ACM)</span></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="som_Introduccion.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Mapas Auto-organizados (SOM)</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

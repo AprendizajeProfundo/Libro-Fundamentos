@@ -1,0 +1,1758 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Introducción a tensores &#8212; Fundamentos de IA y AP</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Algebra tensorial" href="t2.html" />
+    <link rel="prev" title="Teoría de la Información" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="es">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo-final-ap.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fundamentos de IA y AP</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../tutorial.html">
+                    <span style="color:#F72585">Bienvenido(a)</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Conociendo el libro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Inicio/Cuadernos/Consideraciones.html">
+   <span style="color:#F72585">
+    Conociendo el Libro
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentos de Estadística
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos.html">
+   <span style="color:#F72585">
+    Probabilidad
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias.html">
+   <span style="color:#F72585">
+    Variables Aleatorias
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta.html">
+   <span style="color:#F72585">
+    Probabilidad Conjunta y Entropía Cruzada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas.html">
+   <span style="color:#F72585">
+    Distribuciones de probabilidad continuas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Regresi%C3%B3n-Lineal-Pyton-Copy1.html">
+   <span style="color:#F72585">
+    Regresión Lineal en Python
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Teoría de la Información
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html">
+   <span style="color:#F72585">
+    Teoría de la Información
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Álgebra Lineal
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   <span style="color:#F72585">
+    Introducción a tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="t2.html">
+   <span style="color:#F72585">
+    Algebra tensorial
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="t3.html">
+   <span style="color:#F72585">
+    Tensores, redes neuronales e imágenes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="t4.html">
+   <span style="color:#F72585">
+    Tensores y distribuciones de probabilidad
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Modelación
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelos
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod_Ejemplo_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelamiento
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cal_derivadas.html">
+   <span style="color:#F72585">
+    Introducción a la Derivación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Optimization_1.html">
+   <span style="color:#F72585">
+    Optimización univariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Optimization_2.html">
+   <span style="color:#F72585">
+    Optimización multivariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="am-sdg.html">
+   <span style="color:#F72585">
+    Optimización
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_intro_aprendizaje_maquinas.html">
+   <span style="color:#F72585">
+    Conceptos básicos de aprendizaje de máquinas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_logistica_JAX.html">
+   <span style="color:#F72585">
+    Modelo Lineal de Clasificación  con JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_Logistica_Tensorflow.html">
+   <span style="color:#F72585">
+    Modelo Logístico de Clasificación  con Tensorflow 2.X
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_regresion_Keras.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am-logistico-keras-cancer.html">
+   <span style="color:#F72585">
+    Modelo logístico de predicción en tf.keras
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas no supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/BreveIntroduccion2R.html">
+   <span style="color:#F72585">
+    Breve introducción a R
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/AprendizajeNoSupervisado.html">
+   <span style="color:#F72585">
+    Aprendizaje no supervisado
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACP.html">
+   <span style="color:#F72585">
+    Análisis en componentes principales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACS.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias simples
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACM.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias múltiples (ACM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mapas auto-organizados (SOM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/som_Introduccion.html">
+   <span style="color:#F72585">
+    Mapas Auto-organizados (SOM)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Neuronales
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/RedesNeuronales_intro.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Activation_Functions.html">
+   <span style="color:#F72585">
+    Funciones de Activación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Hello_World_ML.html">
+   <span style="color:#F72585">
+    Introducción a Keras Sequential y API Funcional
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Sequential.html">
+   <span style="color:#F72585">
+    Introducción a la API Sequential de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Functional.html">
+   <span style="color:#F72585">
+    Introducción a la API funcional de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-softmax-keras-iris.html">
+   <span style="color:#F72585">
+    Clasificación, Softmax, Iris
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-subclassing-iris.html">
+   <span style="color:#F72585">
+    Subclassing-Modelo de Regresión multi-logística
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/NN_Animation2.html">
+   <span style="color:#F72585">
+    Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_LSTM_Intro.html">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/AprendizajeProfundo/Libro-Fundamentos/main?urlpath=tree/Fundamentacion_Matematica/Cuadernos/t1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/AprendizajeProfundo/Libro-Fundamentos/blob/main/Fundamentacion_Matematica/Cuadernos/t1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/issues/new?title=Issue%20on%20page%20%2FFundamentacion_Matematica/Cuadernos/t1.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/edit/main/Fundamentacion_Matematica/Cuadernos/t1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Fundamentacion_Matematica/Cuadernos/t1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-dimension-y-tamano-de-un-tensor-span">
+   <span style="color:#4361EE">
+    Dimensión y tamaño de un tensor
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-nota-acalaratoria-span">
+     <span style="color:#4CC9F0">
+      Nota acalaratoria
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-escalares-tensores-de-dimension-cero-span">
+   <span style="color:#4361EE">
+    Escalares (Tensores de dimensión cero)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-vectores-tensores-unidimensionales-span">
+   <span style="color:#4361EE">
+    Vectores (Tensores unidimensionales)
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-en-numpy-span">
+     <span style="color:#4CC9F0">
+      Ejemplo en NumPy
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-discusion-vector-o-tensor-span">
+     <span style="color:#4CC9F0">
+      Discusión: ¿Vector o Tensor?
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-aritmetica-basica-de-tensores-unidimensionales-span">
+   <span style="color:#4361EE">
+    Aritmética básica de tensores unidimensionales
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-matrices-tensores-bidimensionales-span">
+   <span style="color:#4361EE">
+    Matrices (Tensores bidimensionales)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-creacion-de-algunos-tensores-bidimensionales-span">
+   <span style="color:#4361EE">
+    Creación de algunos tensores bidimensionales
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-tensor-vacio-span">
+     <span style="color:#4CC9F0">
+      Tensor vacío
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-tensor-de-ceros-span">
+     <span style="color:#4CC9F0">
+      Tensor de ceros
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-arreglo-de-unos-span">
+     <span style="color:#4CC9F0">
+      Arreglo de unos
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-apilamiento-de-arreglos-stack-span">
+     <span style="color:#4CC9F0">
+      Apilamiento  de arreglos (stack)
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#vertical-vstack">
+       Vertical:
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         vstack
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#horizontal-hstack">
+       Horizontal:
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         hstack
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#apilamiento-a-lo-largo-de-cualquier-eje-stack">
+       Apilamiento a lo largo de cualquier eje.
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         stack
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-creacion-de-tensores-multidimensionales-span">
+   <span style="color:#4361EE">
+    Creación de tensores multidimensionales
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-un-ejemplo-con-arreglos-tridimensionales-span">
+     <span style="color:#4CC9F0">
+      Un ejemplo con arreglos tridimensionales
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-ejercicios-span">
+   <span style="color:#4361EE">
+    Ejercicios
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejercicios-adicionales-span">
+     <span style="color:#4CC9F0">
+      Ejercicios adicionales
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1><span style="color:#F72585">Introducción a tensores</span></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-introduccion-span">
+   <span style="color:#4361EE">
+    Introducción
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-dimension-y-tamano-de-un-tensor-span">
+   <span style="color:#4361EE">
+    Dimensión y tamaño de un tensor
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-nota-acalaratoria-span">
+     <span style="color:#4CC9F0">
+      Nota acalaratoria
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-escalares-tensores-de-dimension-cero-span">
+   <span style="color:#4361EE">
+    Escalares (Tensores de dimensión cero)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-vectores-tensores-unidimensionales-span">
+   <span style="color:#4361EE">
+    Vectores (Tensores unidimensionales)
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejemplo-en-numpy-span">
+     <span style="color:#4CC9F0">
+      Ejemplo en NumPy
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-discusion-vector-o-tensor-span">
+     <span style="color:#4CC9F0">
+      Discusión: ¿Vector o Tensor?
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-aritmetica-basica-de-tensores-unidimensionales-span">
+   <span style="color:#4361EE">
+    Aritmética básica de tensores unidimensionales
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-matrices-tensores-bidimensionales-span">
+   <span style="color:#4361EE">
+    Matrices (Tensores bidimensionales)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-creacion-de-algunos-tensores-bidimensionales-span">
+   <span style="color:#4361EE">
+    Creación de algunos tensores bidimensionales
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-tensor-vacio-span">
+     <span style="color:#4CC9F0">
+      Tensor vacío
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-tensor-de-ceros-span">
+     <span style="color:#4CC9F0">
+      Tensor de ceros
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-arreglo-de-unos-span">
+     <span style="color:#4CC9F0">
+      Arreglo de unos
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-apilamiento-de-arreglos-stack-span">
+     <span style="color:#4CC9F0">
+      Apilamiento  de arreglos (stack)
+     </span>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#vertical-vstack">
+       Vertical:
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         vstack
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#horizontal-hstack">
+       Horizontal:
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         hstack
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#apilamiento-a-lo-largo-de-cualquier-eje-stack">
+       Apilamiento a lo largo de cualquier eje.
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         stack
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-creacion-de-tensores-multidimensionales-span">
+   <span style="color:#4361EE">
+    Creación de tensores multidimensionales
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-un-ejemplo-con-arreglos-tridimensionales-span">
+     <span style="color:#4CC9F0">
+      Un ejemplo con arreglos tridimensionales
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-ejercicios-span">
+   <span style="color:#4361EE">
+    Ejercicios
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-ejercicios-adicionales-span">
+     <span style="color:#4CC9F0">
+      Ejercicios adicionales
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-introduccion-a-tensores-span">
+<h1><span style="color:#F72585">Introducción a tensores</span><a class="headerlink" href="#span-style-color-f72585-introduccion-a-tensores-span" title="Enlazar permanentemente con este título">#</a></h1>
+<section id="span-style-color-4361ee-introduccion-span">
+<h2><span style="color:#4361EE">Introducción</span><a class="headerlink" href="#span-style-color-4361ee-introduccion-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>En esta lección se introducen los conceptos de vectores, matrices y tensores. Los tensores son la estructura de datos más utilizada en el aprendizaje profundo. Desde el punto de vista matemático, un tensor generaliza los conceptos de escalares, vectores y matrices.</p>
+<p>Solamente haremos la introducción al concepto de tensores desde el punto de vista de las estructuras de datos requeridas en el aprendizaje profundo.</p>
+<p>Los tensores constituyen el pilar fundamental de las estructuras de datos utilizadas en la inteligencia artificial (IA). Motores de aprendizaje profundo como Torch o TensorFlow se basan en Numpy, la librería por excelencia de Python para el manejo de tensores. Recientemente TensorFlow anunció el desarrollo propio de su librería de tensores en un intento de liberarse de Numpy.</p>
+<p>Desde el punto vista del aprendizaje de máquinas, los tensores con arreglos multidimensionales que generalizan las matrices a múltiples y a los cuales se les agregan algunas características adicionales como la diferenciación automática, que desarrollaremos en otra lección.</p>
+</section>
+<section id="span-style-color-4361ee-dimension-y-tamano-de-un-tensor-span">
+<h2><span style="color:#4361EE">Dimensión y tamaño de un tensor</span><a class="headerlink" href="#span-style-color-4361ee-dimension-y-tamano-de-un-tensor-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Los tensores pueden ser estructuras desde muy simples hasta muy complejos. Para poder describirlos, usamos los términos dimensión y tamaño. La siguiente imagen ilustra diferentes tipos de tensores.</p>
+<p>La <code class="docutils literal notranslate"><span class="pre">dimensión</span> <span class="pre">de</span> <span class="pre">un</span> <span class="pre">tensor</span></code> se define como el número de índices requeridos para indicar la posición de un elemento en el tensor. En la imagen, es escalar es un tensor de dimensión cero, porque no se requiere ningún índice para determinar la posición de su único elemento. Cada índice requerido para indicar la posición de un elemento determina una dimensión del tensor. Así en ejemplo, de arriba el escalar tiene dimensión cero, el vector dimensión 1, la matriz es de  dimensión 2 y el último objeto a la derecha es un tensor de de dimensión 4.</p>
+<p>El <code class="docutils literal notranslate"><span class="pre">tamaño</span> <span class="pre">de</span> <span class="pre">un</span> <span class="pre">tensor</span></code> corresponde al número de elementos que se tienen al largo de cada dimensión. En la imagen el vector tiene tamaño 2 , indicado (2,) por acuerdo de notación. La matriz tiene tamaño (2,3) y el tensor de la derecha tiene tamaño (1,4,1,2).</p>
+<p>Para entender porque este último tensor tiene dimensión cuatro, observe lo siguiente. Hay un contenedor externo. Al representar el tensor en esta forma gráfica se da a entender que esta es la primera capa de varias posibles con la misma estructura. Al interior hay 4 compartimientos de tamaño (1,2), completando así el tamaño (1,4,1,2).
+()</p>
+<p>La siguiente ilustra una abstracción de juguete de un video con tres cuadros(frames) de color de forma (shape) <span class="math notranslate nohighlight">\((2, 2)\)</span> cada uno. Este seguro de entender la lógica de organización del tensor.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/ten_tensor_4_d.jpg" width="600" height="500" /> 
+</center>
+</figure>
+<p>Fuente: Alvaro Montenegro</p>
+<p>La próxima imagen muestra la organización de diferentes tipos de tensores.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/ten_tensores.jpg" width="500" height="400" align="center"/>
+</center>
+<figcaption>
+<p style="text-align:center">Ejemplos de tensores de diferentes  dimensiones y tamaños</p>
+</figcaption>
+</figure>
+<p>Fuente: A. Montenegro</p>
+<section id="span-style-color-4cc9f0-nota-acalaratoria-span">
+<h3><span style="color:#4CC9F0">Nota acalaratoria</span><a class="headerlink" href="#span-style-color-4cc9f0-nota-acalaratoria-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>El concepto de tensor en inteligencia artificial difiere del conocido en matemáticas y física. Un tensor desde el punto de vista matemático es a menudo, representado por una matriz de componentes que describen funciones relevantes para las coordenadas de un espacio. En pocas palabras, un tensor es una matriz de números que se transforman de acuerdo con ciertas reglas bajo un cambio de coordenadas. Un tensor se puede definir como un solo punto, una colección de puntos aislados, o se puede definir como un continuo de puntos en los que los elementos del tensor son funciones de posición, y el tensor forma lo que se conoce como campo tensor. Esto significa que en lugar de estar representado por un solo punto, el tensor se define en múltiples puntos juntos en un espacio.</p>
+<figure>
+<center>
+<img src="https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Fundamentacion_Matematica/Imagenes/tensor_mat.png" width="400" height="400" /> 
+</center>
+</figure>
+<p>Fuente: <a class="reference external" href="https://en.wikipedia.org/wiki/Tensor">Wikipedia</a>.</p>
+<p>El lector interesado en el concepto matemático , puede consultar en <a class="reference external" href="https://en.wikipedia.org/wiki/Tensor">Wikipedia</a>.</p>
+<p>Adicionalmente la dimensión de un tensor es un concepto algebraico y no geométrico. En geometría cada componente en un vector representa una dimensión. Entonces el vector <span class="math notranslate nohighlight">\((3,4)\)</span> es un vector bidimensional desde el punto de vista geométrico. Gráficamente lo representamos en un plano como se muestra en la siguiente imagen. Desde el punto de vista tensorial, el mismo objeto es unidimensional, debido a que solamente se necesita un índice para identificar cada uno de sus elementos. Esta la definición que nos interesa aquí. El siguiente código dibuja algunos vectores en <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. Los  matemáticos dicen que estos objetos geométricos tienen dimensión geométrica 2. Por favor revisa cada línea del código para estar seguro que lo entiende.</p>
+<p>Por favor revisa cada línea del siguiente código para estar asegurarse que lo entiende. Cualquier duda consulte la documentación de Python. <code class="docutils literal notranslate"><span class="pre">ax.quiver</span></code>  crea el gráfico de los vectores, a partir de las coordenadas en <span class="math notranslate nohighlight">\(X, Y, U, V\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="n">soa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">soa</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Vectores en el espacio Euclideano $R^2$ &#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/t1_12_0.png" src="../../_images/t1_12_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-escalares-tensores-de-dimension-cero-span">
+<h2><span style="color:#4361EE">Escalares (Tensores de dimensión cero)</span><a class="headerlink" href="#span-style-color-4361ee-escalares-tensores-de-dimension-cero-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Un tensor de dimensión cero representa una cantidad escalar. Es decir, un tensor de dimensión cero solamente contendrá un número y por tanto tiene tamaño 1.</p>
+</section>
+<section id="span-style-color-4361ee-vectores-tensores-unidimensionales-span">
+<h2><span style="color:#4361EE">Vectores (Tensores unidimensionales)</span><a class="headerlink" href="#span-style-color-4361ee-vectores-tensores-unidimensionales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>En esta sección revisamos el concepto de vector. Desde el punto de vista del aprendizaje profundo entendemos un vector como un contenedor de  <em>n</em> datos, cada uno de los cuales se identifica genéricamente mediante un índice. Por ejemplo supongamos que <span class="math notranslate nohighlight">\(w\)</span> es un vector de tamaño tres. Este vector se representa genéricamente como:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation*}
+w = (w_1,w_2, w_3).
+\end{equation*}
+\]</div>
+<p>En estadística es usual escribir los vectores en columna. En este caso <span class="math notranslate nohighlight">\(w\)</span> se escribe como:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation*}
+w = \begin{pmatrix} w_1\\ w_2 \\ w_3\end{pmatrix}
+\end{equation*}
+\end{split}\]</div>
+<p>El tipo de valores que puede contener un vector debe ser de la misma clase por convención. Por ejemplo, si <span class="math notranslate nohighlight">\(w\)</span> es un vector de números reales, entonces <span class="math notranslate nohighlight">\(z=(3.2\;, 1.5 \;, -7.2 \;, 0.0)\)</span> es un vector real de tamaño cuatro. Matemáticamente se dice que el vector <span class="math notranslate nohighlight">\(z\)</span> tiene dimensión cuatro. En otras palabras, la dimensión matemática de un vector es su tamaño.</p>
+<p>El contenido y tipo de datos de un vector depende del contexto en que se está utilizando. Supongamos que se trata de construir una máquina de aprendizaje profundo que identifique dígitos escritos a mano en tonalidades de gris. Lo que se acostumbra a hacer es digitalizar las imágenes correspondientes, con lo cual se obtiene una matriz de números de tamaño digamos <span class="math notranslate nohighlight">\(255 \times 255\)</span>. Esta matriz puede facilmente transformarse a un vector, o mejor diríamos un tensor de dimensión 1, con <span class="math notranslate nohighlight">\(N = 255^2\)</span> componentes.</p>
+<section id="span-style-color-4cc9f0-ejemplo-en-numpy-span">
+<h3><span style="color:#4CC9F0">Ejemplo en NumPy</span><a class="headerlink" href="#span-style-color-4cc9f0-ejemplo-en-numpy-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>En <a class="reference external" href="https://numpy.org/">NumPy</a> el vector <span class="math notranslate nohighlight">\(w =(1,2,3)\)</span> se puede crear así:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># crea el vector (array)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> 
+<span class="c1"># lo imprime</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="c1"># Muestra el tamaño (shape) del vector</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1 2 3]
+(3,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-discusion-vector-o-tensor-span">
+<h3><span style="color:#4CC9F0">Discusión: ¿Vector o Tensor?</span><a class="headerlink" href="#span-style-color-4cc9f0-discusion-vector-o-tensor-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Como se dijo arriba, En geometría la dimensión hace referencia al número de componentes con el que se representa un objeto en un espacio. Por lo general usamos el espacio Euclidiano, digamos <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> o <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p>
+<p>Los tensores son objetos de tipo algebraico. La dimensión de un tensor se define como el número de índices requerido para representar todos a los elementos del tensor.</p>
+<p>Entonces:</p>
+<ol class="simple">
+<li><p>El vector <span class="math notranslate nohighlight">\(w = (w_1,w_2, w_3)\)</span> tiene dimensión geométrica 3.</p></li>
+<li><p>El tensor <span class="math notranslate nohighlight">\(w = (w_1,w_2, w_3)\)</span> tiene dimensión 1 y tamaño (<em>shape</em> = 3).</p></li>
+</ol>
+<p><strong>Asegúrese de comprender la diferencia</strong>.</p>
+<p>El tipo de valores que puede contener un vector debe ser de la misma clase por convención. Por ejemplo, si <span class="math notranslate nohighlight">\(w\)</span> es un vector de números reales, entonces <span class="math notranslate nohighlight">\(z=(3.2\;, 1.5 \;, -7.2 \;, 0.0)\)</span> es un vector real de tamaño cuatro. Matemáticamente se dice que el vector <span class="math notranslate nohighlight">\(z\)</span> tiene dimensión cuatro. En otras palabras, la dimensión matemática de un vector es su tamaño.</p>
+<p>El contenido y tipo de datos de un vector depende del contexto en que se está utilizando. Supongamos que se trata de construir una máquina de aprendizaje profundo que identifique dígitos escritos a mano en tonalidades de gris. Lo que se acostumbra a hacer es digitalizar las imágenes correspondientes, con lo cual se obtiene una matriz de números de tamaño digamos <span class="math notranslate nohighlight">\(255 \times 255\)</span>. Esta matriz puede fácilmente transformarse a un vector, o mejor diríamos un tensor de dimensión 1, con <span class="math notranslate nohighlight">\(N = 255^2\)</span> componentes.</p>
+</section>
+</section>
+<section id="span-style-color-4361ee-aritmetica-basica-de-tensores-unidimensionales-span">
+<h2><span style="color:#4361EE">Aritmética básica de tensores unidimensionales</span><a class="headerlink" href="#span-style-color-4361ee-aritmetica-basica-de-tensores-unidimensionales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Mientras no se diga lo contrario, asumiremos que los tensores que usaremos tienen el mismo tamaño. Por facilidad, en las definiciones usaremos tensores unidimensionales de tamaño <span class="math notranslate nohighlight">\(n=3\)</span>. En realidad el tamaño de los tensores unidimensionales pueden ser cualquier número entero positivo <span class="math notranslate nohighlight">\(n\)</span> y las definiciones se generalizan de forma obvia.</p>
+<p>Supongamos que <span class="math notranslate nohighlight">\(a= (a_1,a_2,a_3)\)</span> y <span class="math notranslate nohighlight">\(b=(b_1,b_2,b_3)\)</span> son dos vectores. La suma entre <span class="math notranslate nohighlight">\(a\)</span> y <span class="math notranslate nohighlight">\(b\)</span> es un vector <span class="math notranslate nohighlight">\(c\)</span> definido por:</p>
+<div class="math notranslate nohighlight">
+\[
+c = a+b = (a_1+b_1, a_2+b_2,a_3+b_3)
+\]</div>
+<p>Por ejemplo, con Numpy escribimos:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 8 10 12]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similarmente la diferencia  de vectors <span class="math notranslate nohighlight">\(a-b\)</span> es definida por:</p>
+<div class="math notranslate nohighlight">
+\[
+c = a-b = (a_1-b_1, a_2-b_2,a_3-b_3)
+\]</div>
+<p>Con Numpy operamos así:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-6 -6 -6]
+</pre></div>
+</div>
+</div>
+</div>
+<p>El producto de Hadamard, o producto elemento por elemento entre dos vectores se denota <span class="math notranslate nohighlight">\(a \odot b\)</span> y se define como:</p>
+<div class="math notranslate nohighlight">
+\[
+c = a\odot b = (a_1*b_1, a_2*b_2,a_3*b_3).
+\]</div>
+<p>En Python el producto de Hadamard se implementa simplemente usando el operador de multiplicación ( * ). Veamos:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 7 16 27]
+</pre></div>
+</div>
+</div>
+</div>
+<p>La división entre vectores no es una operación formalmente definida. En ocasiones sin embargo se requiere dividir los elementos de un vector entre los elementos de otro, elemento a elemento. Esta operación se implementa en Python simplemente usando el operador división (/).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.14285714 0.25       0.33333333]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-matrices-tensores-bidimensionales-span">
+<h2><span style="color:#4361EE">Matrices (Tensores bidimensionales)</span><a class="headerlink" href="#span-style-color-4361ee-matrices-tensores-bidimensionales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Una matriz es una organización (tensor) bidimensional de objetos del mismo tipo. Por ejemplo una matriz  <span class="math notranslate nohighlight">\(M\)</span> de tamaño <span class="math notranslate nohighlight">\(2\times 3\)</span> puede ser:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix} 1 &amp; 2 &amp; 3\\
+4 &amp;5 &amp; 6
+\end{pmatrix}
+\end{split}\]</div>
+<p>Las matrices son muy utilizadas en prácticamente todas las áreas de la ciencia y la tecnología.</p>
+<p>En el caso del aprendizaje profundo, y más generalmente en Estadística las matrices se usan para representar conjuntos de datos. En los casos de regresión, las filas usualmente representan individuos y las columnas variables.</p>
+<p>En adelante llamaremos a las matrices tensores bidimensionales (o de dos dimensiones). Entonces una matriz que tiene <span class="math notranslate nohighlight">\(m\)</span> filas y <span class="math notranslate nohighlight">\(n\)</span> columnas, es un tensor bidimensional de tamaño (<em>shape</em>) <span class="math notranslate nohighlight">\(=(m,n)\)</span>.</p>
+<p>El tensor <span class="math notranslate nohighlight">\(M\)</span> se representa en NumPy de la siguiente forma:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Crea el tensor</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="c1"># Imprime el Tensor</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="c1"># Muestra la forma (shape)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 2 3]
+ [4 5 6]]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 3)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-creacion-de-algunos-tensores-bidimensionales-span">
+<h2><span style="color:#4361EE">Creación de algunos tensores bidimensionales</span><a class="headerlink" href="#span-style-color-4361ee-creacion-de-algunos-tensores-bidimensionales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-tensor-vacio-span">
+<h3><span style="color:#4CC9F0">Tensor vacío</span><a class="headerlink" href="#span-style-color-4cc9f0-tensor-vacio-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La función <em>empty()</em> crea un arreglo de la forma especificada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.40208333 0.33611111 0.40208333]
+ [3.35611111 5.05208333 0.33611111]]
+(2, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>La salida puede parecer un poco extraña. En realidad lo que hace Numpy es reservar el espacio de memoria necesario para mantener un arreglo de tamaño <span class="math notranslate nohighlight">\((2, 3)\)</span>, asignarle el nombre <em>v</em> en la tabla de objetos definidos dinámicamente y nada más. Entonces la información que se encontraba es ese lugar no se modifica. De hecho si volvemos a correr en seguida la celda anterior de código, la salida no debe cambiar.</p>
+<p>Observe que <em>v</em> es un tensor que tiene forma (<em>shape</em>) <span class="math notranslate nohighlight">\(2\times2\)</span>. En NumPy un tensor puede   estar compuesto por uno o más tensores. La dimensión del tensor <em>v</em> es 2. Se requiere un objeto de doble entrada para representar un tensor bidimensional. Dese cuenta que al arreglo es mostrado como una lista con dos elementos, cada uno de los cuales es un arreglo de tamaño 3. Internamente, una arreglos no se almacena como una lista.</p>
+</section>
+<section id="span-style-color-4cc9f0-tensor-de-ceros-span">
+<h3><span style="color:#4CC9F0">Tensor de ceros</span><a class="headerlink" href="#span-style-color-4cc9f0-tensor-de-ceros-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La función <em>zeros()</em> crea un arreglo de la forma especificada relleno de ceros. Por ejemplo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 0.]
+ [0. 0.]
+ [0. 0.]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-arreglo-de-unos-span">
+<h3><span style="color:#4CC9F0">Arreglo de unos</span><a class="headerlink" href="#span-style-color-4cc9f0-arreglo-de-unos-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La función <em>ones()</em> crea un arreglo de la forma especificada relleno de unos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1. 1.]
+ [1. 1.]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-apilamiento-de-arreglos-stack-span">
+<h3><span style="color:#4CC9F0"> Apilamiento  de arreglos (stack)</span><a class="headerlink" href="#span-style-color-4cc9f0-apilamiento-de-arreglos-stack-span" title="Enlazar permanentemente con este título">#</a></h3>
+<section id="vertical-vstack">
+<h4>Vertical: <code class="docutils literal notranslate"><span class="pre">vstack</span></code><a class="headerlink" href="#vertical-vstack" title="Enlazar permanentemente con este título">#</a></h4>
+<p>Con la función <em>vstack()</em>. Apila a lo largo del eje 0.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;v = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;w = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tamaño final = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v = [[1. 1. 1.]
+ [1. 1. 1.]]
+
+w = [2 2 2]
+
+z = [[1. 1. 1.]
+ [1. 1. 1.]
+ [2. 2. 2.]]
+
+tamaño final = (3, 3)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="horizontal-hstack">
+<h4>Horizontal: <code class="docutils literal notranslate"><span class="pre">hstack</span></code><a class="headerlink" href="#horizontal-hstack" title="Enlazar permanentemente con este título">#</a></h4>
+<p>Con la función <em>hstack()</em>. Apila a lo largo del eje 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">5</span><span class="p">]])</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;v = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;w = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z = </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tamaño final = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v = [[1. 1. 1.]
+ [1. 1. 1.]]
+
+w = [[5]
+ [5]]
+
+z = [[1. 1. 1. 5.]
+ [1. 1. 1. 5.]]
+
+tamaño final = (2, 4)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="apilamiento-a-lo-largo-de-cualquier-eje-stack">
+<h4>Apilamiento a lo largo de cualquier eje. <code class="docutils literal notranslate"><span class="pre">stack</span></code><a class="headerlink" href="#apilamiento-a-lo-largo-de-cualquier-eje-stack" title="Enlazar permanentemente con este título">#</a></h4>
+<p>Con la función <em>stack()</em>. Apila a lo largo cualquier  eje. La función <em>stack()</em> puede usarse para los dos casos anteriores cambiando el eje a lo largo del cual se hace la apilación. Revise el siguiente ejemplo en el cual apilamos una lista de arreglos a lo largo de cada uno de los ejes.</p>
+<p>Generamos una lista de 3 arreglos, cada uno de forma <span class="math notranslate nohighlight">\((3, 4)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Longitud de arrays =&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arrays</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;arrays[0] = </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;arrays[1] = </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;arrays[1] = </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Longitud de arrays = 3
+arrays[0] = 
+ [[ 0.8448297  -1.01559939  0.57498071  0.64038646]
+ [-1.56685489 -0.10273499  0.40506054 -1.83520697]
+ [-0.50410026 -0.44892294 -0.42463926  0.72057719]]
+arrays[1] = 
+ [[-1.25340753  0.04637402 -0.03301552  0.3628957 ]
+ [ 0.65879705 -0.45332522 -0.79593583 -0.10302451]
+ [-0.71806263  0.24412283 -1.183287   -0.90287282]]
+arrays[1] = 
+ [[-1.14402716 -1.01879902  0.20990921  0.06749962]
+ [ 0.35731967  0.76010511  0.87766142 -0.38463828]
+ [-0.91435576 -0.03921191  1.86436018 -1.62978027]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[ 0.8448297 , -1.01559939,  0.57498071,  0.64038646],
+        [-1.56685489, -0.10273499,  0.40506054, -1.83520697],
+        [-0.50410026, -0.44892294, -0.42463926,  0.72057719]],
+
+       [[-1.25340753,  0.04637402, -0.03301552,  0.3628957 ],
+        [ 0.65879705, -0.45332522, -0.79593583, -0.10302451],
+        [-0.71806263,  0.24412283, -1.183287  , -0.90287282]],
+
+       [[-1.14402716, -1.01879902,  0.20990921,  0.06749962],
+        [ 0.35731967,  0.76010511,  0.87766142, -0.38463828],
+        [-0.91435576, -0.03921191,  1.86436018, -1.62978027]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">A</span> <span class="n">lo</span> <span class="n">largo</span> <span class="k">del</span> <span class="n">eje</span> <span class="mf">1.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Input</span> <span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">]</span>
+    <span class="n">A</span> <span class="n">lo</span> <span class="n">largo</span> <span class="k">del</span> <span class="n">eje</span> <span class="mf">1.</span>
+      <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="span-style-color-4361ee-creacion-de-tensores-multidimensionales-span">
+<h2><span style="color:#4361EE">Creación de tensores multidimensionales</span><a class="headerlink" href="#span-style-color-4361ee-creacion-de-tensores-multidimensionales-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>En Python una lista de listas puede crearse como se muestra en el siguiente fragmento de código. En el código se observa como acceder a la primera lista y como acceder al segundo elemento de la segunda lista. Asegúrese de entender la lógica involucrada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a[0]=&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a[1][1]=&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a= [[1 2 3]
+ [4 5 6]]
+
+a[0]= [1 2 3]
+
+a[1][1]= 5
+</pre></div>
+</div>
+</div>
+</div>
+<section id="span-style-color-4cc9f0-un-ejemplo-con-arreglos-tridimensionales-span">
+<h3><span style="color:#4CC9F0">Un ejemplo con arreglos tridimensionales</span><a class="headerlink" href="#span-style-color-4cc9f0-un-ejemplo-con-arreglos-tridimensionales-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Para ayudar a entender la indexación y rebanado de arreglos, observe el siguiente ejemplo. Asegúrese de entender completamente la lógica. Vamos a crear un tensor tridimensional de tamaño <span class="math notranslate nohighlight">\((4, 3, 1)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+              <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]],</span>
+             
+              <span class="p">[[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]],</span>
+    
+              <span class="p">[[</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">]],</span>
+    
+              <span class="p">[[</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">21</span><span class="p">,</span><span class="mi">22</span><span class="p">],</span>
+               <span class="p">[</span><span class="mi">23</span><span class="p">,</span><span class="mi">24</span><span class="p">]]</span>
+            <span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a.shape=&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">a =&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a.shape= (4, 3, 2)
+
+a = [[[ 1  2]
+  [ 3  4]
+  [ 5  6]]
+
+ [[ 7  8]
+  [ 9 10]
+  [11 12]]
+
+ [[13 14]
+  [15 16]
+  [17 18]]
+
+ [[19 20]
+  [21 22]
+  [23 24]]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-ejercicios-span">
+<h2><span style="color:#4361EE">Ejercicios</span><a class="headerlink" href="#span-style-color-4361ee-ejercicios-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Investigue sobre los siguientes temas:</p>
+<ol class="simple">
+<li><p>Indexación de tensores NumPy.</p></li>
+<li><p>Rebanado (slicing) tensores.</p></li>
+<li><p>Reorganización (Reshape) de tensores.</p></li>
+</ol>
+<div class="tip admonition">
+<p class="admonition-title">Ayuda</p>
+<p>Revise la lección de Numpy del libro de Fundamentos de Programación</p>
+</div>
+<section id="span-style-color-4cc9f0-ejercicios-adicionales-span">
+<h3><span style="color:#4CC9F0">Ejercicios adicionales</span><a class="headerlink" href="#span-style-color-4cc9f0-ejercicios-adicionales-span" title="Enlazar permanentemente con este título">#</a></h3>
+<ol class="simple">
+<li><p>Cree una lista 5 de arreglos aleatorios de forma <span class="math notranslate nohighlight">\((2,4,3,5)\)</span>.</p></li>
+<li><p>Apile los arreglos por cada uno de los cuatro ejes.</p></li>
+<li><p>Interprete los resultados.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "AprendizajeProfundo/Libro-Fundamentos",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Fundamentacion_Matematica\Cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html" title="anterior página">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">anterior</p>
+            <p class="prev-next-title"><span style="color:#F72585">Teoría de la Información</span></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="t2.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Algebra tensorial</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
