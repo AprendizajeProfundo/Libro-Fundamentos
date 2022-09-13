@@ -1,0 +1,2996 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Predicción del valor de una acción a tres días. Apple (LSTM) &#8212; Fundamentos de IA y AP</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+    <link rel="next" title="Predicción de secuencia de valores futuros de una acción. Apple (LSTM)" href="rnr_accion_Apple_Prediccion_tres_dias-multiple.html" />
+    <link rel="prev" title="Predicción del valor de una acción a un día. Apple (LSTM)" href="rnr_accion_Apple_Prediccion_un_dia-dropout.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="es">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo-final-ap.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fundamentos de IA y AP</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../tutorial.html">
+                    <span style="color:#F72585">Bienvenido(a)</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Conociendo el libro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Inicio/Cuadernos/Consideraciones.html">
+   <span style="color:#F72585">
+    Conociendo el Libro
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentos de Estadística
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Conceptos_Basicos.html">
+   <span style="color:#F72585">
+    Probabilidad
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Variables_Aleatorias.html">
+   <span style="color:#F72585">
+    Variables Aleatorias
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Var_Prob_conjunta.html">
+   <span style="color:#F72585">
+    Probabilidad Conjunta y Entropía Cruzada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Prob_Distribuciones_continuas.html">
+   <span style="color:#F72585">
+    Distribuciones de probabilidad continuas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/Regresi%C3%B3n-Lineal-Pyton-Copy1.html">
+   <span style="color:#F72585">
+    Regresión Lineal en Python
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Teoría de la Información
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Estadistica/Cuadernos/ti_Teoria_Informacion.html">
+   <span style="color:#F72585">
+    Teoría de la Información
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Álgebra Lineal
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_I.html">
+   <span style="color:#F72585">
+    Introducción a tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Intro_Tensores_II.html">
+   <span style="color:#F72585">
+    Tensores
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Tensor_Distribucion_Prob.html">
+   <span style="color:#F72585">
+    Tensores y distribuciones de probabilidad
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Modelación
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelos
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/mod_Ejemplo_Modelamiento.html">
+   <span style="color:#F72585">
+    Ejemplos de Modelamiento
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/cal_derivadas.html">
+   <span style="color:#F72585">
+    Introducción a la Derivación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_1.html">
+   <span style="color:#F72585">
+    Optimización univariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/Optimization_2.html">
+   <span style="color:#F72585">
+    Optimización multivariada usando JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Fundamentacion_Matematica/Cuadernos/am-sdg.html">
+   <span style="color:#F72585">
+    Optimización
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_intro_aprendizaje_maquinas.html">
+   <span style="color:#F72585">
+    Conceptos básicos de aprendizaje de máquinas
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_logistica_JAX.html">
+   <span style="color:#F72585">
+    Modelo Lineal de Clasificación  con JAX
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_Regresion_Logistica_Tensorflow.html">
+   <span style="color:#F72585">
+    Modelo Logístico de Clasificación  con Tensorflow 2.X
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am_regresion_Keras.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/am-logistico-keras-cancer.html">
+   <span style="color:#F72585">
+    Modelo logístico de predicción en tf.keras
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Aprendizaje de máquinas no supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/BreveIntroduccion2R.html">
+   <span style="color:#F72585">
+    Breve introducción a R
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/AprendizajeNoSupervisado.html">
+   <span style="color:#F72585">
+    Aprendizaje no supervisado
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACP.html">
+   <span style="color:#F72585">
+    Análisis en componentes principales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACS.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias simples
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/ACM.html">
+   <span style="color:#F72585">
+    Análisis de correspondencias múltiples (ACM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/Agrupamiento.html">
+   <span style="color:#F72585">
+    Algunos métodos de clasificación no supervisada (agrupamiento)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mapas auto-organizados (SOM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Machine_Learning/Cuadernos/som_Introduccion.html">
+   <span style="color:#F72585">
+    Mapas Auto-organizados (SOM)
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Neuronales
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/RedesNeuronales_intro.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Activation_Functions.html">
+   <span style="color:#F72585">
+    Funciones de Activación
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Hello_World_ML.html">
+   <span style="color:#F72585">
+    Introducción a Keras Sequential y API Funcional
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Sequential.html">
+   <span style="color:#F72585">
+    Introducción a la API Sequential de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/Intro_Keras_Functional.html">
+   <span style="color:#F72585">
+    Introducción a la API funcional de Keras
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-softmax-keras-iris.html">
+   <span style="color:#F72585">
+    Clasificación, Softmax, Iris
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am_regresion_Keras_gasolina.html">
+   <span style="color:#F72585">
+    Regresion Basica con tf.keras: Predecir eficiencia de la gasolina
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/am-subclassing-iris.html">
+   <span style="color:#F72585">
+    Subclassing-Modelo de Regresión multi-logística
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Redes_Neuronales/Cuadernos/NN_Animation2.html">
+   <span style="color:#F72585">
+    Visualización del Entrenamiento de una Red Neuronal
+   </span>
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Redes Recurrentes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_Times_series_Intro.html">
+   <span style="color:#F72585">
+    Introducción a Modelos Secuenciales
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnn_Intro_Redes_Recurrentes.html">
+   <span style="color:#F72585">
+    Introducción a Redes Neuronales Recurrentes
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_LSTM_Intro.html">
+   <span style="color:#F72585">
+    Redes LSTM (Long Short Term Memory Networks)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_GRU_Intro.html">
+   <span style="color:#F72585">
+    Redes GRU (Gated Recurrent Unit)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_Times_series_Intro-lstm.html">
+   <span style="color:#F72585">
+    Ejemplo 1: Serie de tiempo simulada
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_un_dia-dropout.html">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a un día. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   <span style="color:#F72585">
+    Predicción del valor de una acción a tres días. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnr_accion_Apple_Prediccion_tres_dias-multiple.html">
+   <span style="color:#F72585">
+    Predicción de secuencia de valores futuros de una acción. Apple (LSTM)
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/AprendizajeProfundo/Libro-Fundamentos/main?urlpath=tree/Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/AprendizajeProfundo/Libro-Fundamentos/blob/main/Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/issues/new?title=Issue%20on%20page%20%2FRedes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/AprendizajeProfundo/Libro-Fundamentos/edit/main/Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Redes_Recurrentes/Cuadernos/rnr_accion_Apple_Prediccion_tres_dias-dropout.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-importar-las-libreria-requeridas-span">
+   <span style="color:#4361EE">
+    Importar las librería requeridas
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-lectura-de-los-datos-span">
+   <span style="color:#4361EE">
+    Lectura de  los datos
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-extrae-datos-para-la-serie-que-se-desea-predecir-close-span">
+   <span style="color:#4361EE">
+    Extrae datos para la serie que se desea predecir-close
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-visualizacion-de-la-serie-precio-al-cierre-span">
+   <span style="color:#4361EE">
+    Visualización de la serie precio al cierre
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-preparacion-de-los-datos-para-el-entrenamiento-de-la-red-lstm-span">
+   <span style="color:#4361EE">
+    Preparación de los datos para el entrenamiento de la red LSTM
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-primero-extrae-los-valores-y-se-crea-el-objeto-minmaxscaler-span">
+     <span style="color:#4CC9F0">
+      Primero extrae los valores y se crea el  objeto MinMaxScaler
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-crea-datos-de-entrenamiento-span">
+     <span style="color:#4CC9F0">
+      Crea datos de entrenamiento
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-funcion-para-crear-los-datos-de-entrenamiento-span">
+     <span style="color:#4CC9F0">
+      Función para crear los datos de entrenamiento
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-crea-el-modelo-lstm-span">
+   <span style="color:#4361EE">
+    Crea el modelo LSTM
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-compila-span">
+     <span style="color:#4CC9F0">
+      Compila
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#entrena-el-modelo">
+     Entrena el modelo
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-predicciones-span">
+   <span style="color:#4361EE">
+    Predicciones
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-prepara-los-datos-de-validacion-span">
+     <span style="color:#4CC9F0">
+      Prepara los datos de validación
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-calcula-predicciones-span">
+     <span style="color:#4CC9F0">
+      Calcula predicciones
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-elimina-dimensiones-sobrante-para-los-graficos-span">
+     <span style="color:#4CC9F0">
+      Elimina dimensiones sobrante para los gráficos
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-grafica-de-las-predicciones-span">
+     <span style="color:#4CC9F0">
+      Gráfica de las predicciones
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-regreso-a-la-escala-original-span">
+   <span style="color:#4361EE">
+    Regreso a la escala original
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-guarda-el-modelo-entrenado-span">
+   <span style="color:#4361EE">
+    Guarda el modelo entrenado
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-intervalos-de-confianza-to-do-span">
+   <span style="color:#4361EE">
+    Intervalos de confianza. TO DO
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-referencias-span">
+   <span style="color:#4361EE">
+    Referencias
+   </span>
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1><span style="color:#F72585">Predicción del valor de una acción a tres días. Apple (LSTM)</span></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-importar-las-libreria-requeridas-span">
+   <span style="color:#4361EE">
+    Importar las librería requeridas
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-lectura-de-los-datos-span">
+   <span style="color:#4361EE">
+    Lectura de  los datos
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-extrae-datos-para-la-serie-que-se-desea-predecir-close-span">
+   <span style="color:#4361EE">
+    Extrae datos para la serie que se desea predecir-close
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-visualizacion-de-la-serie-precio-al-cierre-span">
+   <span style="color:#4361EE">
+    Visualización de la serie precio al cierre
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-preparacion-de-los-datos-para-el-entrenamiento-de-la-red-lstm-span">
+   <span style="color:#4361EE">
+    Preparación de los datos para el entrenamiento de la red LSTM
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-primero-extrae-los-valores-y-se-crea-el-objeto-minmaxscaler-span">
+     <span style="color:#4CC9F0">
+      Primero extrae los valores y se crea el  objeto MinMaxScaler
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-crea-datos-de-entrenamiento-span">
+     <span style="color:#4CC9F0">
+      Crea datos de entrenamiento
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-funcion-para-crear-los-datos-de-entrenamiento-span">
+     <span style="color:#4CC9F0">
+      Función para crear los datos de entrenamiento
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-crea-el-modelo-lstm-span">
+   <span style="color:#4361EE">
+    Crea el modelo LSTM
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-compila-span">
+     <span style="color:#4CC9F0">
+      Compila
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#entrena-el-modelo">
+     Entrena el modelo
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-predicciones-span">
+   <span style="color:#4361EE">
+    Predicciones
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-prepara-los-datos-de-validacion-span">
+     <span style="color:#4CC9F0">
+      Prepara los datos de validación
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-calcula-predicciones-span">
+     <span style="color:#4CC9F0">
+      Calcula predicciones
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-elimina-dimensiones-sobrante-para-los-graficos-span">
+     <span style="color:#4CC9F0">
+      Elimina dimensiones sobrante para los gráficos
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-4cc9f0-grafica-de-las-predicciones-span">
+     <span style="color:#4CC9F0">
+      Gráfica de las predicciones
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-regreso-a-la-escala-original-span">
+   <span style="color:#4361EE">
+    Regreso a la escala original
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-guarda-el-modelo-entrenado-span">
+   <span style="color:#4361EE">
+    Guarda el modelo entrenado
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-intervalos-de-confianza-to-do-span">
+   <span style="color:#4361EE">
+    Intervalos de confianza. TO DO
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-4361ee-referencias-span">
+   <span style="color:#4361EE">
+    Referencias
+   </span>
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-f72585-prediccion-del-valor-de-una-accion-a-tres-dias-apple-lstm-span">
+<h1><span style="color:#F72585">Predicción del valor de una acción a tres días. Apple (LSTM)</span><a class="headerlink" href="#span-style-color-f72585-prediccion-del-valor-de-una-accion-a-tres-dias-apple-lstm-span" title="Enlazar permanentemente con este título">#</a></h1>
+<section id="span-style-color-4361ee-importar-las-libreria-requeridas-span">
+<h2><span style="color:#4361EE">Importar las librería requeridas</span><a class="headerlink" href="#span-style-color-4361ee-importar-las-libreria-requeridas-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1">#%matplotlib inline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="c1">#setting figure size</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pylab</span> <span class="kn">import</span> <span class="n">rcParams</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span><span class="mi">10</span>
+
+<span class="c1">#importing required libraries</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="c1"># importa objetos de keras</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">LSTM</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Versión de Tensorflow: &quot;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="c1"># optimizador</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Versión de Tensorflow:  2.9.1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-lectura-de-los-datos-span">
+<h2><span style="color:#4361EE">Lectura de  los datos</span><a class="headerlink" href="#span-style-color-4361ee-lectura-de-los-datos-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Estos datos corresponden a la empresa <em>Apple</em>. Son  3019 datos que corresponden a observaciones del precio de la acción, el número de transacciones de la acción (compra-venta). Los datos son diarios (dias hábiles o comerciales). Están entre el 3 de enero de 2006 hasta el 1 de enero de 2018.</p>
+<p>la columna <em>Date</em> es la fecha, <em>Open</em> es el valor de acción a la apertura del mercado, <em>High</em> el valor más alto alcanzado en el día, <em>Low</em> el valor más bajo del día, <em>Close</em> el valor al cierre,  <em>Volume</em> es el volúmenes de acciones transadas en el día  y <em>Name</em> es el código de identificación de la empresa, Apple en este caso.</p>
+<p>Los datos puede ser bajados directamente de <a class="reference external" href="https://www.kaggle.com/szrlee/stock-time-series-20050101-to-20171231">Kaggle</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#reading from a local file</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/AprendizajeProfundo/Libro-Fundamentos/main/Redes_Recurrentes/Datos/AAPL_2006-01-01_to_2018-01-01.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># looking at the first five rows of the data</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Shape of the data:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Shape of the data:
+(3019, 7)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2006-01-03</td>
+      <td>10.34</td>
+      <td>10.68</td>
+      <td>10.32</td>
+      <td>10.68</td>
+      <td>201853036</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2006-01-04</td>
+      <td>10.73</td>
+      <td>10.85</td>
+      <td>10.64</td>
+      <td>10.71</td>
+      <td>155225609</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2006-01-05</td>
+      <td>10.69</td>
+      <td>10.70</td>
+      <td>10.54</td>
+      <td>10.63</td>
+      <td>112396081</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2006-01-06</td>
+      <td>10.75</td>
+      <td>10.96</td>
+      <td>10.65</td>
+      <td>10.90</td>
+      <td>176139334</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2006-01-09</td>
+      <td>10.96</td>
+      <td>11.03</td>
+      <td>10.82</td>
+      <td>10.86</td>
+      <td>168861224</td>
+      <td>AAPL</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Vamos a cambiar el índice de los datos. Tomaremos la fecha como indice: <em>df.index</em>. Los datos se reordenan para invertir la tabla, debido a que los datos contienen las observaciones más recientes en la parte superior de la tabla.</p>
+</section>
+<section id="span-style-color-4361ee-extrae-datos-para-la-serie-que-se-desea-predecir-close-span">
+<h2><span style="color:#4361EE">Extrae datos para la serie que se desea predecir-close</span><a class="headerlink" href="#span-style-color-4361ee-extrae-datos-para-la-serie-que-se-desea-predecir-close-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#creating dataframe with date and the target variable</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span>
+<span class="c1"># df = df.sort_index(ascending=True, axis=0)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">]])</span>
+<span class="c1">#</span>
+<span class="c1">#setting index</span>
+<span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">Date</span>
+<span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Close</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2006-01-03</th>
+      <td>10.68</td>
+    </tr>
+    <tr>
+      <th>2006-01-04</th>
+      <td>10.71</td>
+    </tr>
+    <tr>
+      <th>2006-01-05</th>
+      <td>10.63</td>
+    </tr>
+    <tr>
+      <th>2006-01-06</th>
+      <td>10.90</td>
+    </tr>
+    <tr>
+      <th>2006-01-09</th>
+      <td>10.86</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="span-style-color-4361ee-visualizacion-de-la-serie-precio-al-cierre-span">
+<h2><span style="color:#4361EE">Visualización de la serie precio al cierre</span><a class="headerlink" href="#span-style-color-4361ee-visualizacion-de-la-serie-precio-al-cierre-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+<span class="n">len_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">len_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">len_data</span><span class="o">*</span><span class="mf">0.8</span><span class="p">)</span> <span class="c1"># 80%  = 3019</span>
+<span class="n">len_test</span> <span class="o">=</span> <span class="n">len_data</span><span class="o">-</span> <span class="n">len_train</span> <span class="c1"># 20% = 2415</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">len_data</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">len_train</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="n">len_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3019 = 2415 + 604
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">len_train</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Conjunto de entrenamiento (Training set): </span><span class="si">{}</span><span class="s1"> puntos (80%)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len_train</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">][</span><span class="n">len_train</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Conjunto de validación (Validation set): </span><span class="si">{}</span><span class="s1"> puntos (20%)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len_test</span><span class="p">))</span> <span class="c1">#248 data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Apple: Historia del precio la acción al cierre (Close)&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_12_0.png" src="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_12_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-preparacion-de-los-datos-para-el-entrenamiento-de-la-red-lstm-span">
+<h2><span style="color:#4361EE">Preparación de los datos para el entrenamiento de la red LSTM</span><a class="headerlink" href="#span-style-color-4361ee-preparacion-de-los-datos-para-el-entrenamiento-de-la-red-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Para evitar problemas con las tendencias y para mejorar la estimación (entrenamiento) los datos se van a transformar a la escala <span class="math notranslate nohighlight">\([0,1]\)</span>. Para las predicciones se utiliza la transformación inversa.</p>
+<section id="span-style-color-4cc9f0-primero-extrae-los-valores-y-se-crea-el-objeto-minmaxscaler-span">
+<h3><span style="color:#4CC9F0">Primero extrae los valores y se crea el  objeto MinMaxScaler</span><a class="headerlink" href="#span-style-color-4cc9f0-primero-extrae-los-valores-y-se-crea-el-objeto-minmaxscaler-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#creating train and test sets</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
+
+
+<span class="c1"># create the scaler object and scale the data</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">#scaled_data = np.array(scaler.fit_transform(dataset))</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># dataset = pd.DataFrame(scaled_data,index=data.index, columns=[&#39;serie&#39;])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3019,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-crea-datos-de-entrenamiento-span">
+<h3><span style="color:#4CC9F0">Crea datos de entrenamiento</span><a class="headerlink" href="#span-style-color-4cc9f0-crea-datos-de-entrenamiento-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>La red LSTM tendrá como entrada «time_step» datos consecutivos, y como salida 5 datos (la predicción a
+partir de esos «time_step» datos se hace para los siguentes 5 días). Se conformará de esta forma el set de entrenamiento</p>
+<ol class="simple">
+<li><p>Número de datos consecutivos para entrenamiento: time_step = 60.</p></li>
+<li><p>Días a predecir: days = 1</p></li>
+</ol>
+</section>
+<section id="span-style-color-4cc9f0-funcion-para-crear-los-datos-de-entrenamiento-span">
+<h3><span style="color:#4CC9F0">Función para crear los datos de entrenamiento</span><a class="headerlink" href="#span-style-color-4cc9f0-funcion-para-crear-los-datos-de-entrenamiento-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">univariate_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">history_size</span><span class="p">,</span> <span class="n">target_size</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; dataset: conjunto de datos</span>
+<span class="sd">        start_index: índice inicial de donde empezar a tomar los datos</span>
+<span class="sd">        end_index: índice final para tomar los datos. None para tomarlos todos</span>
+<span class="sd">        history_size: tamaño de la venytana para crear las secuencias</span>
+<span class="sd">        target_size: dentro de cuántas observaciones futuras desea pronosticar</span>
+<span class="sd">    &#39;&#39;&#39;</span>  
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">start_index</span> <span class="o">=</span> <span class="n">start_index</span> <span class="o">+</span> <span class="n">history_size</span>
+    <span class="k">if</span> <span class="n">end_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">end_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">target_size</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">history_size</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="c1"># Reshape data from (history_size,) to (history_size, 1)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="p">(</span><span class="n">history_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">target_size</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se coloca una semilla para gerantizar reproductibidad</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># hiperparámetros para crear las secuencias</span>
+<span class="n">past_history</span> <span class="o">=</span> <span class="mi">60</span> <span class="c1"># tamaño secuencias de entrada</span>
+<span class="n">future_target</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># días adelante</span>
+<span class="n">TRAIN_SPLIT</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">len_data</span><span class="o">*</span><span class="mf">0.8</span><span class="p">)</span> <span class="c1">#2415: nuḿer0 de datos entreno</span>
+
+<span class="c1"># secuencias de entrenamiento</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">univariate_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">TRAIN_SPLIT</span><span class="p">,</span>
+                                           <span class="n">past_history</span><span class="p">,</span>
+                                           <span class="n">future_target</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="c1">#secuencias de validación</span>
+<span class="c1"># No se usará ningún dato que el modelo haya visto</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">univariate_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">TRAIN_SPLIT</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                                       <span class="n">past_history</span><span class="p">,</span>
+                                       <span class="n">future_target</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">TRAIN_SPLIT</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2415
+(2355, 60, 1)
+(2355,)
+(541, 60, 1)
+(541,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-crea-el-modelo-lstm-span">
+<h2><span style="color:#4361EE">Crea el modelo LSTM</span><a class="headerlink" href="#span-style-color-4361ee-crea-el-modelo-lstm-span" title="Enlazar permanentemente con este título">#</a></h2>
+<p>Omitimos esta sección. Usaremso el modelo entrenado a un día</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># shapes</span>
+<span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">units</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="c1"># layers</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+<span class="c1">#x = Dropout(0.0, name= &#39;Dropout_01&#39;)(inputs)</span>
+<span class="c1">#x = LSTM(units=units, name=&#39;LSTM_layer&#39;)(x)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;LSTM_layer&#39;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="s1">&#39;Dropout_02&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;LSTM_layer_2&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="s1">&#39;Dropout_03&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># model</span>
+<span class="n">model_01</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;series_LSTM_model&#39;</span><span class="p">)</span>
+<span class="n">model_01</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;series_LSTM_model&quot;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_________________________________________________________________
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Layer (type)                Output Shape              Param #   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=================================================================
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> input_1 (InputLayer)        [(None, 60, 1)]           0         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> LSTM_layer (LSTM)           (None, 60, 64)            16896     
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Dropout_02 (Dropout)        (None, 60, 64)            0         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> LSTM_layer_2 (LSTM)         (None, 32)                12416     
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Dropout_03 (Dropout)        (None, 32)                0         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> dense (Dense)               (None, 1)                 33        
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=================================================================
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total params: 29,345
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Trainable params: 29,345
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-trainable params: 0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<section id="span-style-color-4cc9f0-compila-span">
+<h3><span style="color:#4CC9F0">Compila</span><a class="headerlink" href="#span-style-color-4cc9f0-compila-span" title="Enlazar permanentemente con este título">#</a></h3>
+<p>Se usará el optimizador Adam y la función de pérdida MSE</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_01</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span>
+  <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.001</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="entrena-el-modelo">
+<h3>Entrena el modelo<a class="headerlink" href="#entrena-el-modelo" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#history = model_01.fit(X_train,y_train,epochs=20,batch_size=32)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model_01</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/67 [..............................] - ETA: 7:44 - loss: 2.4157e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 2/67 [..............................] - ETA: 5s - loss: 1.4562e-04  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 3/67 [&gt;.............................] - ETA: 4s - loss: 1.2524e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 4/67 [&gt;.............................] - ETA: 4s - loss: 1.0101e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 5/67 [=&gt;............................] - ETA: 4s - loss: 9.9967e-05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 6/67 [=&gt;............................] - ETA: 4s - loss: 1.1648e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 7/67 [==&gt;...........................] - ETA: 3s - loss: 1.1462e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 8/67 [==&gt;...........................] - ETA: 3s - loss: 1.0868e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 9/67 [===&gt;..........................] - ETA: 3s - loss: 1.1215e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+10/67 [===&gt;..........................] - ETA: 3s - loss: 1.2017e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+11/67 [===&gt;..........................] - ETA: 3s - loss: 1.3608e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+12/67 [====&gt;.........................] - ETA: 3s - loss: 1.5585e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+13/67 [====&gt;.........................] - ETA: 3s - loss: 2.0753e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+14/67 [=====&gt;........................] - ETA: 3s - loss: 2.1871e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+15/67 [=====&gt;........................] - ETA: 3s - loss: 3.1331e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+16/67 [======&gt;.......................] - ETA: 3s - loss: 3.2149e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+18/67 [=======&gt;......................] - ETA: 3s - loss: 3.8504e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+19/67 [=======&gt;......................] - ETA: 3s - loss: 3.9329e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+20/67 [=======&gt;......................] - ETA: 3s - loss: 4.2395e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+21/67 [========&gt;.....................] - ETA: 2s - loss: 4.5621e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+22/67 [========&gt;.....................] - ETA: 2s - loss: 4.9952e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+23/67 [=========&gt;....................] - ETA: 2s - loss: 5.0137e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+24/67 [=========&gt;....................] - ETA: 2s - loss: 4.8637e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+25/67 [==========&gt;...................] - ETA: 2s - loss: 4.8661e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+26/67 [==========&gt;...................] - ETA: 2s - loss: 5.1376e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+27/67 [===========&gt;..................] - ETA: 2s - loss: 6.0306e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+28/67 [===========&gt;..................] - ETA: 2s - loss: 7.3945e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+29/67 [===========&gt;..................] - ETA: 2s - loss: 8.4674e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+30/67 [============&gt;.................] - ETA: 2s - loss: 9.2930e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+31/67 [============&gt;.................] - ETA: 2s - loss: 9.6262e-04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+32/67 [=============&gt;................] - ETA: 2s - loss: 0.0010    
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+33/67 [=============&gt;................] - ETA: 2s - loss: 0.0011
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+34/67 [==============&gt;...............] - ETA: 2s - loss: 0.0011
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+35/67 [==============&gt;...............] - ETA: 2s - loss: 0.0011
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+36/67 [===============&gt;..............] - ETA: 1s - loss: 0.0011
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+37/67 [===============&gt;..............] - ETA: 1s - loss: 0.0012
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+38/67 [================&gt;.............] - ETA: 1s - loss: 0.0012
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+39/67 [================&gt;.............] - ETA: 1s - loss: 0.0013
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+40/67 [================&gt;.............] - ETA: 1s - loss: 0.0013
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+41/67 [=================&gt;............] - ETA: 1s - loss: 0.0013
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+42/67 [=================&gt;............] - ETA: 1s - loss: 0.0014
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+43/67 [==================&gt;...........] - ETA: 1s - loss: 0.0015
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+44/67 [==================&gt;...........] - ETA: 1s - loss: 0.0015
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+45/67 [===================&gt;..........] - ETA: 1s - loss: 0.0016
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+46/67 [===================&gt;..........] - ETA: 1s - loss: 0.0016
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+47/67 [====================&gt;.........] - ETA: 1s - loss: 0.0017
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+48/67 [====================&gt;.........] - ETA: 1s - loss: 0.0018
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+49/67 [====================&gt;.........] - ETA: 1s - loss: 0.0019
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+50/67 [=====================&gt;........] - ETA: 1s - loss: 0.0020
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+51/67 [=====================&gt;........] - ETA: 1s - loss: 0.0022
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+52/67 [======================&gt;.......] - ETA: 0s - loss: 0.0023
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+53/67 [======================&gt;.......] - ETA: 0s - loss: 0.0026
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+54/67 [=======================&gt;......] - ETA: 0s - loss: 0.0026
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+55/67 [=======================&gt;......] - ETA: 0s - loss: 0.0027
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+56/67 [========================&gt;.....] - ETA: 0s - loss: 0.0027
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+57/67 [========================&gt;.....] - ETA: 0s - loss: 0.0027
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+58/67 [========================&gt;.....] - ETA: 0s - loss: 0.0027
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+60/67 [=========================&gt;....] - ETA: 0s - loss: 0.0030
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+61/67 [==========================&gt;...] - ETA: 0s - loss: 0.0032
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+62/67 [==========================&gt;...] - ETA: 0s - loss: 0.0033
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+63/67 [===========================&gt;..] - ETA: 0s - loss: 0.0034
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+64/67 [===========================&gt;..] - ETA: 0s - loss: 0.0034
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+65/67 [============================&gt;.] - ETA: 0s - loss: 0.0035
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+66/67 [============================&gt;.] - ETA: 0s - loss: 0.0036
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - ETA: 0s - loss: 0.0036
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - 13s 98ms/step - loss: 0.0036 - val_loss: 0.0017
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2/15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/67 [..............................] - ETA: 5s - loss: 0.0616
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 2/67 [..............................] - ETA: 4s - loss: 0.0603
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 3/67 [&gt;.............................] - ETA: 4s - loss: 0.0552
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 4/67 [&gt;.............................] - ETA: 3s - loss: 0.0490
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 5/67 [=&gt;............................] - ETA: 3s - loss: 0.0435
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 6/67 [=&gt;............................] - ETA: 3s - loss: 0.0383
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 7/67 [==&gt;...........................] - ETA: 3s - loss: 0.0339
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 8/67 [==&gt;...........................] - ETA: 3s - loss: 0.0300
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 9/67 [===&gt;..........................] - ETA: 3s - loss: 0.0268
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+10/67 [===&gt;..........................] - ETA: 3s - loss: 0.0242
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+11/67 [===&gt;..........................] - ETA: 3s - loss: 0.0220
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+12/67 [====&gt;.........................] - ETA: 3s - loss: 0.0204
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+13/67 [====&gt;.........................] - ETA: 3s - loss: 0.0193
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+14/67 [=====&gt;........................] - ETA: 3s - loss: 0.0184
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+15/67 [=====&gt;........................] - ETA: 3s - loss: 0.0173
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+16/67 [======&gt;.......................] - ETA: 3s - loss: 0.0165
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+17/67 [======&gt;.......................] - ETA: 3s - loss: 0.0159
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+18/67 [=======&gt;......................] - ETA: 3s - loss: 0.0153
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+19/67 [=======&gt;......................] - ETA: 3s - loss: 0.0148
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+20/67 [=======&gt;......................] - ETA: 2s - loss: 0.0141
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+21/67 [========&gt;.....................] - ETA: 2s - loss: 0.0135
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+22/67 [========&gt;.....................] - ETA: 2s - loss: 0.0129
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+23/67 [=========&gt;....................] - ETA: 2s - loss: 0.0123
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+24/67 [=========&gt;....................] - ETA: 2s - loss: 0.0118
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+25/67 [==========&gt;...................] - ETA: 2s - loss: 0.0114
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+26/67 [==========&gt;...................] - ETA: 2s - loss: 0.0110
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+27/67 [===========&gt;..................] - ETA: 2s - loss: 0.0106
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+28/67 [===========&gt;..................] - ETA: 2s - loss: 0.0103
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+29/67 [===========&gt;..................] - ETA: 2s - loss: 0.0100
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+30/67 [============&gt;.................] - ETA: 2s - loss: 0.0098
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+31/67 [============&gt;.................] - ETA: 2s - loss: 0.0095
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+32/67 [=============&gt;................] - ETA: 2s - loss: 0.0094
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+33/67 [=============&gt;................] - ETA: 2s - loss: 0.0092
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+34/67 [==============&gt;...............] - ETA: 2s - loss: 0.0090
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+35/67 [==============&gt;...............] - ETA: 2s - loss: 0.0089
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+36/67 [===============&gt;..............] - ETA: 2s - loss: 0.0087
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+37/67 [===============&gt;..............] - ETA: 2s - loss: 0.0086
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+38/67 [================&gt;.............] - ETA: 2s - loss: 0.0085
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+39/67 [================&gt;.............] - ETA: 2s - loss: 0.0084
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+40/67 [================&gt;.............] - ETA: 2s - loss: 0.0082
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+41/67 [=================&gt;............] - ETA: 2s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+42/67 [=================&gt;............] - ETA: 2s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+43/67 [==================&gt;...........] - ETA: 2s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+44/67 [==================&gt;...........] - ETA: 1s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+45/67 [===================&gt;..........] - ETA: 1s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+46/67 [===================&gt;..........] - ETA: 1s - loss: 0.0076
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+47/67 [====================&gt;.........] - ETA: 1s - loss: 0.0076
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+48/67 [====================&gt;.........] - ETA: 1s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+49/67 [====================&gt;.........] - ETA: 1s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+50/67 [=====================&gt;........] - ETA: 1s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+51/67 [=====================&gt;........] - ETA: 1s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+52/67 [======================&gt;.......] - ETA: 1s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+53/67 [======================&gt;.......] - ETA: 1s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+54/67 [=======================&gt;......] - ETA: 1s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+55/67 [=======================&gt;......] - ETA: 1s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+56/67 [========================&gt;.....] - ETA: 0s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+57/67 [========================&gt;.....] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+58/67 [========================&gt;.....] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+59/67 [=========================&gt;....] - ETA: 0s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+60/67 [=========================&gt;....] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+61/67 [==========================&gt;...] - ETA: 0s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+62/67 [==========================&gt;...] - ETA: 0s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+63/67 [===========================&gt;..] - ETA: 0s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+64/67 [===========================&gt;..] - ETA: 0s - loss: 0.0082
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+65/67 [============================&gt;.] - ETA: 0s - loss: 0.0083
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+66/67 [============================&gt;.] - ETA: 0s - loss: 0.0083
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - ETA: 0s - loss: 0.0083
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - 6s 91ms/step - loss: 0.0083 - val_loss: 0.0022
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3/15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/67 [..............................] - ETA: 7s - loss: 0.0553
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 2/67 [..............................] - ETA: 6s - loss: 0.0567
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 3/67 [&gt;.............................] - ETA: 6s - loss: 0.0547
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 4/67 [&gt;.............................] - ETA: 5s - loss: 0.0518
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 5/67 [=&gt;............................] - ETA: 5s - loss: 0.0475
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 6/67 [=&gt;............................] - ETA: 5s - loss: 0.0439
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 7/67 [==&gt;...........................] - ETA: 5s - loss: 0.0396
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 8/67 [==&gt;...........................] - ETA: 5s - loss: 0.0357
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 9/67 [===&gt;..........................] - ETA: 5s - loss: 0.0322
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+10/67 [===&gt;..........................] - ETA: 5s - loss: 0.0292
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+11/67 [===&gt;..........................] - ETA: 5s - loss: 0.0266
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+12/67 [====&gt;.........................] - ETA: 5s - loss: 0.0244
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+13/67 [====&gt;.........................] - ETA: 5s - loss: 0.0226
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+14/67 [=====&gt;........................] - ETA: 5s - loss: 0.0211
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+15/67 [=====&gt;........................] - ETA: 5s - loss: 0.0197
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+16/67 [======&gt;.......................] - ETA: 5s - loss: 0.0186
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+17/67 [======&gt;.......................] - ETA: 5s - loss: 0.0177
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+18/67 [=======&gt;......................] - ETA: 5s - loss: 0.0169
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+19/67 [=======&gt;......................] - ETA: 5s - loss: 0.0162
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+20/67 [=======&gt;......................] - ETA: 4s - loss: 0.0154
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+21/67 [========&gt;.....................] - ETA: 4s - loss: 0.0147
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+22/67 [========&gt;.....................] - ETA: 4s - loss: 0.0141
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+23/67 [=========&gt;....................] - ETA: 4s - loss: 0.0135
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+24/67 [=========&gt;....................] - ETA: 4s - loss: 0.0130
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+25/67 [==========&gt;...................] - ETA: 4s - loss: 0.0126
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+26/67 [==========&gt;...................] - ETA: 4s - loss: 0.0122
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+27/67 [===========&gt;..................] - ETA: 4s - loss: 0.0118
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+28/67 [===========&gt;..................] - ETA: 4s - loss: 0.0115
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+29/67 [===========&gt;..................] - ETA: 4s - loss: 0.0112
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+30/67 [============&gt;.................] - ETA: 4s - loss: 0.0109
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+31/67 [============&gt;.................] - ETA: 3s - loss: 0.0106
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+32/67 [=============&gt;................] - ETA: 3s - loss: 0.0104
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+33/67 [=============&gt;................] - ETA: 3s - loss: 0.0102
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+34/67 [==============&gt;...............] - ETA: 3s - loss: 0.0100
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+35/67 [==============&gt;...............] - ETA: 3s - loss: 0.0097
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+36/67 [===============&gt;..............] - ETA: 3s - loss: 0.0096
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+37/67 [===============&gt;..............] - ETA: 3s - loss: 0.0095
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+38/67 [================&gt;.............] - ETA: 3s - loss: 0.0093
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+39/67 [================&gt;.............] - ETA: 3s - loss: 0.0091
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+40/67 [================&gt;.............] - ETA: 3s - loss: 0.0090
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+41/67 [=================&gt;............] - ETA: 2s - loss: 0.0088
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+42/67 [=================&gt;............] - ETA: 2s - loss: 0.0086
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+43/67 [==================&gt;...........] - ETA: 2s - loss: 0.0085
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+44/67 [==================&gt;...........] - ETA: 2s - loss: 0.0083
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+45/67 [===================&gt;..........] - ETA: 2s - loss: 0.0082
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+46/67 [===================&gt;..........] - ETA: 2s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+47/67 [====================&gt;.........] - ETA: 2s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+48/67 [====================&gt;.........] - ETA: 2s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+49/67 [====================&gt;.........] - ETA: 1s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+50/67 [=====================&gt;........] - ETA: 1s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+51/67 [=====================&gt;........] - ETA: 1s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+52/67 [======================&gt;.......] - ETA: 1s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+53/67 [======================&gt;.......] - ETA: 1s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+54/67 [=======================&gt;......] - ETA: 1s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+55/67 [=======================&gt;......] - ETA: 1s - loss: 0.0081
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+56/67 [========================&gt;.....] - ETA: 1s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+57/67 [========================&gt;.....] - ETA: 1s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+58/67 [========================&gt;.....] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+59/67 [=========================&gt;....] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+60/67 [=========================&gt;....] - ETA: 0s - loss: 0.0077
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+61/67 [==========================&gt;...] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+62/67 [==========================&gt;...] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+63/67 [===========================&gt;..] - ETA: 0s - loss: 0.0078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+64/67 [===========================&gt;..] - ETA: 0s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+65/67 [============================&gt;.] - ETA: 0s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+66/67 [============================&gt;.] - ETA: 0s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - ETA: 0s - loss: 0.0080
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+67/67 [==============================] - 7s 106ms/step - loss: 0.0080 - val_loss: 0.0045
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4/15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/67 [..............................] - ETA: 6s - loss: 0.0180
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 2/67 [..............................] - ETA: 5s - loss: 0.0195
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 3/67 [&gt;.............................] - ETA: 5s - loss: 0.0199
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 4/67 [&gt;.............................] - ETA: 5s - loss: 0.0194
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 5/67 [=&gt;............................] - ETA: 5s - loss: 0.0189
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 6/67 [=&gt;............................] - ETA: 4s - loss: 0.0180
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 7/67 [==&gt;...........................] - ETA: 4s - loss: 0.0170
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 8/67 [==&gt;...........................] - ETA: 4s - loss: 0.0158
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+ 9/67 [===&gt;..........................] - ETA: 4s - loss: 0.0145
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+10/67 [===&gt;..........................] - ETA: 4s - loss: 0.0134
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+11/67 [===&gt;..........................] - ETA: 4s - loss: 0.0123
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+12/67 [====&gt;.........................] - ETA: 4s - loss: 0.0113
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+13/67 [====&gt;.........................] - ETA: 4s - loss: 0.0105
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+14/67 [=====&gt;........................] - ETA: 4s - loss: 0.0098
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+15/67 [=====&gt;........................] - ETA: 3s - loss: 0.0092
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+16/67 [======&gt;.......................] - ETA: 3s - loss: 0.0087
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+17/67 [======&gt;.......................] - ETA: 3s - loss: 0.0083
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+18/67 [=======&gt;......................] - ETA: 3s - loss: 0.0079
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+19/67 [=======&gt;......................] - ETA: 3s - loss: 0.0076
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+20/67 [=======&gt;......................] - ETA: 3s - loss: 0.0072
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+21/67 [========&gt;.....................] - ETA: 3s - loss: 0.0071
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+22/67 [========&gt;.....................] - ETA: 3s - loss: 0.0069
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+23/67 [=========&gt;....................] - ETA: 3s - loss: 0.0067
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+24/67 [=========&gt;....................] - ETA: 3s - loss: 0.0066
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+25/67 [==========&gt;...................] - ETA: 3s - loss: 0.0064
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+26/67 [==========&gt;...................] - ETA: 2s - loss: 0.0062
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+27/67 [===========&gt;..................] - ETA: 2s - loss: 0.0060
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+28/67 [===========&gt;..................] - ETA: 2s - loss: 0.0058
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+29/67 [===========&gt;..................] - ETA: 2s - loss: 0.0056
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+30/67 [============&gt;.................] - ETA: 2s - loss: 0.0054
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+31/67 [============&gt;.................] - ETA: 2s - loss: 0.0053
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+32/67 [=============&gt;................] - ETA: 2s - loss: 0.0051
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+33/67 [=============&gt;................] - ETA: 2s - loss: 0.0050
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+34/67 [==============&gt;...............] - ETA: 2s - loss: 0.0049
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+35/67 [==============&gt;...............] - ETA: 2s - loss: 0.0048
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+36/67 [===============&gt;..............] - ETA: 2s - loss: 0.0047
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+37/67 [===============&gt;..............] - ETA: 2s - loss: 0.0046
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+39/67 [================&gt;.............] - ETA: 1s - loss: 0.0044
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+40/67 [================&gt;.............] - ETA: 1s - loss: 0.0043
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+41/67 [=================&gt;............] - ETA: 1s - loss: 0.0043
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+42/67 [=================&gt;............] - ETA: 1s - loss: 0.0042
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+43/67 [==================&gt;...........] - ETA: 1s - loss: 0.0042
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+44/67 [==================&gt;...........] - ETA: 1s - loss: 0.0041
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+45/67 [===================&gt;..........] - ETA: 1s - loss: 0.0041
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+46/67 [===================&gt;..........] - ETA: 1s - loss: 0.0040
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_33_0.png" src="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_33_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-predicciones-span">
+<h2><span style="color:#4361EE">Predicciones</span><a class="headerlink" href="#span-style-color-4361ee-predicciones-span" title="Enlazar permanentemente con este título">#</a></h2>
+<section id="span-style-color-4cc9f0-prepara-los-datos-de-validacion-span">
+<h3><span style="color:#4CC9F0">Prepara los datos de validación</span><a class="headerlink" href="#span-style-color-4cc9f0-prepara-los-datos-de-validacion-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(541, 60, 1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-calcula-predicciones-span">
+<h3><span style="color:#4CC9F0">Calcula predicciones</span><a class="headerlink" href="#span-style-color-4cc9f0-calcula-predicciones-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># predictions</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model_01</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="c1">#prediction = scaler.inverse_transform(prediction)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17/17 [==============================] - 2s 18ms/step
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(541, 1)
+(541,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-elimina-dimensiones-sobrante-para-los-graficos-span">
+<h3><span style="color:#4CC9F0">Elimina dimensiones sobrante para los gráficos</span><a class="headerlink" href="#span-style-color-4cc9f0-elimina-dimensiones-sobrante-para-los-graficos-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_p</span> <span class="o">=</span> <span class="n">y_train</span><span class="c1"># np.squeeze(y_train, axis=-1)</span>
+<span class="n">y_test_p</span> <span class="o">=</span> <span class="n">y_test</span> <span class="c1">#np.squeeze(y_test, axis=-1)</span>
+<span class="n">y_pred_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">y_train_p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_test_p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred_p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">k</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_test_p</span><span class="p">,</span> <span class="n">y_pred_p</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">k</span><span class="o">==</span><span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2355,)
+(541,)
+(541,)
+0.6727745596406196 0.64994586 0.022828704499933572
+0.6698782361981322 0.6543955 0.015482715511028977
+0.6474169523584349 0.6584121 -0.010995146526147637
+0.6435157820073296 0.6614015 -0.017885728231317843
+0.6412105449816764 0.66360754 -0.022396992764753043
+0.6212318240926825 0.664968 -0.04373618967074522
+0.6321078141624307 0.664171 -0.03206316629106054
+0.6292114907199433 0.66194737 -0.03273587885555718
+0.6504906017259725 0.65891695 -0.008426348499857572
+0.6592977893368012 0.6542779 0.00501986861383974
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4cc9f0-grafica-de-las-predicciones-span">
+<h3><span style="color:#4CC9F0">Gráfica de las predicciones</span><a class="headerlink" href="#span-style-color-4cc9f0-grafica-de-las-predicciones-span" title="Enlazar permanentemente con este título">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train_p</span><span class="p">)),</span> <span class="n">y_train_p</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;historia&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_p</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train_p</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test_p</span><span class="p">)),</span> <span class="n">y_test_p</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;verdadero&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_p</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train_p</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test_p</span><span class="p">)),</span> <span class="n">y_pred_p</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;predicción&quot;</span><span class="p">)</span>
+<span class="c1">#plt.ylabel(&#39;Valor&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time Step&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Apple: Historia del precio la acción al cierre. Escala (0,1)&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_44_0.png" src="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_44_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="span-style-color-4361ee-regreso-a-la-escala-original-span">
+<h2><span style="color:#4361EE">Regreso a la escala original</span><a class="headerlink" href="#span-style-color-4361ee-regreso-a-la-escala-original-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_or</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_pred_p</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">y_test_or</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_test_p</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_test_or</span><span class="p">,</span> <span class="n">y_pred_or</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">k</span><span class="o">==</span><span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[121.06] [117.19784] [3.86216217]
+[120.57] [117.95063] [2.61936981]
+[116.77] [118.63016] [-1.86015747]
+[116.11] [119.1359] [-3.0259024]
+[115.72] [119.509125] [-3.78912476]
+[112.34] [119.73929] [-7.39928833]
+[114.18] [119.60445] [-5.42444641]
+[113.69] [119.22826] [-5.53825623]
+[117.29] [118.71557] [-1.42556854]
+[118.78] [117.93074] [0.84925964]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rmsLSTM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y_pred_or</span><span class="o">-</span><span class="n">y_test_or</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rmsLSTM</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.170484800047866
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test_or</span><span class="p">)),</span> <span class="n">y_test_or</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;verdadero&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test_or</span><span class="p">)),</span> <span class="n">y_pred_or</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;predicho&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time Step&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;rms = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">rmsLSTM</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">140</span><span class="p">),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;modelo = LSTM(50), timestep=60&quot;</span> <span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">146</span><span class="p">),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;epochs=40&quot;</span> <span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">143</span><span class="p">),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Apple: Intervalo de predicción a tres días. Escala original&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_49_0.png" src="../../_images/rnr_accion_Apple_Prediccion_tres_dias-dropout_49_0.png" />
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-guarda-el-modelo-entrenado-span">
+<h2><span style="color:#4361EE">Guarda el modelo entrenado</span><a class="headerlink" href="#span-style-color-4361ee-guarda-el-modelo-entrenado-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_01</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;../Datos/modelo_Apple_3_dia.h5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-intervalos-de-confianza-to-do-span">
+<h2><span style="color:#4361EE">Intervalos de confianza. TO DO</span><a class="headerlink" href="#span-style-color-4361ee-intervalos-de-confianza-to-do-span" title="Enlazar permanentemente con este título">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_01</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;name&#39;: &#39;series_LSTM_model&#39;,
+ &#39;layers&#39;: [{&#39;class_name&#39;: &#39;InputLayer&#39;,
+   &#39;config&#39;: {&#39;batch_input_shape&#39;: (None, 60, 1),
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;sparse&#39;: False,
+    &#39;ragged&#39;: False,
+    &#39;name&#39;: &#39;input_1&#39;},
+   &#39;name&#39;: &#39;input_1&#39;,
+   &#39;inbound_nodes&#39;: []},
+  {&#39;class_name&#39;: &#39;LSTM&#39;,
+   &#39;config&#39;: {&#39;name&#39;: &#39;LSTM_layer&#39;,
+    &#39;trainable&#39;: True,
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;return_sequences&#39;: True,
+    &#39;return_state&#39;: False,
+    &#39;go_backwards&#39;: False,
+    &#39;stateful&#39;: False,
+    &#39;unroll&#39;: False,
+    &#39;time_major&#39;: False,
+    &#39;units&#39;: 64,
+    &#39;activation&#39;: &#39;tanh&#39;,
+    &#39;recurrent_activation&#39;: &#39;sigmoid&#39;,
+    &#39;use_bias&#39;: True,
+    &#39;kernel_initializer&#39;: {&#39;class_name&#39;: &#39;GlorotUniform&#39;,
+     &#39;config&#39;: {&#39;seed&#39;: None},
+     &#39;shared_object_id&#39;: 1},
+    &#39;recurrent_initializer&#39;: {&#39;class_name&#39;: &#39;Orthogonal&#39;,
+     &#39;config&#39;: {&#39;gain&#39;: 1.0, &#39;seed&#39;: None},
+     &#39;shared_object_id&#39;: 2},
+    &#39;bias_initializer&#39;: {&#39;class_name&#39;: &#39;Zeros&#39;,
+     &#39;config&#39;: {},
+     &#39;shared_object_id&#39;: 3},
+    &#39;unit_forget_bias&#39;: True,
+    &#39;kernel_regularizer&#39;: None,
+    &#39;recurrent_regularizer&#39;: None,
+    &#39;bias_regularizer&#39;: None,
+    &#39;activity_regularizer&#39;: None,
+    &#39;kernel_constraint&#39;: None,
+    &#39;recurrent_constraint&#39;: None,
+    &#39;bias_constraint&#39;: None,
+    &#39;dropout&#39;: 0.0,
+    &#39;recurrent_dropout&#39;: 0.0,
+    &#39;implementation&#39;: 2},
+   &#39;name&#39;: &#39;LSTM_layer&#39;,
+   &#39;inbound_nodes&#39;: [[[&#39;input_1&#39;, 0, 0, {}]]]},
+  {&#39;class_name&#39;: &#39;Dropout&#39;,
+   &#39;config&#39;: {&#39;name&#39;: &#39;Dropout_02&#39;,
+    &#39;trainable&#39;: True,
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;rate&#39;: 0.4,
+    &#39;noise_shape&#39;: None,
+    &#39;seed&#39;: None},
+   &#39;name&#39;: &#39;Dropout_02&#39;,
+   &#39;inbound_nodes&#39;: [[[&#39;LSTM_layer&#39;, 0, 0, {}]]]},
+  {&#39;class_name&#39;: &#39;LSTM&#39;,
+   &#39;config&#39;: {&#39;name&#39;: &#39;LSTM_layer_2&#39;,
+    &#39;trainable&#39;: True,
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;return_sequences&#39;: False,
+    &#39;return_state&#39;: False,
+    &#39;go_backwards&#39;: False,
+    &#39;stateful&#39;: False,
+    &#39;unroll&#39;: False,
+    &#39;time_major&#39;: False,
+    &#39;units&#39;: 32,
+    &#39;activation&#39;: &#39;tanh&#39;,
+    &#39;recurrent_activation&#39;: &#39;sigmoid&#39;,
+    &#39;use_bias&#39;: True,
+    &#39;kernel_initializer&#39;: {&#39;class_name&#39;: &#39;GlorotUniform&#39;,
+     &#39;config&#39;: {&#39;seed&#39;: None},
+     &#39;shared_object_id&#39;: 7},
+    &#39;recurrent_initializer&#39;: {&#39;class_name&#39;: &#39;Orthogonal&#39;,
+     &#39;config&#39;: {&#39;gain&#39;: 1.0, &#39;seed&#39;: None},
+     &#39;shared_object_id&#39;: 8},
+    &#39;bias_initializer&#39;: {&#39;class_name&#39;: &#39;Zeros&#39;,
+     &#39;config&#39;: {},
+     &#39;shared_object_id&#39;: 9},
+    &#39;unit_forget_bias&#39;: True,
+    &#39;kernel_regularizer&#39;: None,
+    &#39;recurrent_regularizer&#39;: None,
+    &#39;bias_regularizer&#39;: None,
+    &#39;activity_regularizer&#39;: None,
+    &#39;kernel_constraint&#39;: None,
+    &#39;recurrent_constraint&#39;: None,
+    &#39;bias_constraint&#39;: None,
+    &#39;dropout&#39;: 0.0,
+    &#39;recurrent_dropout&#39;: 0.0,
+    &#39;implementation&#39;: 2},
+   &#39;name&#39;: &#39;LSTM_layer_2&#39;,
+   &#39;inbound_nodes&#39;: [[[&#39;Dropout_02&#39;, 0, 0, {}]]]},
+  {&#39;class_name&#39;: &#39;Dropout&#39;,
+   &#39;config&#39;: {&#39;name&#39;: &#39;Dropout_03&#39;,
+    &#39;trainable&#39;: True,
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;rate&#39;: 0.4,
+    &#39;noise_shape&#39;: None,
+    &#39;seed&#39;: None},
+   &#39;name&#39;: &#39;Dropout_03&#39;,
+   &#39;inbound_nodes&#39;: [[[&#39;LSTM_layer_2&#39;, 0, 0, {}]]]},
+  {&#39;class_name&#39;: &#39;Dense&#39;,
+   &#39;config&#39;: {&#39;name&#39;: &#39;dense&#39;,
+    &#39;trainable&#39;: True,
+    &#39;dtype&#39;: &#39;float32&#39;,
+    &#39;units&#39;: 1,
+    &#39;activation&#39;: &#39;linear&#39;,
+    &#39;use_bias&#39;: True,
+    &#39;kernel_initializer&#39;: {&#39;class_name&#39;: &#39;GlorotUniform&#39;,
+     &#39;config&#39;: {&#39;seed&#39;: None}},
+    &#39;bias_initializer&#39;: {&#39;class_name&#39;: &#39;Zeros&#39;, &#39;config&#39;: {}},
+    &#39;kernel_regularizer&#39;: None,
+    &#39;bias_regularizer&#39;: None,
+    &#39;activity_regularizer&#39;: None,
+    &#39;kernel_constraint&#39;: None,
+    &#39;bias_constraint&#39;: None},
+   &#39;name&#39;: &#39;dense&#39;,
+   &#39;inbound_nodes&#39;: [[[&#39;Dropout_03&#39;, 0, 0, {}]]]}],
+ &#39;input_layers&#39;: [[&#39;input_1&#39;, 0, 0]],
+ &#39;output_layers&#39;: [[&#39;dense&#39;, 0, 0]]}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-4361ee-referencias-span">
+<h2><span style="color:#4361EE">Referencias</span><a class="headerlink" href="#span-style-color-4361ee-referencias-span" title="Enlazar permanentemente con este título">#</a></h2>
+<ol class="simple">
+<li><p><span class="xref myst">Introducción a Redes LSTM</span></p></li>
+<li><p><a class="reference external" href="https://towardsdatascience.com/time-series-forecasting-with-lstms-using-tensorflow-2-and-keras-in-python-6ceee9c6c651/">Time Series Forecasting with LSTMs using TensorFlow 2 and Keras in Python</a></p></li>
+<li><p><a class="reference external" href="https://d2l.ai/">Dive into Deep Learnig</a></p></li>
+<li><p><a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p></li>
+<li><p>Ralf C. Staudemeyer and Eric Rothstein Morris,<a class="reference external" href="https://arxiv.org/pdf/1909.09586.pdf"><em>Understanding LSTM a tutorial into Long Short-Term Memory Recurrent Neural Networks</em></a>, arxiv, September 2019</p></li>
+<li><p>Karpathy, <a class="reference external" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/"><em>The Unreasonable Effectiveness of Recurrent Neural Networks</em></a></p></li>
+<li><p>Anton Lucanus, <a class="reference external" href="https://datafloq.com/read/making-automation-more-efficient-by-learning-from-/7444">Making Automation More Efficient by Learning from Historical Trade Data</a>, 8:43 AM, January 7, 2020</p></li>
+<li><p><a class="reference external" href="https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/">https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=2BrpKpWwT2A&amp;list=PLQVvvaa0QuDcOdF96TBtRtuQksErCEBYZ&amp;index=1">https://www.youtube.com/watch?v=2BrpKpWwT2A&amp;list=PLQVvvaa0QuDcOdF96TBtRtuQksErCEBYZ&amp;index=1</a></p></li>
+<li><p><a class="reference external" href="https://towardsdatascience.com/using-lstms-for-stock-market-predictions-tensorflow-9e83999d4653">https://towardsdatascience.com/using-lstms-for-stock-market-predictions-tensorflow-9e83999d4653</a></p></li>
+<li><p><a class="reference external" href="https://github.com/llSourcell/Reinforcement_Learning_for_Stock_Prediction/blob/master/README.md">https://github.com/llSourcell/Reinforcement_Learning_for_Stock_Prediction/blob/master/README.md</a></p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "AprendizajeProfundo/Libro-Fundamentos",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Redes_Recurrentes\Cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="rnr_accion_Apple_Prediccion_un_dia-dropout.html" title="anterior página">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">anterior</p>
+            <p class="prev-next-title"><span style="color:#F72585">Predicción del valor de una acción a un día. Apple (LSTM)</span></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="rnr_accion_Apple_Prediccion_tres_dias-multiple.html" title="siguiente página">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title"><span style="color:#F72585">Predicción de secuencia de valores futuros de una acción. Apple (LSTM)</span></p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Álvaro Mauricio Montenegro Díaz, Daniel Mauricio Montenegro Reyes<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
