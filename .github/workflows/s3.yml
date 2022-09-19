@@ -29,5 +29,5 @@ jobs:
       #- run: aws s3 sync ./out s3://${{secrets.AWS_S3_BUCKET}} --delete
       
       #sincroniza solo un archivo
-      - run: aws s3 sync ./out s3://${{secrets.AWS_S3_BUCKET}} --exclude='*' --include='intro.html'
-      - run: aws s3 sync ./out s3://${{secrets.AWS_S3_BUCKET2}} --exclude='*' --include='tutorial.html'
+      - run: aws s3 sync ./Libros/Libro1/ s3://${{secrets.AWS_S3_BUCKET}} --exclude='*' --include='tutorial.html'
+      - run: aws s3 sync ./Libros/Libro2/ s3://${{secrets.AWS_S3_BUCKET2}} --exclude='*' --include='tutorial.html'
